@@ -1,0 +1,4 @@
+.rating__list {
+    display: flex;
+    justify-content: space-between;
+}
