@@ -30,7 +30,7 @@ class Navigation extends React.Component {
 						onClick={this.onStoryChange}
 						selected={this.state.activeStory === 'home'}
 						data-story="home"
-						text="Предодаватели"
+						text="Преподаватели"
 					>
 						<Icon28Users3Outline/>	
 					</TabbarItem>
