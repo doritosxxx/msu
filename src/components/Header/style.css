@@ -1,0 +1,8 @@
+.header-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.header-wrapper__title {
+    margin-left: 13px;
+}

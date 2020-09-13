@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Panel, PanelHeader } from '@vkontakte/vkui';
+import { Panel} from '@vkontakte/vkui';
 
-import Logo from '../../components/Logo'
+import Header from '../../components/Header'
 
 class Edit extends React.Component{
 
@@ -15,20 +15,7 @@ class Edit extends React.Component{
 	render(){
 		return (
 			<Panel id={this.id}>
-				<PanelHeader>
-					{/* TODO: убрать хардкод. 100% необходимо сделать компонент (2)Header */}
-					<div style={{
-						display: 'flex',
-						alignItems: 'center'
-					}}> 
-						<Logo />
-						<div style={{
-							marginLeft:"13px"
-						}}> 
-							Ничего нет тут
-						</div>
-					</div>
-				</PanelHeader>
+				<Header title='Тути ничего нет'/>
 				Абсолютли
 			</Panel>
 		)
