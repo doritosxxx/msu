@@ -7,18 +7,12 @@ import TeacherDetails from '../TeacherDetails'
 
 class TeacherCell extends React.Component{
 
-	constructor(){
-		super()
-
-		this.teacher = this.props.teacher
-	}
-
 	render(){
 		return (
 			<Cell
-				before={<Avatar src={this.teacher.image} />}
+				before={<Avatar src={this.props.teacher.image} />}
 			>
-				<TeacherDetails details={this.teacher.details}/>
+				<TeacherDetails details={this.props.teacher.details}/>
 			</Cell>
 		)
 	}
