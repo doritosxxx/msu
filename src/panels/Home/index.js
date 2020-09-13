@@ -3,17 +3,19 @@ import PropTypes from 'prop-types'
 
 import { Panel, Button, Group, List, Div } from '@vkontakte/vkui'
 
-import Teacher from '../../components/Teacher'
+import TeacherCell from '../../components/TeacherCell'
 import Header  from '../../components/Header'
 
 import teachers_list from '../../temporary_list.js'
+import Teacher from '../../classes/Teacher'
 
 const Home = ({ id, go, fetchedUser }) => (
 	<Panel id={id}>
 		<Header title='Преподаватели'></Header>
 		<Group title="Teacher list">
 			<List>
-				{teachers_list.map(teacher => <Teacher teacher={teacher}/>)}
+				{/* TODO: переписать эту длинную строчку */}
+				{teachers_list.map(teacher => <TeacherCell teacher={new Teacher(teacher)}/>)}
 			</List>
 			
 		</Group>

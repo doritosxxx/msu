@@ -15,7 +15,7 @@ class Edit extends React.Component{
 	render(){
 		return (
 			<Panel id={this.id}>
-				<Header title='Тути ничего нет'/>
+				<Header title='Тут ничего нет'/>
 				Абсолютли
 			</Panel>
 		)
