@@ -1,15 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Panel from '@vkontakte/vkui/dist/components/Panel/Panel';
-import Button from '@vkontakte/vkui/dist/components/Button/Button';
-import Group from '@vkontakte/vkui/dist/components/Group/Group';
-import List from '@vkontakte/vkui/dist/components/List/List';
-import Div from '@vkontakte/vkui/dist/components/Div/Div';
+import React from 'react'
+import PropTypes from 'prop-types'
 
-import Teacher from '../components/Teacher'
-import Header  from '../components/Header';
+import { Panel, Button, Group, List, Div } from '@vkontakte/vkui'
 
-import teachers_list from '../temporary_list.js'
+import Teacher from '../../components/Teacher'
+import Header  from '../../components/Header'
+
+import teachers_list from '../../temporary_list.js'
 
 const Home = ({ id, go, fetchedUser }) => (
 	<Panel id={id}>

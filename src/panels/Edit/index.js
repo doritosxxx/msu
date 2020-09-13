@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Panel} from '@vkontakte/vkui';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Panel } from '@vkontakte/vkui'
 
 import Header from '../../components/Header'
 

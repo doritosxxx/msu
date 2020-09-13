@@ -6,7 +6,6 @@ import {Icon28Users3Outline, Icon28UserAddOutline } from '@vkontakte/icons';
 import Home from '../../panels/Home'
 import Edit from '../../panels/Edit'
 
-
 class Navigation extends React.Component {
 
 	constructor(props){

@@ -1,11 +1,9 @@
 import React from 'react'
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 
-import Cell from '@vkontakte/vkui/dist/components/Cell/Cell';
-import Avatar from '@vkontakte/vkui/dist/components/Avatar/Avatar';
+import { Cell, Avatar } from '@vkontakte/vkui'
+
 import TeacherDetails from '../TeacherDetails'
-
-//import './style.css'
 
 class Teacher extends React.Component{
 
