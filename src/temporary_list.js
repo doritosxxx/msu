@@ -26,7 +26,7 @@ export default [{
     "id": 3,
     "image": "https://i1.sndcdn.com/artworks-000176843744-xziit4-t500x500.jpg",
     "details": {
-        "name": "Pink (joji) Guy",
+        "name": "And Another One",
         "rating": {
             "kindness": 0,
             "simplicity": 10,

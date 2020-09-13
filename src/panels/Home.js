@@ -6,7 +6,7 @@ import Button from '@vkontakte/vkui/dist/components/Button/Button';
 import Group from '@vkontakte/vkui/dist/components/Group/Group';
 import List from '@vkontakte/vkui/dist/components/List/List';
 import Div from '@vkontakte/vkui/dist/components/Div/Div';
-import Avatar from '@vkontakte/vkui/dist/components/Avatar/Avatar';
+//import Avatar from '@vkontakte/vkui/dist/components/Avatar/Avatar';
 
 import Logo from '../components/Logo'
 import Teacher from '../components/Teacher'
@@ -16,12 +16,17 @@ import teachers_list from '../temporary_list.js'
 const Home = ({ id, go, fetchedUser }) => (
 	<Panel id={id}>
 		<PanelHeader>
+			{/* TODO: убрать хардкод. Возможно, необходимо сделать компонент (2)Header */}
 			<div style={{
 				display: 'flex',
 				alignItems: 'center'
 			}}> 
 				<Logo />
-				Преподаватели
+				<div style={{
+					marginLeft:"13px"
+				}}> 
+					Преподаватели
+				</div>
 			</div>
 		</PanelHeader>
 
@@ -31,7 +36,7 @@ const Home = ({ id, go, fetchedUser }) => (
 			</List>
 			
 		</Group>
-
+		{/*
 		<Group title="Navigation Example">
 			<Div>
 				<Button size="xl" level="2" onClick={go} data-to="persik">
@@ -39,9 +44,10 @@ const Home = ({ id, go, fetchedUser }) => (
 				</Button>
 			</Div>
 		</Group>
+		*/}
 	</Panel>
 );
-
+/*
 Home.propTypes = {
 	id: PropTypes.string.isRequired,
 	go: PropTypes.func.isRequired,
@@ -54,5 +60,5 @@ Home.propTypes = {
 		}),
 	}),
 };
-
+*/
 export default Home;

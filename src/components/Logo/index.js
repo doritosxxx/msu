@@ -2,11 +2,10 @@ import React from 'react'
 
 import './style.css'
 import msu_logo from './img/msu.png'
+import { Avatar } from '@vkontakte/vkui'
 
 const Logo = () => (
-	<div>
-		<img src={msu_logo} alt="" id="header-logo"/>
-	</div>
+	<Avatar src={msu_logo}/>
 )
 
 export default Logo
