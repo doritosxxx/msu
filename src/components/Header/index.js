@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { PanelHeader } from '@vkontakte/vkui'
 
 import Logo from '../Logo'
 
@@ -15,14 +14,12 @@ class Header extends React.Component{
 
 	render(){
 		return (
-			<PanelHeader>
-				<div className='header-wrapper'> 
-					<Logo />
-					<div className='header-wrapper__title'> 
-						{this.title}
-					</div>
+			<div className='header-wrapper'> 
+				<Logo />
+				<div className='header-wrapper__title'> 
+					{this.title}
 				</div>
-			</PanelHeader>
+			</div>
 		)
 	}
 }

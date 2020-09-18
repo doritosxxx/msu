@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Panel } from '@vkontakte/vkui'
+import { Panel, PanelHeader } from '@vkontakte/vkui'
 
 import Header from '../../components/Header'
 
@@ -14,8 +14,11 @@ class Edit extends React.Component{
 
 	render(){
 		return (
+			
 			<Panel id={this.id}>
-				<Header title='Тут ничего нет'/>
+				<PanelHeader>
+					<Header title='Тут ничего нет'/>
+				</PanelHeader>
 				Абсолютли
 			</Panel>
 		)
