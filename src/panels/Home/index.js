@@ -48,11 +48,13 @@ class Home extends React.Component{
 			<Panel id={this.props.id}>
 				<PanelHeader>
 					<Header title='Преподаватели'></Header>
+				</PanelHeader>
+				<Group title="Search block" separator="hide">
 					<CustomSearch 
 						onFiltersClick={this.onFiltersClick} 
 						onSearchChange={this.onSearchChange.bind(this)}
 					/>
-				</PanelHeader>
+				</Group>
 				<Group title="Teacher list">
 					<List>
 						{ this.teachers.map(teacher => <TeacherCell teacher={teacher}/>) }
