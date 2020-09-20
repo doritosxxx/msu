@@ -11,6 +11,7 @@ class TeacherCell extends React.Component{
 		return (
 			<Cell
 				before={<Avatar src={this.props.teacher.image} />}
+				multiline
 			>
 				<TeacherDetails details={this.props.teacher.details}/>
 			</Cell>
