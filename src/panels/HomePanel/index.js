@@ -38,9 +38,11 @@ class Home extends React.Component{
 
 		console.log(event.target.value)
 		this.setState({
-			search: event.target.value
+			search: event.target.value,
+			activeModal: null
 		})
 	}
+
 
 	render(){
 		console.log(this.teachers)
@@ -49,9 +51,9 @@ class Home extends React.Component{
 				<PanelHeader>
 					<Header title='Преподаватели'></Header>
 				</PanelHeader>
-				<Group title="Search block" separator="hide">
+				<Group title="Search block">
 					<CustomSearch 
-						onFiltersClick={this.onFiltersClick} 
+						onFiltersClick={() => this.setState({ activeModal: 'filters' })}
 						onSearchChange={this.onSearchChange.bind(this)}
 					/>
 				</Group>

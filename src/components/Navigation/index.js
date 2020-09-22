@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import { Epic, View, Tabbar, TabbarItem } from '@vkontakte/vkui';
 import {Icon28Users3Outline, Icon28UserAddOutline } from '@vkontakte/icons';
 
-import Home from '../../panels/Home'
-import Edit from '../../panels/Edit'
+import HomeView from '../../views/HomeView'
+import EditView from '../../views/EditView'
 
 class Navigation extends React.Component {
 
-	constructor(props){
-		super(props)
+	constructor(){
+		super()
 
 		this.state = {
 			activeStory: 'home'
@@ -43,12 +43,8 @@ class Navigation extends React.Component {
 					</TabbarItem>
 				</Tabbar>
 			}>
-				<View id="home" activePanel="home">
-					<Home id='home'/>  
-				</View>
-				<View id="edit" activePanel="edit">
-					<Edit id='edit'/>  
-				</View>
+				<HomeView id="home"/>
+				<EditView id="edit"/>
 				
 			</Epic>
 		)
