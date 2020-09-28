@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { RangeSlider } from '@vkontakte/vkui'
+import { RangeSlider, Div } from '@vkontakte/vkui'
 
 export default class FiltersSelect extends React.Component{
 
@@ -26,7 +26,9 @@ export default class FiltersSelect extends React.Component{
 		
 		return(
 			<div>
-				{this.props.top} {range[0]}-{range[1]}
+				<Div>
+					{this.props.top} {range[0]}-{range[1]}
+				</Div>
 				<RangeSlider 
 					//top="почему-то не работает"
 					min={0}

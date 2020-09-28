@@ -8,12 +8,15 @@ import TeacherDetails from '../TeacherDetails'
 class TeacherCell extends React.Component{
 
 	render(){
+		const teacher = this.props.teacher
 		return (
 			<Cell
-				before={<Avatar src={this.props.teacher.image} />}
+				before={<Avatar src={teacher.image} />}
 				multiline
+				expandable
+				onClick={()=>this.props.openTeacherPage(teacher.id)}
 			>
-				<TeacherDetails details={this.props.teacher.details}/>
+				<TeacherDetails details={teacher.details}/>
 			</Cell>
 		)
 	}

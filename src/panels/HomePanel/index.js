@@ -6,6 +6,7 @@ import { Panel, Group, List, PanelHeader } from '@vkontakte/vkui'
 import TeacherCell from '../../components/TeacherCell'
 import Header  from '../../components/Header'
 import CustomSearch from '../../components/CustomSearch'
+import CellNotFound from '../../components/CellNotFound'
 
 import teachers_list from '../../json/teachers_list.js'
 import Teacher from '../../classes/Teacher'
@@ -48,13 +49,11 @@ class Home extends React.Component{
 		this.setState({
 			search: event.target.value
 		})
-
-		console.log(this.state.filters)
-		//TODO: нет реактивности при изменении фильтра
 	}
 
 
 	render(){
+		const teachers = this.teachers
 		return (
 			<Panel id={this.props.id}>
 				<PanelHeader>
@@ -68,7 +67,17 @@ class Home extends React.Component{
 				</Group>
 				<Group title="Teacher list">
 					<List>
-						{ this.teachers.map(teacher => <TeacherCell teacher={teacher} key={teacher.id}/>) }
+						{     teachers.length == 0
+						  	? <CellNotFound/>
+						  	: teachers.map(teacher => 
+						  	  <TeacherCell 
+								teacher={teacher} 
+								key={teacher.id}
+								openTeacherPage={this.props.openTeacherPage}
+							/>
+							)
+						}
+						
 					</List>
 					
 				</Group>

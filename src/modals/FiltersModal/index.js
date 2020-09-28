@@ -20,6 +20,7 @@ export default class FiltersModal extends React.Component{
 	render(){
 		const hideModalBinded = this.props.hideModal
 		const filters = this.props.filters
+		// TODO: добавить кнопку "сброс"
 		return (
 			<ModalPage 
 				id={this.props.id}
