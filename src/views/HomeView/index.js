@@ -14,9 +14,9 @@ class HomeView extends React.Component{
 			activePanel: "home",
 			activeModal: null,
 			filters: {
-				kindness:10,
-				simplicity:10,
-				intelligibility:10
+				kindness:[1,10],
+				simplicity:[1,10],
+				intelligibility:[1,10]
 			}
 		}
 	}

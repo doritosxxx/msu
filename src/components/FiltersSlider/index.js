@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { Slider } from '@vkontakte/vkui'
+import { RangeSlider } from '@vkontakte/vkui'
 
 export default class FiltersSelect extends React.Component{
 
@@ -18,17 +18,17 @@ export default class FiltersSelect extends React.Component{
 		const state = { [this.objectKey]: number }
 		this.setState( state )
 		this.props.setFiltersState( state )
-
-		console.log(this.state)
 	}
 
 	render(){
+
+		const range = this.state[this.objectKey]
 		
 		return(
 			<div>
-				{this.props.top}
-				<Slider 
-					top={"пачиму не работает"}
+				{this.props.top} {range[0]}-{range[1]}
+				<RangeSlider 
+					//top="почему-то не работает"
 					min={1}
 					max={10}
 					step={1}
