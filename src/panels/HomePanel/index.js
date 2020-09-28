@@ -12,11 +12,12 @@ import Teacher from '../../classes/Teacher'
 
 class Home extends React.Component{
 	
-	constructor(){
+	constructor(props){
 		super()
 
 		this.state = {
-			search: ''
+			search: '',
+			filters: props.filters
 		}
 
 		///fetch teachers list
@@ -26,16 +27,30 @@ class Home extends React.Component{
 
 	get teachers () {
 		const search = this.state.search.toLowerCase()
-		return this.teachersList.filter(item => item.details.name.toLowerCase().indexOf(search) > -1 )
+		const filters = this.props.filters
+		return this.teachersList.filter(item=>{
+
+			if (item.details.name.toLowerCase().indexOf(search) == -1 )
+				return false;
+
+			for(const pair of Object.entries(item.details.rating)){
+				const [category, value] = [...pair]
+				const limit = filters[category]
+				if( !(limit[0] <= value && value <= limit[1]) )
+					return false;
+			}
+			return true;
+		})
 	}
 
 
 	onSearchChange(event){
-
-		console.log(event.target.value)
 		this.setState({
 			search: event.target.value
 		})
+
+		console.log(this.state.filters)
+		//TODO: нет реактивности при изменении фильтра
 	}
 
 

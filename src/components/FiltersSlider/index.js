@@ -29,7 +29,7 @@ export default class FiltersSelect extends React.Component{
 				{this.props.top} {range[0]}-{range[1]}
 				<RangeSlider 
 					//top="почему-то не работает"
-					min={1}
+					min={0}
 					max={10}
 					step={1}
 					defaultValue={this.state[this.objectKey]}

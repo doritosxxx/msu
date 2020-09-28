@@ -14,15 +14,20 @@ class HomeView extends React.Component{
 			activePanel: "home",
 			activeModal: null,
 			filters: {
-				kindness:[1,10],
-				simplicity:[1,10],
-				intelligibility:[1,10]
+				kindness:[0,10],
+				simplicity:[0,10],
+				intelligibility:[0,10]
 			}
 		}
 	}
 
+	get filters(){
+		return this.state.filters
+	}
+
 	hideModal() { 
 		this.setState({ activeModal: null })
+		console.log(this.state.filters)
 	}
 
 	onFiltersClick(){
@@ -60,6 +65,7 @@ class HomeView extends React.Component{
 				<HomePanel 
 					id='home' 
 					onFiltersClick={this.onFiltersClick.bind(this)}
+					filters={this.filters}
 				/>  
 			</View>
 		)
