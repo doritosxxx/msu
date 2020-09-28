@@ -1,8 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { Panel, Button, Group, List, Div, PanelHeader } from '@vkontakte/vkui'
-import Icon24Filter from '@vkontakte/icons/dist/24/filter';
+import { Panel, Group, List, PanelHeader } from '@vkontakte/vkui'
 
 import TeacherCell from '../../components/TeacherCell'
 import Header  from '../../components/Header'
@@ -30,22 +29,17 @@ class Home extends React.Component{
 		return this.teachersList.filter(item => item.details.name.toLowerCase().indexOf(search) > -1 )
 	}
 
-	onFiltersClick(){
-
-	}
 
 	onSearchChange(event){
 
 		console.log(event.target.value)
 		this.setState({
-			search: event.target.value,
-			activeModal: null
+			search: event.target.value
 		})
 	}
 
 
 	render(){
-		console.log(this.teachers)
 		return (
 			<Panel id={this.props.id}>
 				<PanelHeader>
@@ -53,13 +47,13 @@ class Home extends React.Component{
 				</PanelHeader>
 				<Group title="Search block">
 					<CustomSearch 
-						onFiltersClick={() => this.setState({ activeModal: 'filters' })}
+						onFiltersClick={this.props.onFiltersClick.bind(this)}
 						onSearchChange={this.onSearchChange.bind(this)}
 					/>
 				</Group>
 				<Group title="Teacher list">
 					<List>
-						{ this.teachers.map(teacher => <TeacherCell teacher={teacher}/>) }
+						{ this.teachers.map(teacher => <TeacherCell teacher={teacher} key={teacher.id}/>) }
 					</List>
 					
 				</Group>

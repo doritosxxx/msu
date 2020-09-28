@@ -19,7 +19,7 @@ class Navigation extends React.Component {
 
 	onStoryChange (e) {
 		this.setState({ activeStory: e.currentTarget.dataset.story })
-	  }
+	}
 
 	render(){
 		return(

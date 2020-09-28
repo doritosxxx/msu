@@ -2,8 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { Search } from '@vkontakte/vkui'
-
-import Icon24Filter from '@vkontakte/icons/dist/24/filter';
+import {Icon24Filter} from '@vkontakte/icons'
 
 class CustomSearch extends React.Component{
 
