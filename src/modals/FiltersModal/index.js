@@ -1,61 +1,60 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types'
 
 import { ModalPage, PanelHeaderButton, ModalPageHeader, FormLayout, FormLayoutGroup} from '@vkontakte/vkui';
-import { withPlatform, ANDROID, IOS } from '@vkontakte/vkui'
+import { usePlatform , ANDROID, IOS } from '@vkontakte/vkui'
 import { Icon24Cancel, Icon24Done } from '@vkontakte/icons'
 import FiltersSlider from '../../components/FiltersSlider'
 
-export default class FiltersModal extends React.Component{
+export default function FiltersModal(props) {
 
-	constructor(props){
-		super()
+	const [filters, setFilters] = useState(props.filters)
 
-		this.state = {
-			filters: props.filters
-		}
-	}
-
-
-	render(){
-		const hideModalBinded = this.props.hideModal
-		const filters = this.props.filters
-		// TODO: добавить кнопку "сброс"
-		return (
-			<ModalPage 
-				id={this.props.id}
-				header={
-					<ModalPageHeader
-						left={withPlatform === 'android' && <PanelHeaderButton onClick={hideModalBinded}><Icon24Cancel/></PanelHeaderButton>}
-						right={<PanelHeaderButton onClick={hideModalBinded}>{withPlatform === 'ios' ? 'Готово' : <Icon24Done />}</PanelHeaderButton>}
-					>
-						Фильтры
-					</ModalPageHeader>
-				}
-			>
-			<FormLayout>
-				<FormLayoutGroup>
-					<FiltersSlider
-						top="Понятность"
-						objectKey="intelligibility"
-						setFiltersState={this.props.setFiltersState}
-						default={filters.intelligibility}
-						/>
-					<FiltersSlider
-						top="Доброта"
-						objectKey="kindness"
-						setFiltersState={this.props.setFiltersState}
-						default={filters.kindness}
-						/>
-					<FiltersSlider
-						top="Простота"
-						objectKey="simplicity"
-						setFiltersState={this.props.setFiltersState}
-						default={filters.simplicity}
+	const hideModalBinded = props.hideModal
+	// TODO: добавить кнопку "сброс"
+	return (
+		<ModalPage 
+			id={props.id}
+			header={
+				<ModalPageHeader
+					left={
+						usePlatform() === ANDROID 
+						&& <PanelHeaderButton onClick={hideModalBinded}>
+							<Icon24Cancel/>
+						</PanelHeaderButton>
+					}
+					right={
+					<PanelHeaderButton onClick={hideModalBinded}>
+						{usePlatform() === IOS ? 'Готово' : <Icon24Done />}
+					</PanelHeaderButton>}
+				>
+					Фильтры
+				</ModalPageHeader>
+			}
+		>
+		<FormLayout>
+			<FormLayoutGroup>
+				<FiltersSlider
+					top="Понятность"
+					objectKey="intelligibility"
+					setFiltersState={props.setFiltersState}
+					default={filters.intelligibility}
 					/>
-				</FormLayoutGroup>
-			</FormLayout>
-			</ModalPage>
-		)
-	}
+				<FiltersSlider
+					top="Доброта"
+					objectKey="kindness"
+					setFiltersState={props.setFiltersState}
+					default={filters.kindness}
+					/>
+				<FiltersSlider
+					top="Простота"
+					objectKey="simplicity"
+					setFiltersState={props.setFiltersState}
+					default={filters.simplicity}
+				/>
+			</FormLayoutGroup>
+		</FormLayout>
+		</ModalPage>
+	)
+	
 }
