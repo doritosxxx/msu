@@ -16,6 +16,8 @@ export default class TeacherPanel extends React.Component{
 		this.state = {
 			teacherId: props.teacherId
 		}
+
+		document.addEventListener("")
 	}
 
 	getTeacherById(id){
