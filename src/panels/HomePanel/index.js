@@ -18,7 +18,9 @@ class Home extends React.Component{
 
 		this.state = {
 			search: '',
-			filters: props.filters
+			filters: props.filters,
+			//TODO: Тут нет реактивности :(( памагити не хочу писать костыль
+			orderBy: props.orderBy
 		}
 
 		///fetch teachers list
@@ -26,12 +28,16 @@ class Home extends React.Component{
 		
 	}
 
+	// TODO: нужна декомпозиция
+	// А еще нужно просто написать красиво. Сори пока времени нет.
 	get teachers () {
 		const search = this.state.search.toLowerCase()
 		const filters = this.props.filters
-		return this.teachersList.filter(item=>{
 
-			if (item.details.name.toLowerCase().indexOf(search) == -1 )
+		// Фильтрация по поисковой строке.
+		const list = this.teachersList.filter(item=>{
+
+			if (item.details.name.toLowerCase().indexOf(search) === -1 )
 				return false;
 
 			for(const pair of Object.entries(item.details.rating)){
@@ -42,6 +48,18 @@ class Home extends React.Component{
 			}
 			return true;
 		})
+
+		// Сортировка по radio.
+		return list.sort((a,b)=>{
+			const criteria = this.state.orderBy
+			console.log(criteria)
+			if(criteria !== 'name')
+				if( a.details.rating[criteria] !== b.details.rating[criteria] )
+					return a.details.rating[criteria] - b.details.rating[criteria]
+
+			return a.details.name < b.details.name ? -1 : 1;
+		})
+
 	}
 
 
@@ -52,11 +70,12 @@ class Home extends React.Component{
 	}
 
 
+
 	render(){
 		const teachers = this.teachers
 		return (
 			<Panel id={this.props.id}>
-				<PanelHeader>
+				<PanelHeader onClick={this.props.scrollToTop}>
 					<Header title='Преподаватели'></Header>
 				</PanelHeader>
 				<Group title="Search block">
@@ -67,7 +86,7 @@ class Home extends React.Component{
 				</Group>
 				<Group title="Teacher list">
 					<List>
-						{     teachers.length == 0
+						{     teachers.length === 0
 						  	? <CellNotFound/>
 						  	: teachers.map(teacher => 
 						  	  <TeacherCell 

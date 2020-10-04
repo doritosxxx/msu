@@ -1,109 +1,102 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { ModalRoot, View }   from '@vkontakte/vkui';
+import React, { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
+import { ModalRoot, View }   from '@vkontakte/vkui'
+import bridge from '@vkontakte/vk-bridge'
 
 import HomePanel from '../../panels/HomePanel'
 import FiltersModal from '../../modals/FiltersModal'
-import TeacherPanel from '../../panels/TeacherPanel';
+import TeacherPanel from '../../panels/TeacherPanel'
 
-class HomeView extends React.Component{
+export default function HomeView(props){
 	
-	constructor(){
-		super()
-
-		this.state = {
-			history:['home'],
-			activePanel: "home",
-			activeModal: null,
-			filters: {
-				kindness:[0,10],
-				simplicity:[0,10],
-				intelligibility:[0,10]
-			},
-			teacherId: null
-		}
+	const [history, setHistory] = useState(['home'])
+	const [activePanel, setActivePanel] = useState("home")
+	const [activeModal, setActiveModal] = useState(null)
+	const [filters, setFilters] = useState({
+		kindness:[0,10],
+		simplicity:[0,10],
+		intelligibility:[0,10]
+	})
+	const [orderBy, setOrderBy] = useState('name')
+	const [teacherId, setTeacherId] = useState(null)
+	
+	function openTeacherPage(id){
+		const newHistory = [...history]
+		newHistory.push('teacher')
+		setHistory(newHistory)
+		setTeacherId(id)
+		setActivePanel('teacher')
 	}
 
-	get filters(){
-		return this.state.filters
+	function goBack(){
+		const newHistory = [...history]
+		newHistory.pop()
+		setHistory(newHistory)
+		setActivePanel(history[history.length-2])
 	}
 
-	get getTeacherId(){
-		return this.state.teacherId
+	function hideModal(){ 
+		setActiveModal(null)
 	}
 
-	openTeacherPage(id){
-		const history = [...this.state.history]
-		history.push('teacher')
-		this.setState({
-			teacherId: id,
-			activePanel: 'teacher',
-			history: history
-		})
-
+	function onFiltersClick(){
+		setActiveModal('filters')
 	}
 
-	goBack(){
-		const history = [...this.state.history]
-		history.pop()
-		this.setState({
-			history,
-			activePanel: history[history.length-1]
-		})
-	}
-
-	hideModal(){ 
-		this.setState({ activeModal: null })
-	}
-
-	onFiltersClick(){
-		this.setState({ activeModal: 'filters' })
-	}
-
-	setFiltersState(newFiltersState){
-		// Возможно эта функция ресурсозатратная (но скорее всего нет)
-		const filters = {...this.state.filters}
+	function setFiltersState(newFiltersState){
+		const newFilters = {...filters}
 		Object.entries(newFiltersState)
-			  .forEach(entry=>filters[entry[0]] = entry[1])
-		this.setState({ filters })
+			  .forEach(entry=>newFilters[entry[0]] = entry[1])
+		setFilters(newFilters)
 	}
 
-	render(){
-		const hideModalBinded = this.hideModal.bind(this)
-		return (
-			<View 
-				id={this.props.id}
-				activePanel={this.state.activePanel} 
-				history={this.state.history}
-				modal={
-					<ModalRoot 
-						activeModal={this.state.activeModal}
-						onClose={hideModalBinded}
-					>
-						<FiltersModal 
-							id="filters" 
-							hideModal={hideModalBinded} 
-							filters={this.state.filters}	
-							setFiltersState={this.setFiltersState.bind(this)}
-						/>
-					</ModalRoot>
-				}
-			>
-				<HomePanel 
-					id='home' 
-					onFiltersClick={this.onFiltersClick.bind(this)}
-					filters={this.filters}
-					openTeacherPage={this.openTeacherPage.bind(this)}
-				/>
-				<TeacherPanel
-					id='teacher'
-					teacherId={this.getTeacherId}
-					goBack={this.goBack.bind(this)}
-				/>
-			</View>
-		)
+	function scrollToTop(){
+		console.log("trying to scroll")
+		bridge.send("Scroll", {
+			top: 0,
+			speed: 1000
+		})
+		.then(r=>console.log(r))
+		.catch(e=>console.log(e))
 	}
-}
 
+	const hideModalBinded = hideModal.bind(this)
 
-export default HomeView;
+	return (
+		<View 
+			id={props.id}
+			activePanel={activePanel} 
+			history={history}
+			modal={
+				<ModalRoot 
+					activeModal={activeModal}
+					onClose={hideModalBinded}
+				>
+					<FiltersModal 
+						id="filters" 
+						hideModal={hideModalBinded} 
+						filters={filters}	
+						setFiltersState={setFiltersState.bind(this)}
+						orderBy={orderBy}
+						setOrderBy={setOrderBy.bind(this)}
+					/>
+				</ModalRoot>
+			}
+		>
+			<HomePanel 
+				id='home' 
+				onFiltersClick={onFiltersClick.bind(this)}
+				filters={filters}
+				orderBy={orderBy}
+				openTeacherPage={openTeacherPage.bind(this)}
+				scrollToTop={scrollToTop}
+			/>
+			<TeacherPanel
+				id='teacher'
+				teacherId={teacherId}
+				goBack={goBack.bind(this)}
+			/>
+		</View>
+	)
+	
+};

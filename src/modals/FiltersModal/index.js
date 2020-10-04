@@ -5,10 +5,18 @@ import { ModalPage, PanelHeaderButton, ModalPageHeader, FormLayout, FormLayoutGr
 import { usePlatform , ANDROID, IOS } from '@vkontakte/vkui'
 import { Icon24Cancel, Icon24Done } from '@vkontakte/icons'
 import FiltersSlider from '../../components/FiltersSlider'
+import FiltersRadio from '../../components/FiltersOrderRadio'
 
 export default function FiltersModal(props) {
 
 	const [filters, setFilters] = useState(props.filters)
+	const [orderBy, setOrderBy] = useState(props.orderBy)
+
+	function setRadioOrderBy(event){
+		props.setOrderBy(event.target.value)
+		setOrderBy(event.target.value)
+	}
+
 
 	const hideModalBinded = props.hideModal
 	// TODO: добавить кнопку "сброс"
@@ -33,6 +41,32 @@ export default function FiltersModal(props) {
 			}
 		>
 		<FormLayout>
+			<FormLayoutGroup top="Сортировать по">
+				<FiltersRadio
+					value='name'
+					label='Имя'
+					currentOrder={orderBy}
+					onChange={setRadioOrderBy.bind(this)}
+				/>
+				<FiltersRadio
+					value='intelligibility'
+					label='Понятность'
+					currentOrder={orderBy}
+					onChange={setRadioOrderBy.bind(this)}
+				/>
+				<FiltersRadio
+					value='kindness'
+					label='Доброта'
+					currentOrder={orderBy}
+					onChange={setRadioOrderBy.bind(this)}
+				/>
+				<FiltersRadio
+					value='simplicity'
+					label='Простота'
+					currentOrder={orderBy}
+					onChange={setRadioOrderBy.bind(this)}
+				/>
+			</FormLayoutGroup>
 			<FormLayoutGroup>
 				<FiltersSlider
 					top="Понятность"

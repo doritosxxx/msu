@@ -21,6 +21,7 @@ const App = () => {
 		async function fetchData() {
 			const user = await bridge.send('VKWebAppGetUserInfo');
 			setUser(user);
+			//console.log(fetchedUser)
 			setPopout(null);
 		}
 		fetchData();
