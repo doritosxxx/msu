@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { ModalPage, PanelHeaderButton, ModalPageHeader, FormLayout, FormLayoutGroup} from '@vkontakte/vkui';
 import { usePlatform , ANDROID, IOS } from '@vkontakte/vkui'
 import { Icon24Cancel, Icon24Done } from '@vkontakte/icons'
-import FiltersSlider from '../../components/FiltersSlider'
+// import FiltersSlider from '../../components/FiltersSlider'
 import FiltersRadio from '../../components/FiltersOrderRadio'
 
 export default function FiltersModal(props) {
@@ -66,6 +66,7 @@ export default function FiltersModal(props) {
 					onChange={setRadioOrderBy.bind(this)}
 				/>
 			</FormLayoutGroup>
+			{/* Убрал по требованию начальства
 			<FormLayoutGroup>
 				<FiltersSlider
 					top="Понятность"
@@ -86,6 +87,7 @@ export default function FiltersModal(props) {
 					default={filters.simplicity}
 				/>
 			</FormLayoutGroup>
+			*/}
 		</FormLayout>
 		</ModalPage>
 	)
