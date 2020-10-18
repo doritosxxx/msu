@@ -3,12 +3,9 @@ import React, { useState } from 'react'
 import { ModalPage, PanelHeaderButton, ModalPageHeader, FormLayout, FormLayoutGroup} from '@vkontakte/vkui';
 import { usePlatform , ANDROID, IOS } from '@vkontakte/vkui'
 import { Icon24Cancel, Icon24Done } from '@vkontakte/icons'
-// import FiltersSlider from '../../components/FiltersSlider'
 import FiltersRadio from '../../components/FiltersOrderRadio'
 
 export default function FiltersModal(props) {
-
-	const [filters, setFilters] = useState(props.filters)
 	const [orderBy, setOrderBy] = useState(props.orderBy)
 
 	function setRadioOrderBy(event){
@@ -66,28 +63,6 @@ export default function FiltersModal(props) {
 					onChange={setRadioOrderBy.bind(this)}
 				/>
 			</FormLayoutGroup>
-			{/* Убрал по требованию начальства
-			<FormLayoutGroup>
-				<FiltersSlider
-					top="Понятность"
-					objectKey="intelligibility"
-					setFiltersState={props.setFiltersState}
-					default={filters.intelligibility}
-					/>
-				<FiltersSlider
-					top="Доброта"
-					objectKey="kindness"
-					setFiltersState={props.setFiltersState}
-					default={filters.kindness}
-					/>
-				<FiltersSlider
-					top="Простота"
-					objectKey="simplicity"
-					setFiltersState={props.setFiltersState}
-					default={filters.simplicity}
-				/>
-			</FormLayoutGroup>
-			*/}
 		</FormLayout>
 		</ModalPage>
 	)

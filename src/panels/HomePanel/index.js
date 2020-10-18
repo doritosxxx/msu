@@ -17,7 +17,6 @@ class Home extends React.Component{
 
 		this.state = {
 			search: '',
-			filters: props.filters,
 			//TODO: Тут нет реактивности :(( памагити не хочу писать костыль
 			orderBy: props.orderBy
 		}
@@ -31,20 +30,12 @@ class Home extends React.Component{
 	// А еще нужно просто написать красиво. Сори пока времени нет.
 	get teachers () {
 		const search = this.state.search.toLowerCase()
-		const filters = this.props.filters
 
 		// Фильтрация по поисковой строке.
 		const list = this.teachersList.filter(item=>{
 
 			if (item.details.name.toLowerCase().indexOf(search) === -1 )
 				return false;
-
-			for(const pair of Object.entries(item.details.rating)){
-				const [category, value] = [...pair]
-				const limit = filters[category]
-				if( !(limit[0] <= value && value <= limit[1]) )
-					return false;
-			}
 			return true;
 		})
 

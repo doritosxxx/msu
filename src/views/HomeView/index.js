@@ -11,11 +11,6 @@ export default function HomeView(props){
 	const [history, setHistory] = useState(['home'])
 	const [activePanel, setActivePanel] = useState("home")
 	const [activeModal, setActiveModal] = useState(null)
-	const [filters, setFilters] = useState({
-		kindness:[0,10],
-		simplicity:[0,10],
-		intelligibility:[0,10]
-	})
 	const [orderBy, setOrderBy] = useState('name')
 	const [teacherId, setTeacherId] = useState(null)
 	
@@ -42,13 +37,6 @@ export default function HomeView(props){
 		setActiveModal('filters')
 	}
 
-	function setFiltersState(newFiltersState){
-		const newFilters = {...filters}
-		Object.entries(newFiltersState)
-			  .forEach(entry=>newFilters[entry[0]] = entry[1])
-		setFilters(newFilters)
-	}
-
 	function scrollToTop(){
 		console.log("trying to scroll")
 		bridge.send("Scroll", {
@@ -73,9 +61,7 @@ export default function HomeView(props){
 				>
 					<FiltersModal 
 						id="filters" 
-						hideModal={hideModalBinded} 
-						filters={filters}	
-						setFiltersState={setFiltersState.bind(this)}
+						hideModal={hideModalBinded}
 						orderBy={orderBy}
 						setOrderBy={setOrderBy.bind(this)}
 					/>
@@ -85,7 +71,6 @@ export default function HomeView(props){
 			<HomePanel 
 				id='home' 
 				onFiltersClick={onFiltersClick.bind(this)}
-				filters={filters}
 				orderBy={orderBy}
 				openTeacherPage={openTeacherPage.bind(this)}
 				scrollToTop={scrollToTop}
