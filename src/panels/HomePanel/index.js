@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
 import { Panel, Group, List, PanelHeader } from '@vkontakte/vkui'
 

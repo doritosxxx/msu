@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
+import React, { useState } from 'react'
 import { ModalRoot, View }   from '@vkontakte/vkui'
 import bridge from '@vkontakte/vk-bridge'
 

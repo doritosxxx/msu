@@ -11,7 +11,7 @@ class TeacherCell extends React.Component{
 		const teacher = this.props.teacher
 		return (
 			<Cell
-				before={<Avatar src={teacher.image} />}
+				before={<Avatar size={80} src={teacher.image} />}
 				multiline
 				expandable
 				onClick={()=>this.props.openTeacherPage(teacher.id)}
@@ -20,6 +20,10 @@ class TeacherCell extends React.Component{
 			</Cell>
 		)
 	}
+}
+
+TeacherCell.propTypes = {
+	teacher: PropTypes.object.isRequired
 }
 
 export default TeacherCell;

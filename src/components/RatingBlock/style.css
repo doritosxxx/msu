@@ -2,4 +2,20 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    color: #444444;
+    font-weight: 500;
+}
+
+.rating-block__value {
+    font-size: 150%;
+    font-weight: 700;
+}
+
+.rating-block__label {
+    font-size: 80%;
+}
+
+.rating-block:first-child .rating-block__value {
+    color: black;
+    font-size: 200%;
 }
