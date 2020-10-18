@@ -1,0 +1,27 @@
+.elements-wrapper {
+    display: flex;
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+}
+
+.elements-wrapper--horizontal {
+    flex-wrap: nowrap;
+}
+
+.elements-wrapper>* {
+    margin: 3px 5px;
+    margin-bottom: 10px;
+    padding: 5px 20px;
+    height: 20px;
+    border-radius: 30px;
+    background-color: #ecedf1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s;
+}
+
+.elements-wrapper>*:hover {
+    background-color: #666;
+}

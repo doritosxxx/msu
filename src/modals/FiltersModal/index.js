@@ -4,6 +4,8 @@ import { ModalPage, PanelHeaderButton, ModalPageHeader, FormLayout, FormLayoutGr
 import { usePlatform , ANDROID, IOS } from '@vkontakte/vkui'
 import { Icon24Cancel, Icon24Done } from '@vkontakte/icons'
 import FiltersRadio from '../../components/FiltersOrderRadio'
+import FiltersCategoryGroup from '../../components/FiltersCategoryGroup'
+
 
 export default function FiltersModal(props) {
 	const [orderBy, setOrderBy] = useState(props.orderBy)
@@ -37,6 +39,16 @@ export default function FiltersModal(props) {
 			}
 		>
 		<FormLayout>
+			<FiltersCategoryGroup
+				label="Год"
+				isHorizontal
+				elements={[1,2,3,4,128739182,123123,12,3,123,123,"sas",123,123,123,12,3]}
+			/>
+			<FiltersCategoryGroup
+				label="Семестр"
+				elements={[1,2,3,4,5,7,8,9]}
+			/>
+			{/*
 			<FormLayoutGroup top="Сортировать по">
 				<FiltersRadio
 					value='name'
@@ -63,6 +75,7 @@ export default function FiltersModal(props) {
 					onChange={setRadioOrderBy.bind(this)}
 				/>
 			</FormLayoutGroup>
+			*/}
 		</FormLayout>
 		</ModalPage>
 	)
