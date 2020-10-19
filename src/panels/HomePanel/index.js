@@ -17,18 +17,16 @@ class Home extends React.Component{
 		this.state = {
 			search: '',
 			//TODO: Тут нет реактивности :(( памагити не хочу писать костыль
-			orderBy: props.orderBy
+			orderBy: props.order,
+			teachersList: null
 		}
-
-		// А не перенести ли это в state для обеспечения реактивности?
-		this.teachersList = []
 	}
 
 	componentDidMount(){
 		// Тут надо придумать какую-нибудь оптимизацию.
 		(async () => {
-			this.teachersList = await Server.GetTeacherRange(0, 100)
-			this.forceUpdate()
+			const teachersList = await Server.GetTeacherRange(0, 100)
+			this.setState({ teachersList })
 		})()
 		
 	}
@@ -38,7 +36,7 @@ class Home extends React.Component{
 		const search = this.state.search.toLowerCase()
 
 		// Фильтрация по поисковой строке.
-		const list = this.teachersList.filter(item => {
+		const list = this.state.teachersList.filter(item => {
 			if (item.full_name.toLowerCase().indexOf(search) === -1 )
 				return false;
 			return true;
@@ -67,6 +65,11 @@ class Home extends React.Component{
 	}
 
 	render(){
+		
+		// Тут нужен лоадер
+		if(this.state.teachersList === null)
+		return <Panel id={this.props.id}></Panel>
+		
 		const teachers = this.teachers
 		return (
 			<Panel id={this.props.id}>
