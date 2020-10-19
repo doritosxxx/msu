@@ -36,7 +36,7 @@ export default function HomeView(props){
 	function onFiltersClick(){
 		setActiveModal('filters')
 	}
-
+	
 	function scrollToTop(){
 		console.log("trying to scroll")
 		bridge.send("Scroll", {

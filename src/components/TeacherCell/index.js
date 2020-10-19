@@ -16,7 +16,7 @@ class TeacherCell extends React.Component{
 				expandable
 				onClick={()=>this.props.openTeacherPage(teacher.id)}
 			>
-				<TeacherDetails details={teacher.details}/>
+				<TeacherDetails teacher={teacher}/>
 			</Cell>
 		)
 	}

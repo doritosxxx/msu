@@ -8,13 +8,13 @@ import './style.css'
 class TeacherRating extends React.Component{
 
 	render(){
-		const rating = this.props.rating
+		const teacher = this.props.teacher
 		return(
 			<div className='rating__list'>
-				<RatingBlock label='Общая' value={rating.overall}/>
-				<RatingBlock label='Понятность' value={rating.intelligibility}/>
-				<RatingBlock label='Доброта' value={rating.kindness}/>
-				<RatingBlock label='Простота' value={rating.simplicity}/>
+				<RatingBlock label='Общая' value={teacher.formattedGeneral}/>
+				<RatingBlock label='Понятность' value={teacher.formattedIntelligibility}/>
+				<RatingBlock label='Доброта' value={teacher.formattedKindness}/>
+				<RatingBlock label='Простота' value={teacher.formattedSimplicity}/>
 			</div>
 		)
 	}

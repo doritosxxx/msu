@@ -7,13 +7,12 @@ import Header  from '../../components/Header'
 import CustomSearch from '../../components/CustomSearch'
 import CellNotFound from '../../components/CellNotFound'
 
-import teachers_list from '../../json/teachers_list.js'
-import Teacher from '../../classes/Teacher'
+import Server from '../../modules/Server'
 
 class Home extends React.Component{
 	
 	constructor(props){
-		super()
+		super(props)
 
 		this.state = {
 			search: '',
@@ -21,24 +20,35 @@ class Home extends React.Component{
 			orderBy: props.orderBy
 		}
 
-		///fetch teachers list
-		this.teachersList = teachers_list.map(teacher => new Teacher(teacher))
+		// А не перенести ли это в state для обеспечения реактивности?
+		this.teachersList = []
+
+		
+	}
+
+	componentDidMount(){
+		// Тут надо придумать какую-нибудь оптимизацию.
+		(async () => {
+			this.teachersList = await Server.GetTeacherRange(0, 100)
+			this.forceUpdate()
+		})()
 		
 	}
 
 	// TODO: нужна декомпозиция
-	// А еще нужно просто написать красиво. Сори пока времени нет.
 	get teachers () {
 		const search = this.state.search.toLowerCase()
 
 		// Фильтрация по поисковой строке.
-		const list = this.teachersList.filter(item=>{
-
-			if (item.details.name.toLowerCase().indexOf(search) === -1 )
+		const list = this.teachersList.filter(item => {
+			if (item.full_name.toLowerCase().indexOf(search) === -1 )
 				return false;
 			return true;
 		})
 
+		return list;
+
+		/*
 		// Сортировка по radio.
 		return list.sort((a,b)=>{
 			const criteria = this.state.orderBy
@@ -49,6 +59,7 @@ class Home extends React.Component{
 
 			return a.details.name < b.details.name ? -1 : 1;
 		})
+		*/
 
 	}
 
@@ -88,7 +99,6 @@ class Home extends React.Component{
 						}
 						
 					</List>
-					
 				</Group>
 			</Panel>
 		)

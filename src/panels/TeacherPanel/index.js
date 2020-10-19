@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
 import { Panel, PanelHeader, Div, Cell, Avatar, Subhead, Text, Group, List, PanelHeaderBack } from '@vkontakte/vkui'
 import bridge from '@vkontakte/vk-bridge'
 
@@ -8,6 +7,7 @@ import TeacherDetails from '../../components/TeacherDetails'
 
 import teachers_list from '../../json/teachers_list.js'
 import Teacher from '../../classes/Teacher'
+import Server from '../../modules/Server'
 
 export default function TeacherPanel(props){
 
@@ -21,17 +21,6 @@ export default function TeacherPanel(props){
 	
 	const teacher = getTeacherById(teacherId)
 
-	useEffect(() => {
-		/*
-		async function fetchData(){
-			await bridge.send("Scroll", {
-				top: 100,
-				speed:2000
-			})
-		}
-		fetchData()
-		*/
-	})
 
 	return (
 		<Panel id={props.id}>
@@ -43,7 +32,7 @@ export default function TeacherPanel(props){
 			<Div>
 				<Group>
 					<Cell
-					before={<Avatar src={teacher.image} />}
+					before={<Avatar size={100} src={teacher.image} />}
 					multiline
 					>
 						<TeacherDetails details={teacher.details}/>

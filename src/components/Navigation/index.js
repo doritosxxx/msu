@@ -1,7 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Epic, View, Tabbar, TabbarItem } from '@vkontakte/vkui';
-import {Icon28Users3Outline, Icon28UserAddOutline } from '@vkontakte/icons';
+import React from 'react'
+import { Epic, Tabbar, TabbarItem } from '@vkontakte/vkui'
+import {Icon28Users3Outline, Icon28UserAddOutline } from '@vkontakte/icons'
 
 import HomeView from '../../views/HomeView'
 import EditView from '../../views/EditView'
@@ -13,7 +12,7 @@ class Navigation extends React.Component {
 
 		this.state = {
 			activeStory: 'home'
-		};
+		}
 		this.onStoryChange = this.onStoryChange.bind(this);
 	}
 

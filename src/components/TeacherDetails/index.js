@@ -5,16 +5,21 @@ import TeacherRating from '../TeacherRating'
 
 import './style.css'
 
-class TeacherDetails extends React.Component{
+function TeacherDetails(props) {
 
-	render(){
-		return(
-			<div className='teacher__details'>
-				<div className='teacher__name'>{this.props.details.name}</div>
-				<TeacherRating rating={this.props.details.rating}/>
-			</div>
-		)
-	}
+	const teacher = props.teacher;
+
+	return(
+		<div className='teacher__details'>
+			<div className='teacher__name'>{teacher.full_name}</div>
+			<TeacherRating teacher={teacher}/>
+		</div>
+	)
+
+}
+
+TeacherDetails.propTypes = {
+	teacher: PropTypes.object.isRequired
 }
 
 export default TeacherDetails;

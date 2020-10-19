@@ -1,17 +1,15 @@
 .elements-wrapper {
     display: flex;
-    flex-grow: 0;
     flex-shrink: 0;
     flex-wrap: wrap;
 }
 
-.elements-wrapper--horizontal {
+.elements-wrapper--scrollable {
     flex-wrap: nowrap;
 }
 
 .elements-wrapper>* {
-    margin: 3px 5px;
-    margin-bottom: 10px;
+    margin: 8px 5px;
     padding: 5px 20px;
     height: 20px;
     border-radius: 30px;
