@@ -5,64 +5,80 @@ import bridge from '@vkontakte/vk-bridge'
 import Header  from '../../components/Header'
 import TeacherDetails from '../../components/TeacherDetails'
 
-import teachers_list from '../../json/teachers_list.js'
-import Teacher from '../../classes/Teacher'
 import Server from '../../modules/Server'
 
-export default function TeacherPanel(props){
+class TeacherPanel extends React.Component{
+	 
+	constructor(props){
+		super(props)
 
-	const [teacherId, setTeacherId] = useState(props.teacherId)
-
-
-	const getTeacherById = (id) =>{
-		// тут какая-то логика
-		return new Teacher(teachers_list[id-1]);
+		this.state = {
+			teacher : null
+		}
 	}
+
+	componentDidMount() {
+		(async () => {
+			const teacher = await Server.GetTeacherById(this.props.teacherId)
+			this.setState({ teacher })	
+		})()
+	}
+
+	render(){
+		const {id, goBack} = {...this.props}
+		const teacher = this.state.teacher
+
+		if(teacher === null)
+			return <Panel id={id}></Panel>;
+		// Тут нужен лоадер
+			
+
+		return (
+			<Panel id={id}>
+				<PanelHeader
+					left={<PanelHeaderBack onClick={goBack}/>}
+				>
+					<Header title='Преподаватель'></Header>
+				</PanelHeader>
+				<Div>
+					<Group>
+						<Cell
+						before={<Avatar size={100} src={teacher.image} />}
+						multiline
+						>
+							<TeacherDetails teacher={teacher}/>
+						</Cell>
+					</Group>
+					<Group>
+						<Subhead weight="bold">
+							Категории
+						</Subhead>
+						<Text>
+							aasdasd
+						</Text>
+						<Subhead weight="bold">
+							Описание
+						</Subhead>
+						<Text>
+							aasdasd
+							dasd
+						</Text>
+					</Group>
+					<Group>
+						<Subhead weight="bold">
+							Оценки
+						</Subhead>
+						<List>
+
+						</List>
+					</Group>
+				</Div>
+			</Panel>
+		);
+	}
+
 	
-	const teacher = getTeacherById(teacherId)
-
-
-	return (
-		<Panel id={props.id}>
-			<PanelHeader
-				left={<PanelHeaderBack onClick={props.goBack}/>}
-			>
-				<Header title='Преподаватель'></Header>
-			</PanelHeader>
-			<Div>
-				<Group>
-					<Cell
-					before={<Avatar size={100} src={teacher.image} />}
-					multiline
-					>
-						<TeacherDetails details={teacher.details}/>
-					</Cell>
-				</Group>
-				<Group>
-					<Subhead weight="bold">
-						Категории
-					</Subhead>
-					<Text>
-						aasdasd
-					</Text>
-					<Subhead weight="bold">
-						Описание
-					</Subhead>
-					<Text>
-						aasdasd
-						dasd
-					</Text>
-				</Group>
-				<Group>
-					<Subhead weight="bold">
-						Оценки
-					</Subhead>
-					<List>
-
-					</List>
-				</Group>
-			</Div>
-		</Panel>
-	)
 	
-};
+}
+
+export default TeacherPanel;

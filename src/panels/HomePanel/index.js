@@ -22,8 +22,6 @@ class Home extends React.Component{
 
 		// А не перенести ли это в state для обеспечения реактивности?
 		this.teachersList = []
-
-		
 	}
 
 	componentDidMount(){
@@ -60,17 +58,13 @@ class Home extends React.Component{
 			return a.details.name < b.details.name ? -1 : 1;
 		})
 		*/
-
 	}
-
 
 	onSearchChange(event){
 		this.setState({
 			search: event.target.value
 		})
 	}
-
-
 
 	render(){
 		const teachers = this.teachers
