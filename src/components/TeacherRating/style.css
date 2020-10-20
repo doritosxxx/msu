@@ -1,4 +1,10 @@
 .rating__list {
     display: flex;
-    justify-content: space-between;
+	justify-content: space-evenly;
+	flex-wrap: wrap;
+}
+.rating_list--wrapper{
+	display: flex;
+	flex-grow: 1;
+	justify-content: space-around;
 }

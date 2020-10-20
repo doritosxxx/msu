@@ -11,10 +11,14 @@ class TeacherRating extends React.Component{
 		const teacher = this.props.teacher
 		return(
 			<div className='rating__list'>
-				<RatingBlock label='Общая' value={teacher.formattedGeneral}/>
-				<RatingBlock label='Понятность' value={teacher.formattedIntelligibility}/>
-				<RatingBlock label='Доброта' value={teacher.formattedKindness}/>
-				<RatingBlock label='Простота' value={teacher.formattedSimplicity}/>
+				<div className='rating_list--wrapper'>
+					<RatingBlock label='Общая' value={teacher.formattedGeneral}/>
+					<RatingBlock label='Понятность' value={teacher.formattedIntelligibility}/>
+				</div>
+				<div className='rating_list--wrapper'>
+					<RatingBlock label='Доброта' value={teacher.formattedKindness}/>
+					<RatingBlock label='Простота' value={teacher.formattedSimplicity}/>
+				</div>
 			</div>
 		)
 	}

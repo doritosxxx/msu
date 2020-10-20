@@ -3,7 +3,8 @@
     flex-direction: column;
     align-items: center;
     color: #444444;
-    font-weight: 500;
+	font-weight: 500;
+	margin: 5px;
 }
 
 .rating-block__value {
@@ -15,7 +16,7 @@
     font-size: 80%;
 }
 
-.rating-block:first-child .rating-block__value {
-    color: black;
-    font-size: 200%;
+.rating_list--wrapper:first-child .rating-block:first-child .rating-block__value{
+	color: black;
+	font-size: 200%;
 }
