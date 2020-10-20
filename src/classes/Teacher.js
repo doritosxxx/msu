@@ -22,7 +22,7 @@ class Teacher {
 	}
 	
 	_getformattedRating(key){
-		if(this.rating[key] == undefined)
+		if(this.rating[key] === undefined)
 			throw new Error("Undefined teacher score key")
 		
 		const value = this.rating[key].toFixed(2)

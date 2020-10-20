@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { Panel, PanelHeader, Div, Cell, Avatar, Subhead, Text, Group, List, PanelHeaderBack } from '@vkontakte/vkui'
+import { Panel, PanelHeader, Div, Cell, Avatar, Group, List, PanelHeaderBack, Header, Text } from '@vkontakte/vkui'
 import bridge from '@vkontakte/vk-bridge'
 
-import Header  from '../../components/Header'
+import CustomHeader  from '../../components/Header'
 import TeacherDetails from '../../components/TeacherDetails'
 
 import Server from '../../modules/Server'
@@ -38,7 +38,7 @@ class TeacherPanel extends React.Component{
 				<PanelHeader
 					left={<PanelHeaderBack onClick={goBack}/>}
 				>
-					<Header title='Преподаватель'></Header>
+					<CustomHeader title='Преподаватель'></CustomHeader>
 				</PanelHeader>
 				<Div>
 					<Group>
@@ -46,30 +46,23 @@ class TeacherPanel extends React.Component{
 						before={<Avatar size={100} src={teacher.image} />}
 						multiline
 						>
-							<TeacherDetails teacher={teacher}/>
+							<TeacherDetails 
+								highlightLastName
+								teacher={teacher}
+							/>
 						</Cell>
 					</Group>
 					<Group>
-						<Subhead weight="bold">
-							Категории
-						</Subhead>
-						<Text>
-							aasdasd
-						</Text>
-						<Subhead weight="bold">
-							Описание
-						</Subhead>
-						<Text>
-							aasdasd
-							dasd
-						</Text>
+						{/* список тегов */}
 					</Group>
 					<Group>
-						<Subhead weight="bold">
-							Оценки
-						</Subhead>
+						<Text>
+							{teacher.additionalInfo}
+						</Text>
+					</Group>
+					<Group  header={<Header mode="primary">Оценки</Header>}>
 						<List>
-
+							{}
 						</List>
 					</Group>
 				</Div>

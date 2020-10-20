@@ -7,11 +7,15 @@ import './style.css'
 
 function TeacherDetails(props) {
 
+	//props.highlightLastName ?? false;
+
 	const teacher = props.teacher;
 
 	return(
 		<div className='teacher__details'>
-			<div className='teacher__name'>{teacher.full_name}</div>
+			<div className='teacher__name'>
+				{teacher.full_name}
+			</div>
 			<TeacherRating teacher={teacher}/>
 		</div>
 	)
@@ -19,7 +23,10 @@ function TeacherDetails(props) {
 }
 
 TeacherDetails.propTypes = {
-	teacher: PropTypes.object.isRequired
+	teacher: PropTypes.instanceOf('Teacher'),
+	highlightLastName: PropTypes.bool
 }
+
+
 
 export default TeacherDetails;

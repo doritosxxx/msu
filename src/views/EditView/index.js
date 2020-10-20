@@ -1,6 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { View } from '@vkontakte/vkui';
+import React from 'react'
+import { View } from '@vkontakte/vkui'
 
 import EditPanel from '../../panels/EditPanel'
 
