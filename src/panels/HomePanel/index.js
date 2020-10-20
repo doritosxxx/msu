@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import { Panel, Group, List, PanelHeader } from '@vkontakte/vkui'
 
@@ -18,17 +19,21 @@ class Home extends React.Component{
 			search: '',
 			//TODO: Тут нет реактивности :(( памагити не хочу писать костыль
 			orderBy: props.order,
-			teachersList: null
+			teachersList: props.teachersList
 		}
 	}
 
 	componentDidMount(){
 		// Тут надо придумать какую-нибудь оптимизацию.
 		(async () => {
-			const teachersList = await Server.GetTeacherRange(0, 100)
+			const teachersList = await Server.GetTeacherRange(0, 50)
 			this.setState({ teachersList })
 		})()
 		
+	}
+
+	componentWillUnmount(){
+		this.props.setTeachersList(this.state.teachersList)
 	}
 
 	// TODO: нужна декомпозиция
@@ -100,6 +105,14 @@ class Home extends React.Component{
 			</Panel>
 		)
 	}
+}
+Home.propTypes = {
+	id: PropTypes.string.isRequired,
+	teachersList: PropTypes.oneOfType([
+		PropTypes.arrayOf('Teacher'),
+		null
+	]),
+	setTeachersList: PropTypes.func
 }
 /*
 Home.propTypes = {

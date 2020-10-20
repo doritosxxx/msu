@@ -13,6 +13,7 @@ export default function HomeView(props){
 	const [activeModal, setActiveModal] = useState(null)
 	const [orderBy, setOrderBy] = useState('name')
 	const [teacherId, setTeacherId] = useState(null)
+	const [teachersList, setTeachersList] = useState(null)
 	
 	function openTeacherPage(id){
 		const newHistory = [...history]
@@ -74,6 +75,8 @@ export default function HomeView(props){
 				orderBy={orderBy}
 				openTeacherPage={openTeacherPage.bind(this)}
 				scrollToTop={scrollToTop}
+				teachersList={teachersList}
+				setTeachersList={setTeachersList.bind(this)}
 			/>
 			<TeacherPanel
 				id='teacher'
