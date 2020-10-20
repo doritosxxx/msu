@@ -99,7 +99,6 @@ class Home extends React.Component{
 								key={teacher.id}
 								openTeacherPage={this.props.openTeacherPage}
 							/>)}
-						
 					</List>
 					{  
 						this.state.isLoadingTeachersList &&
