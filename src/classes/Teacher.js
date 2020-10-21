@@ -1,7 +1,7 @@
 class Teacher {
     constructor(object) {
         this.id = +object.id
-		this.image = object.image ?? "/img/teacher_blank.jpg"
+		this.image = object.photo_link ?? "/img/teacher_blank.jpg"
 		this.additionalInfo = object.additional ?? ''
         this.first_name = object.firstname ?? ''
         this.middle_name = object.middlename ?? ''
