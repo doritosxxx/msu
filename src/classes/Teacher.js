@@ -7,14 +7,14 @@ class Teacher {
         this.firstName = object.firstname ?? ''
         this.middleName = object.middlename ?? ''
 		this.lastName = object.lastname ?? ''
-		this.facultyId = +object.faculty ?? null
-		this.departmentId = +object.department ?? null
+		this.facultyId = object.faculty ?? null
+		this.departmentId = object.department ?? null
 		this.subjectsIdList = object.subjectsIdList ?? []
         this.rating = {
-            general: +object.general_score ?? 0,
-            simplicity: +object.simplicity_score ?? 0,
-            kindness: +object.kindness_score ?? 0,
-            intelligibility: +object.intelligibility_score ?? 0
+            general: object.general_score ?? 0,
+            simplicity: object.simplicity_score ?? 0,
+            kindness: object.kindness_score ?? 0,
+            intelligibility: object.intelligibility_score ?? 0
         }
     }
 
