@@ -16,7 +16,7 @@
     "devDependencies": {
         "cross-env": "^5.2.1",
         "react-hot-loader": "^4.12.21",
-        "react-scripts": "^3.4.3",
+        "react-scripts": "^3.4.4",
         "surge": "^0.21.6"
     },
     "dependencies": {
