@@ -23,7 +23,7 @@ function TeacherDetails(props) {
 }
 
 TeacherDetails.propTypes = {
-	teacher: PropTypes.instanceOf('Teacher'),
+	teacher: PropTypes.object.isRequired,
 	highlightLastName: PropTypes.bool
 }
 

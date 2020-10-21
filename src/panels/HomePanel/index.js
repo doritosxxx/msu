@@ -10,7 +10,7 @@ import CellNotFound from '../../components/CellNotFound'
 
 import Server from '../../modules/Server'
 
-class Home extends React.Component{
+class HomePanel extends React.Component{
 	
 	constructor(props){
 		super(props)
@@ -24,15 +24,62 @@ class Home extends React.Component{
 			isLoadingTeachersList: false
 
 		}
+
+		this.setUpObserver()
+		
+	}
+
+	// Настройка наблюдателя для 'ленивой загрузки' списка преподавателей
+	setUpObserver(){
+		this.observer = new IntersectionObserver((entries) => {
+			if (entries[0].intersectionRatio <= 0) 
+				return;
+			this.tryLoadNextChunk()
+		}, {
+			root: null,
+			rootMargin: '0px',
+			threshold: 0
+		})
+	}
+
+	// Функция нужна для обеспечения существования единственного активного запроса к серверу.
+	tryLoadNextChunk(){
+		if(!this.state.isLoadingTeachersList)
+			this.loadNextChunk()
+	}
+
+	// Желательно использовать вместо этой функции tryLoadNextChunk
+	loadNextChunk(){
+		this.setState({isLoadingTeachersList: true})
+
+		try{
+			
+			(async () => {
+				const offset = (this.state.teachersList ?? []).length
+				const teachersListChunk = await Server.GetTeacherRange( offset , 10 )
+				if(this.state.teachersList === null)
+					this.state.teachersList = teachersListChunk
+				else 
+					this.state.teachersList.push(...teachersListChunk)
+				
+				// Внимание. Если удалить эту строчку, то содержимое списка на странице не будет обновляться.
+				// Если все-таки решишь ее удалить, то напиши вместо нее this.forceUpdate()
+				this.setState({isLoadingTeachersList: false})
+
+				this.observer.disconnect()
+				const target = document.querySelector(".home-panel__teacher-list .teacher-cell:last-of-type")
+				this.observer.observe(target)
+			})()
+			
+		}
+		catch(ex){
+			console.log(ex)
+		}
 	}
 
 	componentDidMount(){
-		// Тут надо придумать какую-нибудь оптимизацию.
-		(async () => {
-			const teachersList = await Server.GetTeacherRange(0, 10)
-			this.setState({ teachersList })
-		})()
-		
+		if(this.state.teachersList === null)
+			this.tryLoadNextChunk()
 	}
 
 	// Передаю список загруженных преподавателей родительскому компонету.
@@ -40,7 +87,9 @@ class Home extends React.Component{
 		this.props.setTeachersList(this.state.teachersList)
 	}
 
+
 	// TODO: нужна декомпозиция
+	// Вообще это старый код, который должен быть переписан
 	get teachers () {
 		const search = this.state.search.toLowerCase()
 
@@ -77,7 +126,7 @@ class Home extends React.Component{
 		
 		// Тут нужен лоадер
 		if(this.state.teachersList === null)
-		return <Panel id={this.props.id}></Panel>
+			return <Panel id={this.props.id}></Panel>
 		
 		const teachers = this.teachers
 		return (
@@ -92,7 +141,7 @@ class Home extends React.Component{
 					/>
 				</Group>
 				<Group title="Teacher list">
-					<List>
+					<List className='home-panel__teacher-list'>
 						{teachers.map(teacher => 
 							<TeacherCell 
 								teacher={teacher} 
@@ -109,16 +158,16 @@ class Home extends React.Component{
 		)
 	}
 }
-Home.propTypes = {
+HomePanel.propTypes = {
 	id: PropTypes.string.isRequired,
 	teachersList: PropTypes.oneOfType([
-		PropTypes.arrayOf('Teacher'),
-		null
+		(prop) => prop === null,
+		PropTypes.array
 	]),
-	setTeachersList: PropTypes.func
+	setTeachersList: PropTypes.func.isRequired
 }
 /*
-Home.propTypes = {
+HomePanel.propTypes = {
 	id: PropTypes.string.isRequired,
 	go: PropTypes.func.isRequired,
 	fetchedUser: PropTypes.shape({
@@ -131,4 +180,4 @@ Home.propTypes = {
 	}),
 };
 */
-export default Home;
+export default HomePanel;

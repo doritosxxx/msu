@@ -11,6 +11,7 @@ class TeacherCell extends React.Component{
 		const teacher = this.props.teacher
 		return (
 			<Cell
+				className='teacher-cell'
 				before={<Avatar size={80} src={teacher.image} />}
 				multiline
 				expandable
