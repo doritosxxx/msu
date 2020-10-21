@@ -14,7 +14,7 @@ function TeacherDetails(props) {
 	return(
 		<div className='teacher__details'>
 			<div className='teacher__name'>
-				{teacher.full_name}
+				{teacher.fullName}
 			</div>
 			<TeacherRating teacher={teacher}/>
 		</div>

@@ -95,7 +95,7 @@ class HomePanel extends React.Component{
 
 		// Фильтрация по поисковой строке.
 		const list = this.state.teachersList.filter(item => {
-			if (item.full_name.toLowerCase().indexOf(search) === -1 )
+			if (item.fullName.toLowerCase().indexOf(search) === -1 )
 				return false;
 			return true;
 		})
@@ -172,8 +172,8 @@ HomePanel.propTypes = {
 	go: PropTypes.func.isRequired,
 	fetchedUser: PropTypes.shape({
 		photo_200: PropTypes.string,
-		first_name: PropTypes.string,
-		last_name: PropTypes.string,
+		firstName: PropTypes.string,
+		lastName: PropTypes.string,
 		city: PropTypes.shape({
 			title: PropTypes.string,
 		}),

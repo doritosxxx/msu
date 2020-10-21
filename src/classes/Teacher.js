@@ -1,11 +1,12 @@
 class Teacher {
+
     constructor(object) {
         this.id = +object.id
 		this.image = object.photo_link ?? "/img/teacher_blank.jpg"
 		this.additionalInfo = object.additional ?? ''
-        this.first_name = object.firstname ?? ''
-        this.middle_name = object.middlename ?? ''
-		this.last_name = object.lastname ?? ''
+        this.firstName = object.firstname ?? ''
+        this.middleName = object.middlename ?? ''
+		this.lastName = object.lastname ?? ''
 		this.facultyId = +object.faculty ?? null
 		this.departmentId = +object.department ?? null
 		this.subjectsIdList = object.subjectsIdList ?? []
@@ -17,8 +18,8 @@ class Teacher {
         }
     }
 
-    get full_name() {
-        return `${this.last_name} ${this.first_name} ${this.middle_name}`;
+    get fullName() {
+        return `${this.lastName} ${this.firstName} ${this.middleName}`;
 	}
 	
 	_getformattedRating(key){
