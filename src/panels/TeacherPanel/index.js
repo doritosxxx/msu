@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react'
+import Marked from 'marked'
+import DOMPurify from 'dompurify'
 import { Panel, PanelHeader, Div, Cell, Avatar, Group, List, PanelHeaderBack, Header, Text } from '@vkontakte/vkui'
 import bridge from '@vkontakte/vk-bridge'
 
@@ -34,6 +36,8 @@ class TeacherPanel extends React.Component{
 			return <Panel id={id}></Panel>;
 		// Тут нужен лоадер
 
+		const additionalInfoHTML = Marked.parse(DOMPurify.sanitize(teacher.additionalInfo))
+
 		return (
 			<Panel id={id}>
 				<PanelHeader
@@ -59,8 +63,7 @@ class TeacherPanel extends React.Component{
 					<Group>
 						<Text>{`${teacher.facultyId} ${teacher.departmentId} - какие-то id`}</Text>
 						<Text>
-							{/* тут скорее всего нужен md */}
-							{teacher.additionalInfo}
+							<div dangerouslySetInnerHTML={{  __html : additionalInfoHTML }}/>
 						</Text>
 					</Group>
 					<Group  header={<Header mode="primary">Оценки</Header>}>
