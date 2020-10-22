@@ -1,3 +1,4 @@
+import Review from "../../classes/Review";
 import Teacher from "../../classes/Teacher"
 
 const APIUrl = "https://sta.profcomff.com/"
@@ -31,6 +32,11 @@ class Server {
 		})
 		return teachersList.map(teacher => new Teacher(teacher))
 	}
+
+	static async GetReview(){
+		return new Review({});
+	}
+
 }
 
 export default Server;

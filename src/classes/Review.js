@@ -1,6 +1,6 @@
 class Review{
 
-	constructor(object){
+	constructor(object = {}){
 		this.authorId = object.author_id ?? 0
 		this.isAnonymous = object.is_anonymous ?? true
 		this.creationTime_ts = object.create_ts ?? 0
@@ -15,6 +15,31 @@ class Review{
 			other: object.comment_other ?? ''
 		}
 	}
+
+	get creationDate(){
+		const date = new Date(this.creationTime_ts)
+		const day = date.getUTCDate()
+		const month = [
+			'янв',
+			'фев',
+			'мар',
+			'апр',
+			'май',
+			'июн',
+			'июл',
+			'авг',
+			'сен',
+			'окн',
+			'ноя',
+			'дек'			
+		][date.getUTCMonth()]
+		const year = date.getUTCFullYear()
+		const hours = date.getUTCHours().toString().padStart(2, '0')
+		const minutes = date.getUTCMinutes().toString().padStart(2, '0')
+
+		return `${day} ${month} ${year} в ${hours}:${minutes}`
+	}
+
 	_getformattedRating(key){
 		if(this.rating[key] === undefined)
 			throw new Error("Undefined teacher score key")

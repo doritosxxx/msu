@@ -6,6 +6,8 @@ import CustomHeader  from '../../components/Header'
 import TeacherDetails from '../../components/TeacherDetails'
 
 import Server from '../../modules/Server'
+import ReviewCell from '../../components/ReviewCell'
+import Review from '../../classes/Review'
 
 class TeacherPanel extends React.Component{
 	 
@@ -31,7 +33,6 @@ class TeacherPanel extends React.Component{
 		if(teacher === null)
 			return <Panel id={id}></Panel>;
 		// Тут нужен лоадер
-			
 
 		return (
 			<Panel id={id}>
@@ -56,13 +57,17 @@ class TeacherPanel extends React.Component{
 						{/* список тегов */}
 					</Group>
 					<Group>
+						<Text>{`${teacher.facultyId} ${teacher.departmentId} - какие-то id`}</Text>
 						<Text>
+							{/* тут скорее всего нужен md */}
 							{teacher.additionalInfo}
 						</Text>
 					</Group>
 					<Group  header={<Header mode="primary">Оценки</Header>}>
 						<List>
-							{}
+							{ [1,1,1].map((e,i)=><ReviewCell
+								review={new Review()}
+							></ReviewCell>)}
 						</List>
 					</Group>
 				</Div>
