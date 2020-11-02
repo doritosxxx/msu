@@ -1,9 +1,12 @@
+import Marked from 'marked'
+import DOMPurify from 'dompurify'
+
 class Teacher {
 
     constructor(object) {
         this.id = +object.id
 		this.image = object.photo_link ?? "/img/teacher_blank.jpg"
-		this.additionalInfo = object.additional ?? ''
+		this.additionalInfo = this._markdown(object.additional ?? '')
         this.firstName = object.firstname ?? ''
         this.middleName = object.middlename ?? ''
 		this.lastName = object.lastname ?? ''
@@ -20,6 +23,10 @@ class Teacher {
 
     get fullName() {
         return `${this.lastName} ${this.firstName} ${this.middleName}`;
+	}
+
+	_markdown(data){
+		return Marked.parse(DOMPurify.sanitize(data))
 	}
 	
 	_getformattedRating(key){
