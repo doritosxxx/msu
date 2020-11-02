@@ -123,7 +123,6 @@ class HomePanel extends React.Component{
 	}
 
 	render(){
-		
 		// Тут нужен лоадер
 		if(this.state.teachersList === null)
 			return <Panel id={this.props.id}></Panel>
@@ -166,18 +165,5 @@ HomePanel.propTypes = {
 	]),
 	setTeachersList: PropTypes.func.isRequired
 }
-/*
-HomePanel.propTypes = {
-	id: PropTypes.string.isRequired,
-	go: PropTypes.func.isRequired,
-	fetchedUser: PropTypes.shape({
-		photo_200: PropTypes.string,
-		firstName: PropTypes.string,
-		lastName: PropTypes.string,
-		city: PropTypes.shape({
-			title: PropTypes.string,
-		}),
-	}),
-};
-*/
+
 export default HomePanel;

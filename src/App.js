@@ -1,46 +1,51 @@
-import React, { useState, useEffect } from 'react';
-import bridge from '@vkontakte/vk-bridge';
-import { ScreenSpinner, View } from '@vkontakte/vkui';
-import '@vkontakte/vkui/dist/vkui.css';
+import React, { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
+import bridge from '@vkontakte/vk-bridge'
+import { Panel, ScreenSpinner, View } from '@vkontakte/vkui'
+import '@vkontakte/vkui/dist/vkui.css'
 
-import Navigation from './components/Navigation';
+import HomeView from './views/HomeView'
 
-const App = () => {
-	const [activePanel, setActivePanel] = useState('home');
+import {
+    Route,
+    Switch,
+    Redirect,
+    withRouter
+  } from 'react-router-dom'
+
+const ROUTES = {
+	HOME: 'home',
+	TEACHER: 'teacher',
+}
+
+const App = (props) => {
+	const [history] = useState(props.history)
+	const [activePanel, setActivePanel] = useState(ROUTES.HOME)
 	const [fetchedUser, setUser] = useState(null);
 	const [popout, setPopout] = useState(< ScreenSpinner size='large' />);
 
-	useEffect(() => {
-		bridge.subscribe(({ detail: { type, data } }) => {
-			if (type === 'VKWebAppUpdateConfig') {
-				const schemeAttribute = document.createAttribute('scheme');
-				schemeAttribute.value = data.scheme ? data.scheme : 'client_light';
-				document.body.attributes.setNamedItem(schemeAttribute);
-			}
-		});
-		async function fetchData() {
-			const user = await bridge.send('VKWebAppGetUserInfo');
-			setUser(user);
-			//console.log(fetchedUser)
-			setPopout(null);
-		}
-		fetchData();
-	}, []);
+	const [teachersList, setTeachersList] = useState(null)
 
-	const go = e => {
-		setActivePanel(e.currentTarget.dataset.to);
-	};
+	useEffect( () => {
+		// Здесь может потребоваться загрузка какой-либо информации до отрисовки приложения.
+		setPopout(null);
+	})
 
 	return (
-		<Navigation/>
-
+		<HomeView></HomeView>
 		/*
-		<View activePanel={activePanel} popout={popout} >
-			<Home id='home' fetchedUser={fetchedUser} go={go} /> 
-			<Persik id='persik' go={go} /> 
+		<View activePanel='routing'>
+			<Panel id='routing'>
+				<Switch>
+					<Route history={history} path={'/'+ROUTES.HOME} component={<div>home</div>}></Route>
+					<Route history={history} path={'/'+ROUTES.TEACHER+':teacherId'} component={'teacher'}></Route>
+					<Redirect from='/' to='/home'/>
+				</Switch>
+			</Panel>
 		</View>
 		*/
     );
 }
 
-export default App;
+
+export default withRouter(App);

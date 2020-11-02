@@ -5,12 +5,16 @@ import ReactDOM from "react-dom";
 import bridge from "@vkontakte/vk-bridge";
 import App from "./App";
 
-import Server from './modules/Server'
+import { Router } from "react-router-dom"
+import {createBrowserHistory} from 'history'
 
-// Init VK  Mini App
 bridge.send("VKWebAppInit");
 
-ReactDOM.render(<App />, document.getElementById("root"));
+
+
+ReactDOM.render((<Router history={createBrowserHistory()}><App/></Router>), document.getElementById("root")
+);
+
 if (process.env.NODE_ENV === "development") {
   import("./eruda").then(({ default: eruda }) => {}); //runtime download
 }
