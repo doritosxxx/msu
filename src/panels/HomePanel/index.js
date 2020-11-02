@@ -6,7 +6,6 @@ import { Panel, Group, List, PanelHeader, Spinner } from '@vkontakte/vkui'
 import TeacherCell from '../../components/TeacherCell'
 import Header  from '../../components/Header'
 import CustomSearch from '../../components/CustomSearch'
-import CellNotFound from '../../components/CellNotFound'
 
 import Server from '../../modules/Server'
 
