@@ -14,8 +14,6 @@ export default function FiltersModal(props) {
 		props.setOrderBy(event.target.value)
 		setOrderBy(event.target.value)
 	}
-
-	const hideModalBinded = props.hideModal
 	// TODO: добавить кнопку "сброс"
 	return (
 		<ModalPage 
@@ -24,12 +22,12 @@ export default function FiltersModal(props) {
 				<ModalPageHeader
 					left={
 						usePlatform() === ANDROID 
-						&& <PanelHeaderButton onClick={hideModalBinded}>
+						&& <PanelHeaderButton onClick={props.hide}>
 							<Icon24Cancel/>
 						</PanelHeaderButton>
 					}
 					right={
-					<PanelHeaderButton onClick={hideModalBinded}>
+					<PanelHeaderButton onClick={props.hide}>
 						{usePlatform() === IOS ? 'Готово' : <Icon24Done />}
 					</PanelHeaderButton>}
 				>
