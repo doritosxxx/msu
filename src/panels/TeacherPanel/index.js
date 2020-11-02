@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import Marked from 'marked'
-import DOMPurify from 'dompurify'
 import { Panel, PanelHeader, Div, Cell, Avatar, Group, List, PanelHeaderBack, Header, Text } from '@vkontakte/vkui'
 import bridge from '@vkontakte/vk-bridge'
 
 import CustomHeader  from '../../components/Header'
 import TeacherDetails from '../../components/TeacherDetails'
+import ReviewCell from '../../components/ReviewCell'
+import SendReviewButton from '../../components/SendReviewButton'
 
 import Server from '../../modules/Server'
-import ReviewCell from '../../components/ReviewCell'
 import Review from '../../classes/Review'
 
 class TeacherPanel extends React.Component{
@@ -17,8 +16,14 @@ class TeacherPanel extends React.Component{
 		super(props)
 
 		this.state = {
-			teacher : null
+			teacher : null,
+			isReviewModalOpened : false 
 		}
+	}
+
+	openReviewModal(){
+		this.setState({isReviewModalOpened: true})
+		this.props.setActiveModal('review')
 	}
 
 	componentDidMount() {
@@ -36,7 +41,7 @@ class TeacherPanel extends React.Component{
 			return <Panel id={id}></Panel>;
 		// Тут нужен лоадер
 
-		const additionalInfoHTML = Marked.parse(DOMPurify.sanitize(teacher.additionalInfo))
+		
 
 		return (
 			<Panel id={id}>
@@ -63,17 +68,22 @@ class TeacherPanel extends React.Component{
 					<Group>
 						<Text>{`${teacher.facultyId} ${teacher.departmentId} - какие-то id`}</Text>
 						<Text>
-							<div dangerouslySetInnerHTML={{  __html : additionalInfoHTML }}/>
+							<div dangerouslySetInnerHTML={{  __html : teacher.additionalInfo }}/>
 						</Text>
 					</Group>
 					<Group  header={<Header mode="primary">Оценки</Header>}>
 						<List>
 							{ [1,1,1].map((e,i)=><ReviewCell
 								review={new Review()}
+								key={i}
 							></ReviewCell>)}
 						</List>
 					</Group>
 				</Div>
+				<SendReviewButton 
+					//isModalOpened={this.state.isReviewModalOpened}
+					onClick={this.openReviewModal.bind(this)}
+				/>
 			</Panel>
 		);
 	}
