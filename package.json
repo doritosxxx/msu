@@ -20,7 +20,7 @@
         "surge": "^0.21.6"
     },
     "dependencies": {
-        "@vkontakte/icons": "^1.40.0",
+        "@vkontakte/icons": "^1.49.0",
         "@vkontakte/vk-bridge": "^2.2.8",
         "@vkontakte/vk-miniapps-deploy": "0.0.17",
         "@vkontakte/vkui": "^3.12.6",
