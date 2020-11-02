@@ -1,0 +1,16 @@
+/* TODO: выровнять блоки со звездами.*/
+.stars-range--content-wrapper{
+	display: flex;
+	justify-content: center;
+	color: gray;
+	font-size: 80%;
+	margin: 5px 0;
+	align-items: center;
+}
+.stars-range--text{
+	text-align: center;
+}
+.stars-range--stars-container{
+	display: flex;
+	margin: 0px 5px ;
+}

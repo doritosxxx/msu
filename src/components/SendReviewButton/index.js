@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import Icon28CommentOutline from '@vkontakte/icons/dist/28/comment_outline'
-import Icon28PaperplaneOutline from '@vkontakte/icons/dist/28/paperplane_outline'
 
 import './style.css'
 
@@ -15,7 +14,6 @@ function SendReviewButton(props){
 }
 
 SendReviewButton.propTypes = {
-	//isModalOpened: PropTypes.bool.isRequired,
 	onClick: PropTypes.func.isRequired
 }
 
