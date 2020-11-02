@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { ModalPage, PanelHeaderButton, ModalPageHeader, FormLayout, HorizontalScroll} from '@vkontakte/vkui';
+import { ModalPage, PanelHeaderButton, ModalPageHeader, FormLayout} from '@vkontakte/vkui';
 import { usePlatform , ANDROID, IOS } from '@vkontakte/vkui'
 import { Icon24Cancel, Icon24Done } from '@vkontakte/icons'
 import FiltersCategoryGroup from '../../components/FiltersCategoryGroup'
