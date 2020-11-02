@@ -6,11 +6,17 @@ import HomePanel from '../../panels/HomePanel'
 import FiltersModal from '../../modals/FiltersModal'
 import TeacherPanel from '../../panels/TeacherPanel'
 
+const MODALS = {
+	NONE: null,
+	FILTERS: 'filters',
+	REVIEW: 'review'
+}
+
 export default function HomeView(props){
 	
 	const [history, setHistory] = useState(['home'])
 	const [activePanel, setActivePanel] = useState("home")
-	const [activeModal, setActiveModal] = useState(null)
+	const [activeModal, setActiveModal] = useState(MODALS.NONE)
 	const [orderBy, setOrderBy] = useState('name')
 	const [teacherId, setTeacherId] = useState(null)
 	const [teachersList, setTeachersList] = useState(null)
@@ -35,7 +41,7 @@ export default function HomeView(props){
 	}
 
 	function onFiltersClick(){
-		setActiveModal('filters')
+		setActiveModal(MODALS.FILTERS)
 	}
 	
 	function scrollToTop(){
