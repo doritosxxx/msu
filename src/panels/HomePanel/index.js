@@ -91,6 +91,8 @@ class HomePanel extends React.Component{
 	// TODO: нужна декомпозиция
 	// Вообще это старый код, который должен быть переписан
 	get teachers () {
+		if(this.state.teachersList === null)
+			return [];
 		const search = this.state.search.toLowerCase()
 
 		// Фильтрация по поисковой строке.
@@ -123,10 +125,6 @@ class HomePanel extends React.Component{
 	}
 
 	render(){
-		// Тут нужен лоадер
-		if(this.state.teachersList === null)
-			return <Panel id={this.props.id}></Panel>
-		
 		const teachers = this.teachers
 		return (
 			<Panel id={this.props.id}>
