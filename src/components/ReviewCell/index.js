@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Avatar, Caption, Cell, Div, Headline, Subhead, Text } from '@vkontakte/vkui'
+import Rating from '../Rating'
 
 class ReviewCell extends React.Component{
 
@@ -20,6 +21,11 @@ class ReviewCell extends React.Component{
 				<Cell
 					size='l'
 					before={<Avatar size={48} src={ review.isAnonymous ? '/img/teacher_blank.jpg' : '/img/teacher_blank.jpg' }/>}
+					asideContent={<Rating rating={{
+						simplicity: this.review.formattedSimplicity,
+						kindness: this.review.formattedKindness,
+						intelligibility: this.review.formattedIntelligibility 
+					}}/>}
 					description={review.creationDate}
 				>
 					<Headline weight='semibold' style={{fontSize:'120%'}}>
