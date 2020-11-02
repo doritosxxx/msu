@@ -5,6 +5,7 @@ import bridge from '@vkontakte/vk-bridge'
 import HomePanel from '../../panels/HomePanel'
 import FiltersModal from '../../modals/FiltersModal'
 import TeacherPanel from '../../panels/TeacherPanel'
+import ReviewModal from '../../modals/ReviewModal'
 
 const MODALS = {
 	NONE: null,
@@ -43,16 +44,6 @@ export default function HomeView(props){
 	function onFiltersClick(){
 		setActiveModal(MODALS.FILTERS)
 	}
-	
-	function scrollToTop(){
-		console.log("trying to scroll")
-		bridge.send("Scroll", {
-			top: 0,
-			speed: 1000
-		})
-		.then(r=>console.log(r))
-		.catch(e=>console.log(e))
-	}
 
 	const hideModalBinded = hideModal.bind(this)
 
@@ -67,10 +58,14 @@ export default function HomeView(props){
 					onClose={hideModalBinded}
 				>
 					<FiltersModal 
-						id="filters" 
-						hideModal={hideModalBinded}
+						id={MODALS.FILTERS}
+						hide={hideModalBinded}
 						orderBy={orderBy}
 						setOrderBy={setOrderBy.bind(this)}
+					/>
+					<ReviewModal
+						id={MODALS.REVIEW}
+						hide={hideModalBinded}
 					/>
 				</ModalRoot>
 			}
@@ -80,12 +75,12 @@ export default function HomeView(props){
 				onFiltersClick={onFiltersClick.bind(this)}
 				orderBy={orderBy}
 				openTeacherPage={openTeacherPage.bind(this)}
-				scrollToTop={scrollToTop}
 				teachersList={teachersList}
 				setTeachersList={setTeachersList.bind(this)}
 			/>
 			<TeacherPanel
 				id='teacher'
+				setActiveModal={setActiveModal.bind(this)}
 				teacherId={teacherId}
 				goBack={goBack.bind(this)}
 			/>
