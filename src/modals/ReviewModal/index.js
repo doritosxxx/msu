@@ -1,18 +1,19 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
-import { ModalPage, PanelHeaderButton, ModalPageHeader, FormLayout, FormLayoutGroup} from '@vkontakte/vkui';
+import { ModalPage, PanelHeaderButton, ModalPageHeader, FormLayout, FormLayoutGroup, Button} from '@vkontakte/vkui';
 import { usePlatform , ANDROID, IOS } from '@vkontakte/vkui'
 import { Icon24Cancel, Icon24Done } from '@vkontakte/icons'
 
 import ReviewFormStarsRange from '../../components/ReviewFormStarsRange'
+import ReviewFormTextarea from '../../components/ReviewFormTextarea'
 
 import './style.css'
-import ReviewFormTextarea from '../../components/ReviewFormTextarea';
 
 function ReviewModal(props) {
 	
 	return (
-		<ModalPage 
+		<ModalPage
 			id={props.id}
 			header={
 				<ModalPageHeader
@@ -62,11 +63,23 @@ function ReviewModal(props) {
 					title='Комментарии'
 					name='comment_other'
 				/>
+				
 			</FormLayoutGroup>
+			<div style={{
+				display:'flex',
+				justifyContent:'center'
+			}}>
+				<Button>Оставить комментарий</Button>
+			</div>
 		</FormLayout>
 		</ModalPage>
 	)
 	
 }
+
+ReviewModal.propTypes = {
+	
+}
+
 
 export default ReviewModal;

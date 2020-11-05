@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
-import bridge from '@vkontakte/vk-bridge'
-import { Panel, ScreenSpinner, View } from '@vkontakte/vkui'
+import { ScreenSpinner } from '@vkontakte/vkui'
 import '@vkontakte/vkui/dist/vkui.css'
 
 import HomeView from './views/HomeView'
 
 import {
-    Route,
-    Switch,
-    Redirect,
     withRouter
   } from 'react-router-dom'
 
