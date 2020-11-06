@@ -12,17 +12,23 @@ function ReviewFormStarsRange(props){
 	return (
 		<div className='review-form--stars-range'>
 			<Headline className='stars-range--title'>{props.title}</Headline>
-			<div className='stars-range--content-wrapper'>
-				<div className='stars-range--text'>{props.before}</div>
-				<div className='stars-range--stars-container'>
-					{[1,2,3,4,5].map(e=><Star 
-						key={e}
-						isFilled={ e <= value}
-						onClick={()=>setValue(e)}
-					/>)}
+			<div style={{
+				display:'flex',
+				justifyContent:'center'
+			}}>
+				<div className='stars-range--content-wrapper'>
+					<div className='stars-range--text stars-range--text__before'>{props.before}</div>
+					<div className='stars-range--stars-container'>
+						{[1,2,3,4,5].map(e=><Star 
+							key={e}
+							isFilled={ e <= value}
+							onClick={()=>setValue(e)}
+						/>)}
+					</div>
+					<div className='stars-range--text stars-range--text__after'>{props.after}</div>
 				</div>
-				<div className='stars-range--text'>{props.after}</div>
 			</div>
+			
 		</div>
 
 	);

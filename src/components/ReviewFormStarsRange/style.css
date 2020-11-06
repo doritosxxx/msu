@@ -8,9 +8,20 @@
 	align-items: center;
 }
 .stars-range--text{
-	text-align: center;
+	display: flex;
+	min-width: 30%;
 }
 .stars-range--stars-container{
 	display: flex;
 	margin: 0px 5px ;
+}
+
+.stars-range--text__before{
+	justify-content: flex-end;
+	text-align: end;
+}
+
+.stars-range--text__after{
+	justify-content: flex-start;
+	text-align: start;
 }
