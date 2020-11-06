@@ -21,17 +21,17 @@ class ReviewCell extends React.Component{
 				<Cell
 					size='l'
 					before={<Avatar size={48} src={ review.isAnonymous ? '/img/teacher_blank.jpg' : '/img/teacher_blank.jpg' }/>}
-					asideContent={<Rating rating={{
-						simplicity: this.review.formattedSimplicity,
-						kindness: this.review.formattedKindness,
-						intelligibility: this.review.formattedIntelligibility 
-					}}/>}
 					description={review.creationDate}
 				>
 					<Headline weight='semibold' style={{fontSize:'120%'}}>
 						{ review.isAnonymous ? 'Анонимно' : `id автора ${review.authorID}. Сори имени не знаю` }
 					</Headline>
 				</Cell>
+				<Rating rating={{
+						simplicity: this.review.formattedSimplicity,
+						kindness: this.review.formattedKindness,
+						intelligibility: this.review.formattedIntelligibility 
+					}}/>
 				<Subhead weight='semibold'>Плюсы:</Subhead>
 				<Text>{review.comment.positive}</Text>
 				<Subhead weight='semibold'>Минусы:</Subhead>
