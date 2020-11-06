@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Avatar, Caption, Cell, Div, Headline, Subhead, Text } from '@vkontakte/vkui'
+import { Avatar, Cell, Div, Headline, Subhead, Text } from '@vkontakte/vkui'
 import Rating from '../Rating'
 
 class ReviewCell extends React.Component{

@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Panel, PanelHeader, Div, Cell, Avatar, Group, List, PanelHeaderBack, Header, Text } from '@vkontakte/vkui'
-import bridge from '@vkontakte/vk-bridge'
+
 
 import CustomHeader  from '../../components/Header'
 import TeacherDetails from '../../components/TeacherDetails'

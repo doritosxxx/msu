@@ -78,7 +78,9 @@ function ReviewModal(props) {
 }
 
 ReviewModal.propTypes = {
-	
+	id: PropTypes.string.isRequired,
+	hide: PropTypes.func
+
 }
 
 

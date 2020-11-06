@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { ModalRoot, View }   from '@vkontakte/vkui'
-import bridge from '@vkontakte/vk-bridge'
 
 import HomePanel from '../../panels/HomePanel'
 import FiltersModal from '../../modals/FiltersModal'

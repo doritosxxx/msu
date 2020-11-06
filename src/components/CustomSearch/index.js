@@ -6,10 +6,6 @@ import {Icon24Filter} from '@vkontakte/icons'
 
 class CustomSearch extends React.Component{
 
-	constructor () {
-		super()
-
-	}
   
 	render(){
 		return(
@@ -21,6 +17,11 @@ class CustomSearch extends React.Component{
             />
 		)
 	}
+}
+
+CustomSearch.propTypes = {
+	onChange: PropTypes.func,
+	onIconClick: PropTypes.func
 }
 
 export default CustomSearch;
