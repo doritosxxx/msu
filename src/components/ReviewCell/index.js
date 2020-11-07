@@ -7,7 +7,6 @@ class ReviewCell extends React.Component{
 
 	constructor(props){
 		super(props)
-
 		this.review = props.review
 	}
 
@@ -15,7 +14,7 @@ class ReviewCell extends React.Component{
 
 		const review = this.review
 
-		// Тут бы по-хорошену все раскидать по компонентам, но я делаю MVP.
+		// Тут бы по-хорошему все раскидать по компонентам, но я делаю MVP.
 		return (
 			<Div>
 				<Cell
@@ -39,7 +38,6 @@ class ReviewCell extends React.Component{
 				<Subhead weight='semibold'>Дополнительно:</Subhead>
 				<Text>{review.comment.other}</Text>
 				
-
 			</Div>
 		)
 	}
