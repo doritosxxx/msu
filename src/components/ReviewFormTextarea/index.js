@@ -10,6 +10,7 @@ function ReviewFormTextarea(props){
 				grow={false}
 				rows={4}
 				name={props.name}
+				defaultValue={props.defaultValue}
 			/>
 		</div>);
 }
@@ -17,6 +18,7 @@ function ReviewFormTextarea(props){
 ReviewFormTextarea.propTypes = {
 	title: PropTypes.string,
 	name: PropTypes.string.isRequired,
+	defaultValue: PropTypes.string
 }
 
 export default ReviewFormTextarea;

@@ -7,7 +7,7 @@ import Star from '../Star';
 
 function ReviewFormStarsRange(props){
 
-	const [value, setValue] = useState(3)
+	const [value, setValue] = useState(props.defaultValue ?? 0)
 
 	return (
 		<div className='review-form--stars-range'>
@@ -18,10 +18,10 @@ function ReviewFormStarsRange(props){
 			}}>
 				<div className='stars-range--content-wrapper'>
 					<div className='stars-range--text stars-range--text__before'>{props.before}</div>
-					<div className='stars-range--stars-container'>
+					<div className='stars-range--stars-container' name={props.name} data-value={value}>
 						{[1,2,3,4,5].map(e=><Star 
 							key={e}
-							isFilled={ e <= value}
+							isFilled={ e <= value }
 							onClick={()=>setValue(e)}
 						/>)}
 					</div>
@@ -37,7 +37,9 @@ function ReviewFormStarsRange(props){
 ReviewFormStarsRange.propTypes = {
 	title: PropTypes.string.isRequired,
 	before: PropTypes.string,
-	after: PropTypes.string
+	after: PropTypes.string,
+	name: PropTypes.string,
+	defaultValue: PropTypes.number
 }
 
 export default ReviewFormStarsRange;

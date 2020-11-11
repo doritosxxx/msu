@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 
 import { ModalPage, PanelHeaderButton, ModalPageHeader, FormLayout, FormLayoutGroup, Button} from '@vkontakte/vkui';
@@ -11,7 +11,28 @@ import ReviewFormTextarea from '../../components/ReviewFormTextarea'
 import './style.css'
 
 function ReviewModal(props) {
-	
+
+	const review = useRef(props.review)
+
+	useEffect(()=>{
+
+		return function(){
+			const currentReview = review.current
+			currentReview.comment.positive = document.querySelector("[name=comment_positive]").value
+			currentReview.comment.negative = document.querySelector("[name=comment_negative]").value
+			currentReview.comment.other = document.querySelector("[name=comment_other]").value
+
+			// Тут может пойти не так все что угодно. Я не обрабатывал крайние случаи.
+			currentReview.rating.simplicity = 
+				+document.querySelector("[name=score_simplicity]").dataset.value
+			currentReview.rating.kindness = 
+				+document.querySelector("[name=score_kindness]").dataset.value
+			currentReview.rating.intelligibility = 
+				+document.querySelector("[name=score_intelligibility]").dataset.value
+		}
+
+	})
+
 	return (
 		<ModalPage
 			id={props.id}
@@ -38,30 +59,39 @@ function ReviewModal(props) {
 					title='Халявность'
 					before='Очень просто'
 					after='Очень сложно'
+					name='score_simplicity'
+					defaultValue={review.current.rating.simplicity}
 				/>
 				<ReviewFormStarsRange
 					title='Понятность'
 					before='Ничего не понятно'
 					after='Объясняет доходчиво'
+					name='score_intelligibility'
+					defaultValue={review.current.rating.intelligibility}
 				/>
 				<ReviewFormStarsRange
 					title='Доброта'
 					before='Злой'
 					after='Добрый'
+					name='score_kindness'
+					defaultValue={review.current.rating.kindness}
 				/>
 			</FormLayoutGroup>
 			<FormLayoutGroup>
 				<ReviewFormTextarea
 					title='Положительные стороны'
 					name='comment_positive'
+					defaultValue={review.current.comment.positive}
 				/>
 				<ReviewFormTextarea
 					title='Отрицательные стороны'
 					name='comment_negative'
+					defaultValue={review.current.comment.negative}
 				/>
 				<ReviewFormTextarea
 					title='Комментарии'
 					name='comment_other'
+					defaultValue={review.current.comment.other}
 				/>
 				
 			</FormLayoutGroup>
@@ -79,8 +109,8 @@ function ReviewModal(props) {
 
 ReviewModal.propTypes = {
 	id: PropTypes.string.isRequired,
-	hide: PropTypes.func
-
+	hide: PropTypes.func,
+	review: PropTypes.object.isRequired
 }
 
 

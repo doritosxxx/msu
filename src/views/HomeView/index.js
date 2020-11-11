@@ -5,6 +5,7 @@ import HomePanel from '../../panels/HomePanel'
 import FiltersModal from '../../modals/FiltersModal'
 import TeacherPanel from '../../panels/TeacherPanel'
 import ReviewModal from '../../modals/ReviewModal'
+import Review from '../../classes/Review'
 
 const MODALS = {
 	NONE: null,
@@ -20,6 +21,7 @@ export default function HomeView(props){
 	const [orderBy, setOrderBy] = useState('name')
 	const [teacherId, setTeacherId] = useState(null)
 	const [teachersList, setTeachersList] = useState(null)
+	const [reviewData, setReviewData] = useState(new Review())
 	
 	function openTeacherPage(id){
 		const newHistory = [...history]
@@ -36,7 +38,7 @@ export default function HomeView(props){
 		setActivePanel(history[history.length-2])
 	}
 
-	function hideModal(){ 
+	function onClose(e){
 		setActiveModal(null)
 	}
 
@@ -44,7 +46,7 @@ export default function HomeView(props){
 		setActiveModal(MODALS.FILTERS)
 	}
 
-	const hideModalBinded = hideModal.bind(this)
+	//onClose = onClose.bind(this)
 
 	return (
 		<View 
@@ -54,17 +56,20 @@ export default function HomeView(props){
 			modal={
 				<ModalRoot 
 					activeModal={activeModal}
-					onClose={hideModalBinded}
+					onClose={onClose}
 				>
 					<FiltersModal 
 						id={MODALS.FILTERS}
-						hide={hideModalBinded}
+						hide={onClose}
 						orderBy={orderBy}
 						setOrderBy={setOrderBy.bind(this)}
 					/>
 					<ReviewModal
 						id={MODALS.REVIEW}
-						hide={hideModalBinded}
+						onClose={onClose}
+						hide={onClose}
+						review={reviewData}
+
 					/>
 				</ModalRoot>
 			}
@@ -82,6 +87,7 @@ export default function HomeView(props){
 				setActiveModal={setActiveModal.bind(this)}
 				teacherId={teacherId}
 				goBack={goBack.bind(this)}
+				resetReview={()=>setReviewData(new Review())}
 			/>
 		</View>
 	)

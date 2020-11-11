@@ -1,5 +1,6 @@
 import React from 'react'
-import { Panel, PanelHeader, Div, Cell, Avatar, Group, List, PanelHeaderBack, Header, Text } from '@vkontakte/vkui'
+import PropTypes from 'prop-types'
+import { Panel, PanelHeader, Div, Cell, Avatar, Group, List, PanelHeaderBack, Header, Text, ScreenSpinner } from '@vkontakte/vkui'
 
 
 import CustomHeader  from '../../components/Header'
@@ -17,8 +18,9 @@ class TeacherPanel extends React.Component{
 
 		this.state = {
 			teacher : null,
-			isReviewModalOpened : false 
+			isReviewModalOpened : false,
 		}
+		props.resetReview()
 	}
 
 	openReviewModal(){
@@ -38,7 +40,9 @@ class TeacherPanel extends React.Component{
 		const teacher = this.state.teacher
 
 		if(teacher === null)
-			return <Panel id={id}></Panel>;
+			return <Panel id={id}>
+				<ScreenSpinner></ScreenSpinner>
+			</Panel>;
 		// Тут нужен лоадер
 
 		
@@ -87,9 +91,11 @@ class TeacherPanel extends React.Component{
 			</Panel>
 		);
 	}
-
-	
-	
 }
+
+TeacherPanel.propTypes = {
+	resetReview: PropTypes.func.isRequired
+}
+
 
 export default TeacherPanel;
