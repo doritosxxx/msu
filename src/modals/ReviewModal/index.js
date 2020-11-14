@@ -32,9 +32,8 @@ function ReviewModal(props) {
 	useEffect(()=>{
 		return function(){
 			const serializedData = serializeFromData()
-			const currentReview = review.current
-			currentReview.comment = serializedData.comment
-			currentReview.rating = serializedData.rating
+			review.current.comment = serializedData.comment
+			review.current.rating = serializedData.rating
 		}
 
 	})
