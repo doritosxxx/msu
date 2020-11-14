@@ -11,11 +11,11 @@ class TeacherCell extends React.Component{
 		const teacher = this.props.teacher
 		return (
 			<Cell
+				href={"/teacher?id=" + teacher.id}
 				className='teacher-cell'
 				before={<Avatar size={80} src={teacher.image} />}
 				multiline
 				expandable
-				onClick={()=>this.props.openTeacherPage(teacher.id)}
 			>
 				<TeacherDetails teacher={teacher}/>
 			</Cell>

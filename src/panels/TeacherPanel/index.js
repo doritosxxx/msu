@@ -1,7 +1,6 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Panel, PanelHeader, Div, Cell, Avatar, Group, List, PanelHeaderBack, Header, Text, ScreenSpinner } from '@vkontakte/vkui'
-
 
 import CustomHeader  from '../../components/Header'
 import TeacherDetails from '../../components/TeacherDetails'
@@ -11,90 +10,94 @@ import SendReviewButton from '../../components/SendReviewButton'
 import Server from '../../modules/Server'
 import Review from '../../classes/Review'
 
-class TeacherPanel extends React.Component{
+import { useRouteNode } from 'react-router5'
+
+function TeacherPanel(props){
 	 
-	constructor(props){
-		super(props)
+	const {route, router} = useRouteNode('')
 
-		this.state = {
-			teacher : null,
-			isReviewModalOpened : false,
-		}
-		props.resetReview()
+	console.log(router)
+
+	const teacherId = route.params.id
+	const [teacher, setTeacher] = useState(null)
+	const [isReviewModalOpened, setIsReviewModalOpened] = useState(false)
+
+	// эта штука вызывает бесконечный цикл. надо пофиксить
+	// O_o и без нее все работает. Почему?
+	//props.resetReview()
+
+	// TODO: обработать случай некорректного id
+
+	const openReviewModal = () => {
+		setIsReviewModalOpened(true)
+		props.setActiveModal('review')
 	}
 
-	openReviewModal(){
-		this.setState({isReviewModalOpened: true})
-		this.props.setActiveModal('review')
-	}
-
-	componentDidMount() {
+	useEffect(()=>{
 		(async () => {
-			const teacher = await Server.GetTeacherById(this.props.teacherId)
-			this.setState({ teacher })	
+			console.log("fetching...")
+			const _teacher = await Server.GetTeacherById(teacherId)
+			setTeacher(_teacher)
 		})()
-	}
+	},[])
 
-	render(){
-		const {id, goBack} = {...this.props}
-		const teacher = this.state.teacher
+	
 
-		if(teacher === null)
-			return <Panel id={id}>
-				<ScreenSpinner></ScreenSpinner>
-			</Panel>;
+	if(teacher === null)
+		return <Panel id={props.id}>
+			<ScreenSpinner></ScreenSpinner>
+		</Panel>;
 		// Тут нужен лоадер
 
-		
-
-		return (
-			<Panel id={id}>
-				<PanelHeader
-					left={<PanelHeaderBack onClick={goBack}/>}
-				>
-					<CustomHeader title='Преподаватель'></CustomHeader>
-				</PanelHeader>
-				<Div>
-					<Group>
-						<Cell
-						before={<Avatar size={100} src={teacher.image} />}
-						multiline
-						>
-							<TeacherDetails 
-								highlightLastName
-								teacher={teacher}
-							/>
-						</Cell>
-					</Group>
-					<Group>
-						{/* список тегов */}
-					</Group>
-					<Group>
-						<Text>{`${teacher.facultyId} ${teacher.departmentId} - какие-то id`}</Text>
-						<Text>
-							<div dangerouslySetInnerHTML={{  __html : teacher.additionalInfo }}/>
-						</Text>
-					</Group>
-					<Group  header={<Header mode="primary">Оценки</Header>}>
-						<List>
-							{ [1,1,1].map((e,i)=><ReviewCell
-								review={new Review()}
-								key={i}
-							></ReviewCell>)}
-						</List>
-					</Group>
-				</Div>
-				<SendReviewButton 
-					//isModalOpened={this.state.isReviewModalOpened}
-					onClick={this.openReviewModal.bind(this)}
-				/>
-			</Panel>
-		);
-	}
+	return (
+		<Panel id={props.id}>
+			<PanelHeader
+				left={<PanelHeaderBack onClick={()=>window.history.back()} />}
+			>
+				<CustomHeader title='Преподаватель'></CustomHeader>
+			</PanelHeader>
+			<Div>
+				<Group>
+					<Cell
+					before={<Avatar size={100} src={teacher.image} />}
+					multiline
+					>
+						<TeacherDetails 
+							highlightLastName
+							teacher={teacher}
+						/>
+					</Cell>
+				</Group>
+				<Group>
+					{/* список тегов */}
+				</Group>
+				<Group>
+					<Text>{`${teacher.facultyId} ${teacher.departmentId} - какие-то id`}</Text>
+					<Text>
+						<div dangerouslySetInnerHTML={{  __html : teacher.additionalInfo }}/>
+					</Text>
+				</Group>
+				<Group  header={<Header mode="primary">Оценки</Header>}>
+					<List>
+						{ [1,1,1].map((e,i)=><ReviewCell
+							review={new Review()}
+							key={i}
+						></ReviewCell>)}
+					</List>
+				</Group>
+			</Div>
+			<SendReviewButton 
+				isModalOpened={isReviewModalOpened}
+				onClick={openReviewModal.bind(this)}
+			/>
+		</Panel>
+	);
+	
 }
 
 TeacherPanel.propTypes = {
-	resetReview: PropTypes.func.isRequired
+	id: PropTypes.string
+	//resetReview: PropTypes.func.isRequired
 }
 
 
