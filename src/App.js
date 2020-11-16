@@ -31,7 +31,7 @@ const Root = (props) => {
 	const router = useRouter()
 	setupRouterMiddleware(router, setActivePanel)
 
-	// Все, что ниже нужно переписать(или дописать)
+	// Все, что ниже, нужно переписать(или дописать)
 	const [fetchedUser, setUser] = useState(null);
 	const [popout, setPopout] = useState(< ScreenSpinner size='large' />);
 
