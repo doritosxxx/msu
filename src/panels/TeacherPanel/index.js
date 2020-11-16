@@ -14,7 +14,7 @@ import { useRouteNode } from 'react-router5'
 
 function TeacherPanel(props){
 	 
-	const {route, router} = useRouteNode('')
+	const {route} = useRouteNode('')
 
 	//console.warn(router)
 
