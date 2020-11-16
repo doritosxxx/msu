@@ -7,7 +7,6 @@ import TeacherPanel from '../../panels/TeacherPanel'
 import ReviewModal from '../../modals/ReviewModal'
 import Review from '../../classes/Review'
 
-
 import withAppState from '../../hoc/withAppState'
 
 const MODALS = {
@@ -17,6 +16,8 @@ const MODALS = {
 }
 
 function HomeView(props){
+
+	// TODO: перенести в App
 	
 	const [activeModal, setActiveModal] = useState(MODALS.NONE)
 	const [orderBy, setOrderBy] = useState('name')
@@ -70,6 +71,5 @@ function HomeView(props){
 	)
 	
 }
-
 
 export default withAppState(HomeView);

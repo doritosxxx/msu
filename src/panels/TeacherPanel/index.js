@@ -35,7 +35,6 @@ function TeacherPanel(props){
 
 	useEffect(()=>{
 		(async () => {
-			//console.log("fetching...")
 			const _teacher = await Server.GetTeacherById(teacherId)
 			setTeacher(_teacher)
 		})()

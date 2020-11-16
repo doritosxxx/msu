@@ -22,7 +22,6 @@ class TeacherCell extends React.Component{
 					before={<Avatar size={80} src={teacher.image} />}
 					multiline
 					expandable
-					onClick={()=>console.log(teacher.id)}
 				>
 					<TeacherDetails teacher={teacher}/>
 				</Cell>

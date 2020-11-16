@@ -8,9 +8,10 @@ import Header  from '../../components/Header'
 import CustomSearch from '../../components/CustomSearch'
 
 import Server from '../../modules/Server'
-
 import withAppState from '../../hoc/withAppState'
 
+// TODO: переписать в виде функционального компонента
+//		 фиксануть observer
 class HomePanel extends React.Component{
 	
 	constructor(props){

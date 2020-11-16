@@ -3,10 +3,7 @@ import { ScreenSpinner } from '@vkontakte/vkui'
 import '@vkontakte/vkui/dist/vkui.css'
 
 import HomeView from './views/HomeView'
-import { useRouter } from 'react-router5'
-import withAppState from './hoc/withAppState'
-
-import { useRouteNode } from 'react-router5'
+import { useRouter, useRouteNode } from 'react-router5'
 
 const AppContext = React.createContext()
 
@@ -16,8 +13,6 @@ const setupRouterMiddleware = (router, setActivePanel) => {
 		return;
 
 	isMiddlewareSettedup = true
-
-	console.log("App.js setup middleware")
 	
 	const middleware = (router) => (toState, fromState, done ) => {
 		const panelName = toState.name
@@ -29,18 +24,19 @@ const setupRouterMiddleware = (router, setActivePanel) => {
 }
 
 const Root = (props) => {
+	const { route } = useRouteNode('')
+	const [activePanel, setActivePanel] = useState(route.name)
 	
+	// Настройка перехода между панелями при роутинге.
+	const router = useRouter()
+	setupRouterMiddleware(router, setActivePanel)
+
+	// Все, что ниже нужно переписать(или дописать)
 	const [fetchedUser, setUser] = useState(null);
 	const [popout, setPopout] = useState(< ScreenSpinner size='large' />);
 
 	const [teachersList, setTeachersList] = useState(null)
-	const { route } = useRouteNode('')
 
-	const [activePanel, setActivePanel] = useState(route.name)
-	const router = useRouter()
-	setupRouterMiddleware(router, setActivePanel)
-
-	const children = props.children
 	const context = {
 		activePanel,
 		setActivePanel
@@ -53,20 +49,16 @@ const Root = (props) => {
 	},[])
 
 	return <AppContext.Provider value={context}>
-		{children}
+		{props.children}
 	</AppContext.Provider>;
 }
 
-const App = (props) => {
-
-	return (
-		<Root>
-			<HomeView/>
-		</Root>
-	)
-};
+const App = (props) =>(
+	<Root>
+		<HomeView/>
+	</Root>
+);
 
 App.Context = AppContext;
-
 
 export default App;
