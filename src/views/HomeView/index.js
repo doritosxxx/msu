@@ -8,21 +8,20 @@ import ReviewModal from '../../modals/ReviewModal'
 import Review from '../../classes/Review'
 
 import withAppState from '../../hoc/withAppState'
+import MODALS from '../../routing/modals'
 
-const MODALS = {
-	NONE: null,
-	FILTERS: 'filters',
-	REVIEW: 'review'
-}
-
-function HomeView(props){
+function HomeView({
+	activeModal,
+	setActiveModal, 
+	teachersList,
+	setTeachersList, 
+	...props }){
 
 	// TODO: перенести в App
 	
-	const [activeModal, setActiveModal] = useState(MODALS.NONE)
 	const [orderBy, setOrderBy] = useState('name')
-	const [teachersList, setTeachersList] = useState(null)
 	const [reviewData, setReviewData] = useState(new Review())
+
 
 	function onClose(e){
 		setActiveModal(null)
