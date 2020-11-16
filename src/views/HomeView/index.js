@@ -27,10 +27,6 @@ function HomeView({
 		setActiveModal(null)
 	}
 
-	function onFiltersClick(){
-		setActiveModal(MODALS.FILTERS)
-	}
-
 	return (
 		<View 
 			id={props.id}
@@ -57,8 +53,6 @@ function HomeView({
 		>
 			<HomePanel 
 				id='home' 
-				onFiltersClick={onFiltersClick.bind(this)}
-				orderBy={orderBy}
 				teachersList={teachersList}
 				setTeachersList={setTeachersList.bind(this)}
 			/>
