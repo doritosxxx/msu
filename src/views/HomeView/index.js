@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState} from 'react'
 import { ModalRoot, View }   from '@vkontakte/vkui'
 
 import HomePanel from '../../panels/HomePanel'
@@ -7,7 +7,8 @@ import TeacherPanel from '../../panels/TeacherPanel'
 import ReviewModal from '../../modals/ReviewModal'
 import Review from '../../classes/Review'
 
-import { useRouteNode } from 'react-router5'
+
+import withAppState from '../../hoc/withAppState'
 
 const MODALS = {
 	NONE: null,
@@ -15,13 +16,8 @@ const MODALS = {
 	REVIEW: 'review'
 }
 
-export default function HomeView(props){
+function HomeView(props){
 	
-	const { route } = useRouteNode('')
-	// For debug.
-	console.log( route )
-	const [activePanel, setActivePanel] = useState(route.name)
-
 	const [activeModal, setActiveModal] = useState(MODALS.NONE)
 	const [orderBy, setOrderBy] = useState('name')
 	const [teachersList, setTeachersList] = useState(null)
@@ -38,7 +34,7 @@ export default function HomeView(props){
 	return (
 		<View 
 			id={props.id}
-			activePanel={activePanel}
+			activePanel={props.activePanel}
 			modal={
 				<ModalRoot 
 					activeModal={activeModal}
@@ -73,4 +69,7 @@ export default function HomeView(props){
 		</View>
 	)
 	
-};
+}
+
+
+export default withAppState(HomeView);

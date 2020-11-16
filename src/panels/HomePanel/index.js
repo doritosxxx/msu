@@ -9,6 +9,8 @@ import CustomSearch from '../../components/CustomSearch'
 
 import Server from '../../modules/Server'
 
+import withAppState from '../../hoc/withAppState'
+
 class HomePanel extends React.Component{
 	
 	constructor(props){
@@ -25,7 +27,6 @@ class HomePanel extends React.Component{
 		}
 
 		this.setUpObserver()
-		
 	}
 
 	// Настройка наблюдателя для 'ленивой загрузки' списка преподавателей
@@ -142,7 +143,7 @@ class HomePanel extends React.Component{
 							<TeacherCell 
 								teacher={teacher} 
 								key={teacher.id}
-								openTeacherPage={this.props.openTeacherPage}
+								openTeacherPage={()=>this.props.setActivePanel("teacher")}
 							/>)}
 					</List>
 					{  
@@ -163,4 +164,4 @@ HomePanel.propTypes = {
 	setTeachersList: PropTypes.func.isRequired
 }
 
-export default HomePanel;
+export default withAppState(HomePanel);

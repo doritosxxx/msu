@@ -16,7 +16,7 @@ function TeacherPanel(props){
 	 
 	const {route, router} = useRouteNode('')
 
-	console.log(router)
+	//console.warn(router)
 
 	const teacherId = route.params.id
 	const [teacher, setTeacher] = useState(null)
@@ -35,7 +35,7 @@ function TeacherPanel(props){
 
 	useEffect(()=>{
 		(async () => {
-			console.log("fetching...")
+			//console.log("fetching...")
 			const _teacher = await Server.GetTeacherById(teacherId)
 			setTeacher(_teacher)
 		})()
