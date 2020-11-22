@@ -42,7 +42,7 @@ class TeacherPanel extends React.Component{
 	componentDidMount(){
 		this.props.setPopout(true)
 		const fetchData = async () => {
-			const teacher = new Teacher({})//await Server.GetTeacherById(this.teacherId)
+			const teacher = await Server.GetTeacherById(this.teacherId)
 			this.setState({teacher})
 			this.props.setPopout(false)
 
