@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Panel, PanelHeader, Div, Cell, Avatar, Group, List, PanelHeaderBack, Header, Text, ScreenSpinner, Spinner, Placeholder, Button } from '@vkontakte/vkui'
+import Icon56ErrorOutline from '@vkontakte/icons/dist/56/error_outline'
 
 import CustomHeader  from '../../components/Header'
 import TeacherDetails from '../../components/TeacherDetails'
@@ -63,6 +64,7 @@ class TeacherPanel extends React.Component{
 		
 		if(teacher === null || !teacher.exists())
 			content = (<Placeholder
+				icon={<Icon56ErrorOutline/>}
 				stretched={true}
 				header={"Произошла ошибка во время запроса к серверу"}
 				action={<Button size="xl" onClick={()=>window.history.back()}>Перейти обратно</Button>}
