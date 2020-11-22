@@ -43,7 +43,8 @@ class HomePanel extends React.Component {
 		super(props)
 
 		this.state = {
-			teachersList: []
+			teachersList: [],
+			isSpinnerEnabled: true,
 		}
 		this.isTeachersListFetched = false
 	}
@@ -63,11 +64,20 @@ class HomePanel extends React.Component {
 				const offset = this.state.teachersList.length
 				const teachersListChunk = await Server.GetTeachersRange( offset , 10 )
 				
+				this.isTeachersListFetched = false
+
+				if(teachersListChunk.length === 0){
+					observer.disconnect()
+					this.setState({
+						isSpinnerEnabled: false
+					})
+					return;
+				}
+				
 				this.setState({
 					teachersList: this.state.teachersList.concat(teachersListChunk)
 				})
 
-				this.isTeachersListFetched = false
 
 			})()
 		}
@@ -78,8 +88,15 @@ class HomePanel extends React.Component {
 	}
 
 	componentDidMount(){
+		console.log("did mount");
+		this.tryLoadNextChunk()
 		observer.setup(this.tryLoadNextChunk.bind(this))
 		observer.connect()
+	}
+	componentDidUpdate(){
+		console.log("did update");
+		if(this.state.isSpinnerEnabled)
+			observer.connect()
 	}
 
 	componentWillUnmount(){
@@ -110,15 +127,18 @@ class HomePanel extends React.Component {
 					<List className='home-panel__teacher-list'>
 						{this.state.teachersList.map(teacher => 
 							<TeacherCell 
-							teacher={teacher} 
-							key={teacher.id}
+								teacher={teacher} 
+								key={teacher.id}
 							/>)}
 					</List>
-					<Spinner 
-						className='teachers-list__spinner'
-						style={{marginBottom: 20}} 
-						size='large'
-						/>
+					{
+						(this.state.isSpinnerEnabled ? (<Spinner 
+								className='teachers-list__spinner'
+								style={{marginBottom: 20}} 
+								size='large'
+							/>) : "")
+					}
+					
 				</Group>
 			</Panel>
 		);
