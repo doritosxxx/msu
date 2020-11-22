@@ -12,7 +12,7 @@ import Review from '../../classes/Review'
 
 import { withAppState } from '../../contexts/appContext'
 import { withRoute } from 'react-router5'
-import Teacher from '../../classes/Teacher'
+import SubjectsList from '../../components/SubjectsList'
 
 class TeacherPanel extends React.Component{
 
@@ -81,10 +81,16 @@ class TeacherPanel extends React.Component{
 					</Cell>
 				</Group>
 				<Group>
-					{ /*список предметов*/ }
+					<SubjectsList subjects={teacher.subjects} defaultMessage="Предметы не указаны"/>
 				</Group>
 				<Group>
-					<Text>{`${teacher.facultyName} ${teacher.departments.join(" ")}`}</Text>
+					<Text style={{
+						display:"flex",
+						alignItems: "center"
+					}}>
+						{teacher.facultyName}
+						<SubjectsList subjects={teacher.departments} defaultMessage="Кафедры не указаны"/>
+					</Text>
 					<Text>
 						<div dangerouslySetInnerHTML={{  __html : teacher.additionalInfo }}/>
 					</Text>

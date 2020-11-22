@@ -1,0 +1,16 @@
+.subjects-list {
+	padding:2px 10px;
+	display: flex;
+
+}
+
+.subjects-list__item{
+	background-color: gray;
+	height: 2em;
+	border-radius: 1em;
+	padding: 0 8px;
+	margin: 0 4px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
