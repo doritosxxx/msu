@@ -6,6 +6,7 @@ import HomePanel from '../../panels/HomePanel'
 import FiltersModal from '../../modals/FiltersModal'
 import TeacherPanel from '../../panels/TeacherPanel'
 import ReviewModal from '../../modals/ReviewModal'
+import MainLoadingPopout from '../../popouts/MainLoadingPopout'
 import Review from '../../classes/Review'
 
 import { withAppState } from '../../contexts/appContext'
@@ -25,6 +26,7 @@ function HomeView(props){
 
 	return (
 		<View 
+			popout={props.hasPopout ? <MainLoadingPopout/> : null}
 			id={props.id}
 			activePanel={props.activePanel}
 			modal={
@@ -57,7 +59,8 @@ function HomeView(props){
 HomeView.propTypes = {
 	activeModal: PropTypes.any,
 	activePanel: PropTypes.string.isRequired,
-	setActiveModal: PropTypes.func,
+	setActiveModal: PropTypes.func.isRequired,
+	hasPopout: PropTypes.any.isRequired,
 }
 
 export default withAppState(HomeView);

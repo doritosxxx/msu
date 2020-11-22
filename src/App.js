@@ -5,15 +5,14 @@ import MODALS from './routing/modals'
 import ROUTES from './routing/routes'
 import HomeView from './views/HomeView'
 import { withRouter } from 'react-router5'
-
 import { AppProvider } from './contexts/appContext'
 
-
+import bridge from "@vkontakte/vk-bridge";
+import { ScreenSpinner } from '@vkontakte/vkui'
 
 class App extends React.Component {
 	constructor(props){
 		super(props)
-
 		this.isMiddlewareSetUp = false
 
 		this.state = {
@@ -21,13 +20,10 @@ class App extends React.Component {
 			setActivePanel: this.setActivePanel.bind(this),
 			activeModal: MODALS.NONE,
 			setActiveModal: this.setActiveModal.bind(this),
+			hasPopout: true,
+			user: null,
 		}
 		
-/*
-		// Все, что ниже, нужно переписать(или дописать)
-		const [fetchedUser, setUser] = useState(null);
-		const [popout, setPopout] = useState(< ScreenSpinner size='large' />);
-*/
 	}
 
 	setActivePanel(value){
@@ -43,13 +39,28 @@ class App extends React.Component {
 	}
 	
 	componentDidMount(){
-		console.log("app did mount")
-		//fetch user
-		//setPopout(null);
-
 		// Configure router
 		this.setupRouterMiddleware()
+
+
+		// Fetch user data
+		bridge.subscribe(({ detail: { type, data }}) => {
+			if (type === 'VKWebAppUpdateConfig') {
+				const schemeAttribute = document.createAttribute('scheme');
+				schemeAttribute.value = data.scheme ? data.scheme : 'client_light';
+				document.body.attributes.setNamedItem(schemeAttribute);
+			}
+		});
+		async function fetchData() {
+			const user = await bridge.send('VKWebAppGetUserInfo');
+			this.setState({
+				user,
+				hasPopout: false
+			})
+		}
+		fetchData();
 	}
+	
 
 	setupRouterMiddleware (){
 		if(this.isMiddlewareSetUp)
