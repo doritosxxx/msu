@@ -78,13 +78,8 @@ class HomePanel extends React.Component {
 	}
 
 	componentDidMount(){
-		console.info("home panel did mount")
 		observer.setup(this.tryLoadNextChunk.bind(this))
 		observer.connect()
-	}
-
-	componentDidUpdate(){
-		console.info("home panel did update")
 	}
 
 	componentWillUnmount(){
@@ -133,8 +128,6 @@ class HomePanel extends React.Component {
 
 HomePanel.propTypes = {
 	id: PropTypes.string.isRequired,
-	//teachersList: PropTypes.array,
-	//setTeachersList: PropTypes.func.isRequired,
 	setActiveModal: PropTypes.func.isRequired,
 }
 
