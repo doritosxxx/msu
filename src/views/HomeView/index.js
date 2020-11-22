@@ -1,4 +1,5 @@
-import React, { useState} from 'react'
+import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 import { ModalRoot, View }   from '@vkontakte/vkui'
 
 import HomePanel from '../../panels/HomePanel'
@@ -7,15 +8,10 @@ import TeacherPanel from '../../panels/TeacherPanel'
 import ReviewModal from '../../modals/ReviewModal'
 import Review from '../../classes/Review'
 
-import withAppState from '../../hoc/withAppState'
+import { withAppState } from '../../contexts/appContext'
 import MODALS from '../../routing/modals'
 
-function HomeView({
-	activeModal,
-	setActiveModal, 
-	teachersList,
-	setTeachersList, 
-	...props }){
+function HomeView(props){
 
 	// TODO: перенести в App
 	
@@ -24,7 +20,7 @@ function HomeView({
 
 
 	function onClose(e){
-		setActiveModal(null)
+		props.setActiveModal(null)
 	}
 
 	return (
@@ -33,7 +29,7 @@ function HomeView({
 			activePanel={props.activePanel}
 			modal={
 				<ModalRoot 
-					activeModal={activeModal}
+					activeModal={props.activeModal}
 					onClose={onClose}
 				>
 					<FiltersModal 
@@ -51,18 +47,17 @@ function HomeView({
 				</ModalRoot>
 			}
 		>
-			<HomePanel 
-				id='home' 
-				teachersList={teachersList}
-				setTeachersList={setTeachersList.bind(this)}
-			/>
-			<TeacherPanel
-				id='teacher'
-				setActiveModal={setActiveModal.bind(this)}
-			/>
+			<HomePanel id='home' />
+			<TeacherPanel id='teacher'/>
 		</View>
 	)
 	
+}
+
+HomeView.propTypes = {
+	activeModal: PropTypes.any,
+	activePanel: PropTypes.string.isRequired,
+	setActiveModal: PropTypes.func,
 }
 
 export default withAppState(HomeView);

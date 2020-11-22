@@ -1,71 +1,76 @@
-import React, { useState, useEffect } from 'react'
-import { ScreenSpinner } from '@vkontakte/vkui'
+import React from 'react'
 import '@vkontakte/vkui/dist/vkui.css'
 
 import MODALS from './routing/modals'
+import ROUTES from './routing/routes'
 import HomeView from './views/HomeView'
-import { useRouter, useRouteNode } from 'react-router5'
+import { withRouter } from 'react-router5'
 
-const AppContext = React.createContext()
-
-let isMiddlewareSettedup = false
-const setupRouterMiddleware = (router, setActivePanel) => {
-	if(isMiddlewareSettedup)
-		return;
-
-	isMiddlewareSettedup = true
-	
-	const middleware = (router) => (toState, fromState, done ) => {
-		const panelName = toState.name
-		setActivePanel(panelName)
-		done()
-	}
-
-	router.useMiddleware(middleware)
-}
-
-const Root = (props) => {
-	const { route } = useRouteNode('')
-	const [activePanel, setActivePanel] = useState(route.name)
-	
-	// Настройка перехода между панелями при роутинге.
-	const router = useRouter()
-	setupRouterMiddleware(router, setActivePanel)
-
-	const [activeModal, setActiveModal] = useState(MODALS.NONE)
-	const [teachersList, setTeachersList] = useState(null)
-
-	// Все, что ниже, нужно переписать(или дописать)
-	const [fetchedUser, setUser] = useState(null);
-	const [popout, setPopout] = useState(< ScreenSpinner size='large' />);
+import { AppProvider } from './contexts/appContext'
 
 
-	const context = {
-		activePanel,
-		setActivePanel,
-		activeModal,
-		setActiveModal,
-		teachersList,
-		setTeachersList
-	}
-	
-	useEffect( () => {
+
+class App extends React.Component {
+	constructor(props){
+		super(props)
+
+		this.isMiddlewareSetUp = false
+
+		this.state = {
+			activePanel: ROUTES[0].name,
+			setActivePanel: this.setActivePanel.bind(this),
+			activeModal: MODALS.NONE,
+			setActiveModal: this.setActiveModal.bind(this),
+		}
 		
-		// Здесь может потребоваться загрузка какой-либо информации до отрисовки приложения.
-		setPopout(null);
-	},[])
+/*
+		// Все, что ниже, нужно переписать(или дописать)
+		const [fetchedUser, setUser] = useState(null);
+		const [popout, setPopout] = useState(< ScreenSpinner size='large' />);
+*/
+	}
 
-	return <AppContext.Provider value={context}>
-		{props.children}
-	</AppContext.Provider>;
+	setActivePanel(value){
+		this.setState({
+			activePanel: value
+		})
+	}
+
+	setActiveModal(value){
+		this.setState({
+			activeModal: value
+		})
+	}
+	
+	componentDidMount(){
+		console.log("app did mount")
+		//fetch user
+		//setPopout(null);
+
+		// Configure router
+		this.setupRouterMiddleware()
+	}
+
+	setupRouterMiddleware (){
+		if(this.isMiddlewareSetUp)
+			return;
+			
+		const middleware = () => (toState, fromState, done ) => {
+			const panelName = toState.name
+			this.state.setActivePanel(panelName)
+			done()
+		}
+			
+		this.props.router.useMiddleware(middleware)
+		this.isMiddlewareSetUp = true
+	}
+
+	render(){
+		
+		return (<AppProvider context={this.state}>
+			<HomeView/>
+		</AppProvider>);
+	}
 }
 
-const App = (props) =>(
-	<Root>
-		<HomeView/>
-	</Root>
-);
-
-App.Context = AppContext;
-
-export default App;
+export default withRouter(App);

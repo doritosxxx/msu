@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
 import { Panel, Group, List, PanelHeader, Spinner } from '@vkontakte/vkui'
@@ -9,135 +9,132 @@ import CustomSearch from '../../components/CustomSearch'
 
 import MODALS from '../../routing/modals'
 import Server from '../../modules/Server'
-import withAppState from '../../hoc/withAppState'
+import { withAppState } from '../../contexts/appContext'
 
-// TODO: фиксануть observer
-function HomePanel({
-	teachersList,
-	setTeachersList,
-	setActiveModal,
-	...props }){
-	
-	const [isLoadingTeachersList, setIsLoadingTeachersList] = useState(false)
-
-	//this.setUpObserver()
-
-	// Настройка наблюдателя для 'ленивой загрузки' списка преподавателей
-	const observer = {
-		Instance: null,
-		setup: () => {
-			observer.Instance = new IntersectionObserver((entries) => {
-				if (entries[0].intersectionRatio <= 0) 
-					return;
-				tryLoadNextChunk()
-			}, {
-				root: null,
-				rootMargin: '0px',
-				threshold: 0
-			})
-		},
-		connect: () => {
-			if(observer.Instance === null)
-				observer.setup()
-			const target = document.querySelector(".home-panel__teacher-list .teacher-cell:last-of-type")
-			observer.Instance.observe(target)
-		},
-		disconnect: () => {
-			if(observer.Instance !== null)
-				observer.Instance.disconnect()
-		}
+// Настройка наблюдателя для 'ленивой загрузки' списка преподавателей
+const observer = {
+	Instance: null,
+	setup(callback){
+		this.Instance = new IntersectionObserver((entries) => {
+			if (entries[0].intersectionRatio <= 0) 
+				return;
+			callback()
+		}, {
+			root: null,
+			rootMargin: '0px',
+			threshold: 0
+		})
+	},
+	connect(){
+		if(this.Instance === null)
+			this.setup()
+		const target = document.querySelector(".teachers-list__spinner")
+		this.Instance.observe(target)
+	},
+	disconnect(){
+		if(this.Instance !== null)
+			this.Instance.disconnect()
 	}
+}
 
+class HomePanel extends React.Component {
+
+	constructor(props){
+		super(props)
+
+		this.state = {
+			teachersList: []
+		}
+		this.isTeachersListFetched = false
+	}
 
 	// Функция нужна для обеспечения существования единственного активного запроса к серверу.
-	const tryLoadNextChunk = () => {
-		if(!isLoadingTeachersList)
-			_loadNextChunk()
+	tryLoadNextChunk() {
+		if(!this.isTeachersListFetched)
+			this._loadNextChunk()
 	}
 
-	// Желательно использовать вместо этой функции tryLoadNextChunk
-	const _loadNextChunk = () => {
-		setIsLoadingTeachersList(true)
+	// Использовать вместо этой функции tryLoadNextChunk.
+	_loadNextChunk() {
+		this.isTeachersListFetched = true
 
 		try {
 			(async () => {
-				const offset = (teachersList ?? []).length
-				const teachersListChunk = await Server.GetTeacherRange( offset , 10 )
-				if(teachersList === null)
-					teachersList = teachersListChunk
-				else 
-					teachersList.push(...teachersListChunk)
+				const offset = this.state.teachersList.length
+				const teachersListChunk = await Server.GetTeachersRange( offset , 10 )
 				
-				// Внимание. Если удалить эту строчку, то содержимое списка на странице не будет обновляться.
-				// Если все-таки решишь ее удалить, то напиши вместо нее this.forceUpdate()
+				this.setState({
+					teachersList: this.state.teachersList.concat(teachersListChunk)
+				})
 
-				observer.disconnect()
-				observer.connect()
-				
-				setIsLoadingTeachersList(false)
+				this.isTeachersListFetched = false
+
 			})()
 		}
 		catch(ex){
-			console.log(ex)
+			console.error(ex)
+			this.isTeachersListFetched = false
 		}
 	}
 
-	/*
 	componentDidMount(){
-		if(this.state.teachersList === null)
-			this.tryLoadNextChunk()
+		console.info("home panel did mount")
+		observer.setup(this.tryLoadNextChunk.bind(this))
+		observer.connect()
 	}
 
-	// Передаю список загруженных преподавателей родительскому компонету.
+	componentDidUpdate(){
+		console.info("home panel did update")
+	}
+
 	componentWillUnmount(){
-		this.props.setTeachersList(this.state.teachersList)
+		observer.disconnect();
 	}
-	*/
 
-	const getTeachers = () => teachersList ?? [];
-
-	function onSearchChange(event){
+	
+	onSearchChange(event){
 		/* заморожено до появления api
 		this.setState({
 			search: event.target.value
 		})*/
 	}
 
-	return (
-		<Panel id={props.id}>
-			<PanelHeader onClick={()=>{}/*this.props.scrollToTop*/}>
-				<Header title='Преподаватели'></Header>
-			</PanelHeader>
-			<Group title="Search block">
-				<CustomSearch 
-					onFiltersClick={()=>setActiveModal(MODALS.FILTERS)}
-					onSearchChange={onSearchChange}
-				/>
-			</Group>
-			<Group title="Teacher list">
-				<List className='home-panel__teacher-list'>
-					{getTeachers().map(teacher => 
-						<TeacherCell 
+	render(){
+		return (
+			<Panel id={this.props.id}>
+				<PanelHeader onClick={()=>{}/*this.props.scrollToTop*/}>
+					<Header title='Преподаватели'></Header>
+				</PanelHeader>
+				<Group title="Search block">
+					<CustomSearch 
+						onFiltersClick={()=>this.props.setActiveModal(MODALS.FILTERS)}
+						onSearchChange={this.onSearchChange}
+					/>
+				</Group>
+				<Group title="Teacher list">
+					<List className='home-panel__teacher-list'>
+						{this.state.teachersList.map(teacher => 
+							<TeacherCell 
 							teacher={teacher} 
 							key={teacher.id}
-						/>)}
-				</List>
-				{  
-					isLoadingTeachersList &&
-					<Spinner style={{marginBottom: 20}} size='large'/>
-				}
-			</Group>
-		</Panel>
-	)
+							/>)}
+					</List>
+					<Spinner 
+						className='teachers-list__spinner'
+						style={{marginBottom: 20}} 
+						size='large'
+						/>
+				</Group>
+			</Panel>
+		);
+	}
 	
 }
+
 HomePanel.propTypes = {
 	id: PropTypes.string.isRequired,
-	teachersList: PropTypes.oneOfType([
-		(prop) => prop === null,
-		PropTypes.array
-	]),
-	setTeachersList: PropTypes.func.isRequired,
+	//teachersList: PropTypes.array,
+	//setTeachersList: PropTypes.func.isRequired,
 	setActiveModal: PropTypes.func.isRequired,
 }
 
