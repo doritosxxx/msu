@@ -14,7 +14,7 @@ function ReviewModal(props) {
 
 	const review = useRef(props.review)
 
-	const serializeFromData = () => {
+	const serializeFormData = () => {
 		return {
 			comment: {
 				positive: document.querySelector("[name=comment_positive]").value ?? "",
@@ -31,7 +31,7 @@ function ReviewModal(props) {
 
 	useEffect(()=>{
 		return function(){
-			const serializedData = serializeFromData()
+			const serializedData = serializeFormData()
 			review.current.comment = serializedData.comment
 			review.current.rating = serializedData.rating
 		}
