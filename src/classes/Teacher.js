@@ -5,19 +5,20 @@ class Teacher {
 
     constructor(object) {
         this.id = +object.id
-		this.image = object.photo_link ?? "/img/teacher_blank.jpg"
+		this.image = object.photo ?? "/img/teacher_blank.jpg"
 		this.additionalInfo = this._markdown(object.additional ?? '')
-        this.firstName = object.firstname ?? ''
-        this.middleName = object.middlename ?? ''
-		this.lastName = object.lastname ?? ''
+        this.firstName = object.first_name ?? ''
+        this.middleName = object.middle_name ?? ''
+		this.lastName = object.last_name ?? ''
 		this.facultyId = object.faculty ?? null
-		this.departmentId = object.department ?? null
-		this.subjectsIdList = object.subjectsIdList ?? []
+		this.facultyName = object.faculty_name ?? "Факультет не указан"
+		this.departments = object.departments ?? []
+		this.subjects = object.subjects ?? []
         this.rating = {
-            general: object.general_score ?? 0,
-            simplicity: object.simplicity_score ?? 0,
-            kindness: object.kindness_score ?? 0,
-            intelligibility: object.intelligibility_score ?? 0
+            general: object.score_general ?? 0,
+            simplicity: object.score_simplicity ?? 0,
+            kindness: object.score_kindness ?? 0,
+            intelligibility: object.score_intelligibility ?? 0
         }
     }
 
