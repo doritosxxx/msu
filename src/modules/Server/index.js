@@ -21,6 +21,7 @@ async function request(method, params) {
 }
 
 class Server {
+	
     static async GetTeacherById(id) {
 		try {
 			const teacher = await request(`teacher/${id}`)

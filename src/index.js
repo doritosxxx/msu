@@ -20,6 +20,9 @@ router.start(() => {
 	), document.getElementById("root"))
 })
 
+// Если браузер начинает лагать и появляется много ошибок в консоли, то нужно отключить eruda,
+// потому что она не справляется с большим количеством логов
+
 if (process.env.NODE_ENV === "development") {
-  import("./eruda").then(({ default: eruda }) => {}); //runtime download
+  	//import("./eruda").then(({ default: eruda }) => {}); //runtime download
 }

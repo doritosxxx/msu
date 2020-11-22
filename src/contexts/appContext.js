@@ -1,16 +1,10 @@
 import React from 'react'
 
 const AppContext = React.createContext({
-	//teachersList:[],
-	//setTeachersList:()=>{},
+	
 })
 
 class AppProvider extends React.Component{
-
-	constructor(props){
-		super(props)
-
-	}
 
 	render(){
 		return (<AppContext.Provider value={this.props.context}>
@@ -19,7 +13,6 @@ class AppProvider extends React.Component{
 	}
 	
 }
-
 
 function withAppState(Component){
 

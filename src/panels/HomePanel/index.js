@@ -88,13 +88,12 @@ class HomePanel extends React.Component {
 	}
 
 	componentDidMount(){
-		console.log("did mount");
 		this.tryLoadNextChunk()
 		observer.setup(this.tryLoadNextChunk.bind(this))
 		observer.connect()
 	}
+	
 	componentDidUpdate(){
-		console.log("did update");
 		if(this.state.isSpinnerEnabled)
 			observer.connect()
 	}

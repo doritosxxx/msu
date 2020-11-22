@@ -21,6 +21,7 @@ class App extends React.Component {
 			activeModal: MODALS.NONE,
 			setActiveModal: this.setActiveModal.bind(this),
 			hasPopout: true,
+			setPopout: this.setPopout.bind(this),
 			user: null,
 		}
 		
@@ -37,6 +38,14 @@ class App extends React.Component {
 			activeModal: value
 		})
 	}
+
+	// TODO: можно сделать плавное скрытие
+	setPopout(value){
+		this.setState({
+			hasPopout: value
+		})
+	}
+	
 	
 	componentDidMount(){
 		// Configure router
@@ -46,20 +55,21 @@ class App extends React.Component {
 		// Fetch user data
 		bridge.subscribe(({ detail: { type, data }}) => {
 			if (type === 'VKWebAppUpdateConfig') {
-				const schemeAttribute = document.createAttribute('scheme');
-				schemeAttribute.value = data.scheme ? data.scheme : 'client_light';
-				document.body.attributes.setNamedItem(schemeAttribute);
+				const schemeAttribute = document.createAttribute('scheme')
+				schemeAttribute.value = data.scheme ? data.scheme : 'client_light'
+				document.body.attributes.setNamedItem(schemeAttribute)
 			}
-		});
+		})
 
 		const fetchData = async () => {
-			const user = await bridge.send('VKWebAppGetUserInfo');
+			// TODO: убрать коммент для продакшена
+			const user = {}//await bridge.send('VKWebAppGetUserInfo')
 			this.setState({
 				user,
 				hasPopout: false
 			})
 		}
-		fetchData();
+		fetchData()
 	}
 	
 

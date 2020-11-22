@@ -26,8 +26,7 @@ function HomeView(props){
 
 	return (
 		<View 
-			// TODO: убрать коммент для продакшена
-			popout={/*props.hasPopout ? <MainLoadingPopout/> : */null}
+			popout={props.hasPopout ? <MainLoadingPopout/> : null}
 			id={props.id}
 			activePanel={props.activePanel}
 			modal={

@@ -4,7 +4,7 @@ import DOMPurify from 'dompurify'
 class Teacher {
 
     constructor(object) {
-        this.id = +object.id
+		this.id = +(object.id ?? -1)
 		this.image = object.photo ?? "/img/teacher_blank.jpg"
 		this.additionalInfo = this._markdown(object.additional ?? '')
         this.firstName = object.first_name ?? ''
@@ -20,7 +20,11 @@ class Teacher {
             kindness: object.score_kindness ?? 0,
             intelligibility: object.score_intelligibility ?? 0
         }
-    }
+	}
+	
+	exists(){
+		return this.id !== -1;
+	}
 
     get fullName() {
         return `${this.lastName} ${this.firstName} ${this.middleName}`;
