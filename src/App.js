@@ -51,7 +51,8 @@ class App extends React.Component {
 				document.body.attributes.setNamedItem(schemeAttribute);
 			}
 		});
-		async function fetchData() {
+
+		const fetchData = async () => {
 			const user = await bridge.send('VKWebAppGetUserInfo');
 			this.setState({
 				user,
