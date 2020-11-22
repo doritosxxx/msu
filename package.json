@@ -4,8 +4,10 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "start": "cross-env PORT=10888 HTTPS=true react-scripts start",
-        "build": "react-scripts build",
+		"start": "cross-env PORT=10888 HTTPS=true react-scripts start",
+		"vktunnel": "vk-tunnel --insecure=1 --http-protocol=https --ws-protocol=wss --host=localhost --port=10888",
+		"start-tunnel": "npm run vktunnel && npm start",
+		"build": "react-scripts build",
         "predeploy": "npm run build",
         "deploy": "vk-miniapps-deploy",
         "surge-deploy": "npm run build && surge ./build --domain msu-app.surge.sh"
