@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Panel, PanelHeader, Div, Cell, Avatar, Group, List, PanelHeaderBack, Header, Text, ScreenSpinner, Spinner, Placeholder, Button } from '@vkontakte/vkui'
+import { Panel, PanelHeader, Div, Cell, Avatar, Group, List, PanelHeaderBack, Header, Text, Spinner, Placeholder, Button } from '@vkontakte/vkui'
 import Icon56ErrorOutline from '@vkontakte/icons/dist/56/error_outline'
 
 import CustomHeader  from '../../components/Header'

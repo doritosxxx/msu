@@ -7,8 +7,7 @@ import HomeView from './views/HomeView'
 import { withRouter } from 'react-router5'
 import { AppProvider } from './contexts/appContext'
 
-import bridge from "@vkontakte/vk-bridge";
-import { ScreenSpinner } from '@vkontakte/vkui'
+import bridge from "@vkontakte/vk-bridge"
 
 class App extends React.Component {
 	constructor(props){
