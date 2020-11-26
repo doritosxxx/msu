@@ -14,6 +14,7 @@ class App extends React.Component {
 	constructor(props){
 		super(props)
 
+		//console.log(bridge)
 		this.isMiddlewareSetUp = false
 
 		this.state = {
