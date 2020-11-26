@@ -6,7 +6,7 @@
 
 .subjects-list__item{
 	background-color: gray;
-	height: 2em;
+	min-height: 2em;
 	border-radius: 1em;
 	padding: 0 8px;
 	margin: 0 4px;
