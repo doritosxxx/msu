@@ -10,7 +10,7 @@ import MainLoadingPopout from '../../popouts/MainLoadingPopout'
 import Review from '../../classes/Review'
 
 import { withAppState } from '../../contexts/appContext'
-import MODALS from '../../routing/modals'
+import MODALS from '../../enums/modals'
 
 function HomeView(props){
 
