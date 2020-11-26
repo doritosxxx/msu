@@ -31,7 +31,7 @@ const observer = {
 		if(this.Instance === null)
 			this.setup()
 		const target = document.querySelector(".page-end-mark")
-		console.log(target);
+		//console.log(target);
 		this.Instance.observe(target)
 	},
 	disconnect(){
