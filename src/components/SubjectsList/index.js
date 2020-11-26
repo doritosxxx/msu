@@ -17,7 +17,7 @@ function SubjectsList(props){
 
 
 	return (<div className="subjects-list">
-		{getList(props.subjects).map(e=><div key={e.id} className="subjects-list__item">{e.name}</div>)}
+		{getList(props.subjects).map(e=><span key={e.id} className="subjects-list__item">{e.name}</span>)}
 	</div>);
 }
 

@@ -1,8 +1,9 @@
 import React from 'react'
 import '@vkontakte/vkui/dist/vkui.css'
 
-import MODALS from './routing/modals'
+import MODALS from './enums/modals'
 import ROUTES from './routing/routes'
+import FILTERS from './enums/filters'
 import HomeView from './views/HomeView'
 import { withRouter } from 'react-router5'
 import { AppProvider } from './contexts/appContext'
@@ -12,6 +13,7 @@ import bridge from "@vkontakte/vk-bridge"
 class App extends React.Component {
 	constructor(props){
 		super(props)
+
 		this.isMiddlewareSetUp = false
 
 		this.state = {
@@ -22,6 +24,10 @@ class App extends React.Component {
 			hasPopout: true,
 			setPopout: this.setPopout.bind(this),
 			user: null,
+			teachersList: [],
+			setTeachersList: this.setTeachersList.bind(this),
+			orderBy: FILTERS[0],
+			setOrderBy: this.setOrderBy.bind(this),
 		}
 		
 	}
@@ -35,6 +41,20 @@ class App extends React.Component {
 	setActiveModal(value){
 		this.setState({
 			activeModal: value
+		})
+	}
+
+	setOrderBy(value){
+		if(value != this.state.orderBy)
+		this.setState({
+			orderBy: value,
+			teachersList:[]
+		})
+	}
+
+	setTeachersList(value){
+		this.setState({
+			teachersList: value
 		})
 	}
 

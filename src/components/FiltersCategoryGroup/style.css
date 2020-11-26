@@ -20,6 +20,6 @@
     transition: background-color 0.3s;
 }
 
-.elements-wrapper>*:hover {
+.elements-wrapper>*:hover, .elements-wrapper>*.selected  {
     background-color: #666;
 }

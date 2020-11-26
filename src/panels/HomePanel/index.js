@@ -1,3 +1,5 @@
+// Тут огромные проблемы с производительностью
+// Компонент обновляется миллион раз 
 import React from 'react'
 import PropTypes from 'prop-types'
 
@@ -7,7 +9,7 @@ import TeacherCell from '../../components/TeacherCell'
 import Header  from '../../components/Header'
 import CustomSearch from '../../components/CustomSearch'
 
-import MODALS from '../../routing/modals'
+import MODALS from '../../enums/modals'
 import Server from '../../modules/Server'
 import { withAppState } from '../../contexts/appContext'
 
@@ -28,12 +30,17 @@ const observer = {
 	connect(){
 		if(this.Instance === null)
 			this.setup()
-		const target = document.querySelector(".teachers-list__spinner")
+		const target = document.querySelector(".page-end-mark")
+		console.log(target);
 		this.Instance.observe(target)
 	},
 	disconnect(){
 		if(this.Instance !== null)
 			this.Instance.disconnect()
+	},
+	dispose(){
+		this.disconnect();
+		this.Instance = null;
 	}
 }
 
@@ -43,7 +50,6 @@ class HomePanel extends React.Component {
 		super(props)
 
 		this.state = {
-			teachersList: [],
 			isSpinnerEnabled: true,
 		}
 		this.isTeachersListFetched = false
@@ -61,22 +67,29 @@ class HomePanel extends React.Component {
 
 		try {
 			(async () => {
-				const offset = this.state.teachersList.length
+				const offset = this.props.teachersList.length
 				const teachersListChunk = await Server.GetTeachersRange( offset , 10 )
 				
 				this.isTeachersListFetched = false
 
+				// Если загрузил все из базы
 				if(teachersListChunk.length === 0){
-					observer.disconnect()
-					this.setState({
-						isSpinnerEnabled: false
-					})
+					if(this.state.isSpinnerEnabled === true)
+						this.setState({
+							isSpinnerEnabled: false
+						})
 					return;
 				}
+				else {
+					if(this.state.isSpinnerEnabled === false)
+						this.setState({
+							isSpinnerEnabled: true
+						})
+				}
 				
-				this.setState({
-					teachersList: this.state.teachersList.concat(teachersListChunk)
-				})
+				this.props.setTeachersList(
+					this.props.teachersList.concat(teachersListChunk)
+				)
 
 
 			})()
@@ -88,18 +101,21 @@ class HomePanel extends React.Component {
 	}
 
 	componentDidMount(){
-		this.tryLoadNextChunk()
-		observer.setup(this.tryLoadNextChunk.bind(this))
-		observer.connect()
+		console.log("home did mount")
+		
 	}
 	
 	componentDidUpdate(){
-		if(this.state.isSpinnerEnabled)
-			observer.connect()
+		console.log("home did update")
+
+		observer.dispose();
+		observer.setup(this.tryLoadNextChunk.bind(this))
+		observer.connect()
+
 	}
 
 	componentWillUnmount(){
-		observer.disconnect();
+		console.log("home will unmount")
 	}
 
 	
@@ -124,12 +140,15 @@ class HomePanel extends React.Component {
 				</Group>
 				<Group title="Teacher list">
 					<List className='home-panel__teacher-list'>
-						{this.state.teachersList.map(teacher => 
+						{this.props.teachersList.map(teacher => 
 							<TeacherCell 
 								teacher={teacher} 
 								key={teacher.id}
 							/>)}
 					</List>
+					<div className="page-end-mark" style={{
+						height:'5px'
+					}}/>
 					{
 						(this.state.isSpinnerEnabled ? (<Spinner 
 								className='teachers-list__spinner'

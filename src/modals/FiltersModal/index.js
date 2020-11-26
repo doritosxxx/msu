@@ -1,79 +1,71 @@
-import React, { useState } from 'react'
+import React from 'react'
 
-import { ModalPage, PanelHeaderButton, ModalPageHeader, FormLayout} from '@vkontakte/vkui';
-import { usePlatform , ANDROID, IOS } from '@vkontakte/vkui'
+import { ModalPage, PanelHeaderButton, ModalPageHeader, FormLayout, withPlatform} from '@vkontakte/vkui';
+import {  ANDROID, IOS } from '@vkontakte/vkui'
 import { Icon24Cancel, Icon24Done } from '@vkontakte/icons'
 import FiltersCategoryGroup from '../../components/FiltersCategoryGroup'
+import { withAppState } from '../../contexts/appContext'
 
+import FILTERS from "../../enums/filters"
 
-export default function FiltersModal(props) {
-	const [orderBy, setOrderBy] = useState(props.orderBy)
-	
-
-	function setRadioOrderBy(event){
-		props.setOrderBy(event.target.value)
-		setOrderBy(event.target.value)
-	}
+class FiltersModal extends React.Component {
 	// TODO: добавить кнопку "сброс"
-	return (
-		<ModalPage 
-			id={props.id}
-			header={
-				<ModalPageHeader
-					left={
-						usePlatform() === ANDROID 
-						&& <PanelHeaderButton onClick={props.hide}>
-							<Icon24Cancel/>
-						</PanelHeaderButton>
-					}
-					right={
-					<PanelHeaderButton onClick={props.hide}>
-						{usePlatform() === IOS ? 'Готово' : <Icon24Done />}
-					</PanelHeaderButton>}
-				>
-					Фильтры
-				</ModalPageHeader>
-			}
-		>
-		<FormLayout>
-			<FiltersCategoryGroup
-				label="Год"
-				elements={[]}
-			/>
-			<FiltersCategoryGroup
-				label="Семестр"
-				elements={[]}
-			/>
-			{/*
-			<FormLayoutGroup top="Сортировать по">
-				<FiltersRadio
-					value='name'
-					label='Имя'
-					currentOrder={orderBy}
-					onChange={setRadioOrderBy.bind(this)}
+
+	filtersElements = {
+		year:[],
+		semester:[],
+		order:[
+			{label:"Общая оценка", payload:"score_general"},
+			{label:"Простота", payload:"score_simplicity"},
+			{label:"Доброта", payload:"score_kindness"},
+			{label:"Понятность", payload:"score_intelligibility"},
+			{label:"Фамилия", payload:"last_name"},
+		]
+	}
+	
+	render(){
+		const props = this.props
+		return (
+			<ModalPage 
+				id={props.id}
+				header={
+					<ModalPageHeader
+						left={
+							props.platform === ANDROID 
+							&& <PanelHeaderButton onClick={props.hide}>
+								<Icon24Cancel/>
+							</PanelHeaderButton>
+						}
+						right={
+						<PanelHeaderButton onClick={props.hide}>
+							{props.platform === IOS ? 'Готово' : <Icon24Done />}
+						</PanelHeaderButton>}
+					>
+						Фильтры
+					</ModalPageHeader>
+				}
+			>
+			<FormLayout>
+				<FiltersCategoryGroup
+					label="Год"
+					elements={this.filtersElements.year}
 				/>
-				<FiltersRadio
-					value='intelligibility'
-					label='Понятность'
-					currentOrder={orderBy}
-					onChange={setRadioOrderBy.bind(this)}
+				<FiltersCategoryGroup
+					label="Семестр"
+					elements={this.filtersElements.semester}
 				/>
-				<FiltersRadio
-					value='kindness'
-					label='Доброта'
-					currentOrder={orderBy}
-					onChange={setRadioOrderBy.bind(this)}
+				<FiltersCategoryGroup
+					onElementClick={(payload)=>{
+						this.props.setOrderBy(payload)
+					}}
+					label="Сортировка по"
+					elements={this.filtersElements.order}
+					default={FILTERS[this.props.orderBy]}
 				/>
-				<FiltersRadio
-					value='simplicity'
-					label='Простота'
-					currentOrder={orderBy}
-					onChange={setRadioOrderBy.bind(this)}
-				/>
-			</FormLayoutGroup>
-			*/}
-		</FormLayout>
-		</ModalPage>
-	)
+			</FormLayout>
+			</ModalPage>
+		)
+	}
 	
 }
+export default withAppState(withPlatform(FiltersModal));
