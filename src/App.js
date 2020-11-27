@@ -46,7 +46,7 @@ class App extends React.Component {
 	}
 
 	setOrderBy(value){
-		if(value != this.state.orderBy)
+		if(value !== this.state.orderBy)
 		this.setState({
 			orderBy: value,
 			teachersList:[]
