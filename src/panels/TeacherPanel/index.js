@@ -29,18 +29,15 @@ class TeacherPanel extends React.Component{
 	}
 
 
-	// эта штука вызывает бесконечный цикл. надо пофиксить
-	// O_o и без нее все работает. Почему?
-	//props.resetReview()
-
-	// TODO: обработать случай некорректного id
-
 	openReviewModal(){
-		//setIsReviewModalOpened(true)
-		//props.setActiveModal('review')
+		this.setState({
+			isReviewModalOpened: true
+		})
+		this.props.setActiveModal('review')
 	}
 
 	componentDidMount(){
+		this.props.resetReview()
 		this.props.setPopout(true)
 		const fetchData = async () => {
 			const teacher = await Server.GetTeacherById(this.teacherId)
@@ -102,8 +99,7 @@ class TeacherPanel extends React.Component{
 						{ this.state.reviewsList === null ? <Spinner size="large"/> : this.getWrappedReviewsList() }
 					</List>
 				</Group>
-				<SendReviewButton 
-					isModalOpened={this.state.isReviewModalOpened}
+				<SendReviewButton
 					onClick={this.openReviewModal.bind(this)}
 				/>
 			</Div>);
@@ -126,7 +122,7 @@ TeacherPanel.propTypes = {
 	id: PropTypes.string.isRequired,
 	setActiveModal: PropTypes.func.isRequired,
 	setPopout: PropTypes.func.isRequired,
-	//resetReview: PropTypes.func.isRequired
+	resetReview: PropTypes.func.isRequired
 }
 
 export default withRoute(withAppState(TeacherPanel));

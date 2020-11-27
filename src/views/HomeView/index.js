@@ -14,14 +14,16 @@ import MODALS from '../../enums/modals'
 
 function HomeView(props){
 
-	// TODO: перенести в App
 	
-	const [orderBy, setOrderBy] = useState('name')
-	const [reviewData, setReviewData] = useState(new Review())
+	const [reviewData, setReviewData] = useState(new Review({}))
 
 
-	function onClose(e){
+	function onClose(){
 		props.setActiveModal(null)
+	}
+
+	function resetReview(){
+		setReviewData(new Review({}))
 	}
 
 	return (
@@ -37,8 +39,6 @@ function HomeView(props){
 					<FiltersModal 
 						id={MODALS.FILTERS}
 						hide={onClose}
-						orderBy={orderBy}
-						setOrderBy={setOrderBy.bind(this)}
 					/>
 					<ReviewModal
 						id={MODALS.REVIEW}
@@ -50,7 +50,10 @@ function HomeView(props){
 			}
 		>
 			<HomePanel id='home' />
-			<TeacherPanel id='teacher'/>
+			<TeacherPanel 
+				id='teacher'
+				resetReview={resetReview}
+			/>
 		</View>
 	)
 	
