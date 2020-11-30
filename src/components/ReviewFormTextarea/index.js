@@ -11,6 +11,7 @@ function ReviewFormTextarea(props){
 				rows={4}
 				name={props.name}
 				defaultValue={props.defaultValue}
+				required
 			/>
 		</div>);
 }

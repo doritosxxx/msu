@@ -6,7 +6,6 @@ import './style.css'
 import Star from '../Star';
 
 function ReviewFormStarsRange(props){
-
 	const [value, setValue] = useState(props.defaultValue ?? 0)
 
 	return (

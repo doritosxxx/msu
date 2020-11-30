@@ -9,6 +9,8 @@ import ReviewFormStarsRange from '../../components/ReviewFormStarsRange'
 import ReviewFormTextarea from '../../components/ReviewFormTextarea'
 
 import './style.css'
+import Server from '../../modules/Server';
+import { withRoute } from 'react-router5';
 
 function ReviewModal(props) {
 
@@ -38,6 +40,29 @@ function ReviewModal(props) {
 
 	})
 
+	function onSubmit(e){
+		console.log(e)
+		
+		e.preventDefault()
+		// TODO добавить лоадер и обработку ошибок.
+
+		(async ()=>{
+			const teacherId = props.route.params.id ?? null
+
+			if(teacherId == null || props.user == null)
+				return;
+			let success = await Server.AddComment({
+				teacherId: teacherId,
+				userId: props.user.id,
+				review: serializeFormData()
+			})
+
+			console.log(success)
+		})()
+		
+	}
+
+
 	return (
 		<ModalPage
 			id={props.id}
@@ -58,7 +83,7 @@ function ReviewModal(props) {
 				</ModalPageHeader>
 			}
 		>
-		<FormLayout className='review-form'>
+		<FormLayout className='review-form' onSubmit={onSubmit}>
 			<FormLayoutGroup>
 				<ReviewFormStarsRange
 					title='Халявность'
@@ -98,13 +123,12 @@ function ReviewModal(props) {
 					name='comment_other'
 					defaultValue={review.current.comment.other}
 				/>
-				
 			</FormLayoutGroup>
 			<div style={{
 				display:'flex',
 				justifyContent:'center'
 			}}>
-				<Button>Оставить комментарий</Button>
+				<Button >Оставить комментарий</Button>
 			</div>
 		</FormLayout>
 		</ModalPage>
@@ -118,5 +142,4 @@ ReviewModal.propTypes = {
 	review: PropTypes.object.isRequired
 }
 
-
-export default ReviewModal;
+export default withRoute(ReviewModal);

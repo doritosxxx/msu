@@ -5,9 +5,9 @@ class Review{
 		this.isAnonymous = object.is_anonymous ?? true
 		this.creationTime_ts = object.create_ts ?? 0
 		this.rating = {
-            simplicity: object.simplicity_score ?? 0,
-            kindness: object.kindness_score ?? 0,
-            intelligibility: object.intelligibility_score ?? 0
+            simplicity: object.simplicity_score ?? 3,
+            kindness: object.kindness_score ?? 3,
+            intelligibility: object.intelligibility_score ?? 3
 		}
 		this.comment = {
 			positive: object.comment_good ?? '',
