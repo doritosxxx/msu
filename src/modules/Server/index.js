@@ -58,6 +58,28 @@ class Server {
 		}
 	}
 
+	static async AddComment(data){
+		// TODO: предположительно, тут должен быть api key.
+		const { teacherId, userId, review } = data;
+		const params = {
+			author_id     : userId,
+			comment_good  : review.comment.positive,
+			comment_bad   : review.comment.negative,
+			comment_other : review.comment.other,
+			score_simplicity   : review.rating.simplicity,
+			score_kindness   : review.rating.kindness,
+			score_intelligibility   : review.rating.intelligibility,
+		}
+		
+		try {
+			await request(`teacher/${teacherId}/comment`, params);
+			return true;
+		}
+		catch{
+			return false;
+		}
+	}
+
 }
 
 export default Server;
