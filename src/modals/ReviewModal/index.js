@@ -102,7 +102,7 @@ function ReviewModal(props) {
 					}
 					right={
 					<PanelHeaderButton onClick={props.hide}>
-						{usePlatform() === IOS ? 'Готово' : <Icon24Done />}
+						{usePlatform() === IOS ? 'Закрыть' : <Icon24Cancel/>}
 					</PanelHeaderButton>}
 				>
 					Оставить комментарий
