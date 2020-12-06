@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { ModalRoot, View }   from '@vkontakte/vkui'
+import { ModalRoot, View, Snackbar, Avatar }   from '@vkontakte/vkui'
 
 import HomePanel from '../../panels/HomePanel'
 import FiltersModal from '../../modals/FiltersModal'
@@ -12,50 +12,81 @@ import Review from '../../classes/Review'
 import { withAppState } from '../../contexts/appContext'
 import MODALS from '../../enums/modals'
 
-function HomeView(props){
+class HomeView extends React.Component{
 
+	constructor(props){
+		super(props)
+
+		this.state = {
+			reviewData: new Review(),
+			snackbar: null
+		}
+
+		this.setSnackbar = this.setSnackbar.bind(this)
+		this.onClose = this.onClose.bind(this)
+		this.setReview = this.setReview.bind(this)	
+		this.resetReview = this.resetReview.bind(this)
+	}
 	
-	const [reviewData, setReviewData] = useState(new Review({}))
-
-
-	function onClose(){
-		props.setActiveModal(null)
+	onClose(){
+		this.props.setActiveModal(null)
 	}
 
-	function resetReview(){
-		setReviewData(new Review({}))
+	setReview(review){
+		this.setState({ review })
 	}
 
-	return (
-		<View 
-			popout={props.hasPopout ? <MainLoadingPopout/> : null}
-			id={props.id}
-			activePanel={props.activePanel}
-			modal={
-				<ModalRoot 
-					activeModal={props.activeModal}
-					onClose={onClose}
-				>
-					<FiltersModal 
-						id={MODALS.FILTERS}
-						hide={onClose}
-					/>
-					<ReviewModal
-						id={MODALS.REVIEW}
-						onClose={onClose}
-						hide={onClose}
-						review={reviewData}
-					/>
-				</ModalRoot>
-			}
-		>
-			<HomePanel id='home' />
-			<TeacherPanel 
-				id='teacher'
-				resetReview={resetReview}
-			/>
-		</View>
-	)
+	resetReview(){
+		this.setReview(new Review())
+	}
+
+	setSnackbar(text, icon=null){
+		if(this.state.snackbar !== null)
+			return;
+		console.log("setting snackbar")
+		this.setState({
+			snackbar:<Snackbar
+			layout="vertical"
+			onClose={() => setSnackbar(null)}
+			before={<Avatar size={24} children={icon}/>}
+		  >{text}</Snackbar>
+		})
+	}
+
+	render(){
+		return (
+			<View 
+				popout={props.hasPopout ? <MainLoadingPopout/> : null}
+				id={this.props.id}
+				activePanel={this.props.activePanel}
+				modal={
+					<ModalRoot 
+						activeModal={this.props.activeModal}
+						onClose={this.onClose}
+					>
+						<FiltersModal 
+							id={MODALS.FILTERS}
+							hide={this.onClose}
+						/>
+						<ReviewModal
+							id={MODALS.REVIEW}
+							onClose={this.onClose}
+							hide={this.onClose}
+							review={this.state.reviewData}
+							setSnackbar={this.setSnackbar}
+						/>
+					</ModalRoot>
+				}
+			>
+				<HomePanel id='home' />
+				<TeacherPanel 
+					id='teacher'
+					resetReview={this.resetReview}
+					snackbar={this.state.snackbar}
+				/>
+			</View>
+		);
+	}
 	
 }
 
