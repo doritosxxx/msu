@@ -41,22 +41,21 @@ class HomeView extends React.Component{
 	}
 
 	setSnackbar(text, icon=null){
-		if(this.state.snackbar !== null)
-			return;
-		console.log("setting snackbar")
+		// if(this.state.snackbar !== null) return;
+
 		this.setState({
-			snackbar:<Snackbar
-			layout="vertical"
-			onClose={() => setSnackbar(null)}
-			before={<Avatar size={24} children={icon}/>}
-		  >{text}</Snackbar>
+			snackbar:(<Snackbar
+				layout="horizontal"
+				onClose={() => this.setState({snackbar:null})}
+				before={<Avatar size={24} children={icon}/>}
+			>{text}</Snackbar>)
 		})
 	}
 
 	render(){
 		return (
 			<View 
-				popout={props.hasPopout ? <MainLoadingPopout/> : null}
+				popout={this.props.hasPopout ? <MainLoadingPopout/> : null}
 				id={this.props.id}
 				activePanel={this.props.activePanel}
 				modal={
@@ -70,7 +69,6 @@ class HomeView extends React.Component{
 						/>
 						<ReviewModal
 							id={MODALS.REVIEW}
-							onClose={this.onClose}
 							hide={this.onClose}
 							review={this.state.reviewData}
 							setSnackbar={this.setSnackbar}

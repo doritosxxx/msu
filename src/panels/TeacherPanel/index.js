@@ -112,6 +112,7 @@ class TeacherPanel extends React.Component{
 				<CustomHeader title='Преподаватель'/>
 			</PanelHeader>
 			{content}
+			{this.props.snackbar}
 		</Panel>
 		);
 	}
@@ -122,7 +123,8 @@ TeacherPanel.propTypes = {
 	id: PropTypes.string.isRequired,
 	setActiveModal: PropTypes.func.isRequired,
 	setPopout: PropTypes.func.isRequired,
-	resetReview: PropTypes.func.isRequired
+	resetReview: PropTypes.func.isRequired,
+	snackbar: PropTypes.element
 }
 
 export default withRoute(withAppState(TeacherPanel));

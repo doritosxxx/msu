@@ -1,9 +1,9 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 
-import { ModalPage, PanelHeaderButton, ModalPageHeader, FormLayout, FormLayoutGroup, Button} from '@vkontakte/vkui';
+import { ModalPage, PanelHeaderButton, ModalPageHeader, FormLayout, FormLayoutGroup, Button, Spinner} from '@vkontakte/vkui';
 import { usePlatform , ANDROID, IOS } from '@vkontakte/vkui'
-import { Icon24Cancel, Icon24Done } from '@vkontakte/icons'
+import { Icon24Cancel, Icon24Done, Icon24ErrorCircle, Icon24CheckCircleOn } from '@vkontakte/icons'
 
 import ReviewFormStarsRange from '../../components/ReviewFormStarsRange'
 import ReviewFormTextarea from '../../components/ReviewFormTextarea'
@@ -15,6 +15,9 @@ import { withRoute } from 'react-router5';
 function ReviewModal(props) {
 
 	const review = useRef(props.review)
+
+	// Можно объединить с константой выше.
+	const [isSubmitEventRunning, setIsSubmitEventRunning] = useState(false)
 
 	const serializeFormData = () => {
 		return {
@@ -40,26 +43,49 @@ function ReviewModal(props) {
 
 	})
 
-	function onSubmit(e){
-		console.log(e)
-		
+	function showBox(message, icon){
+		props.setSnackbar(message, icon)
+	}
+
+	function showErrorBox(errorMessage){
+		showBox(errorMessage, <Icon24ErrorCircle fill="#a00" />)
+	}
+
+	function showSuccessBox(successMessage){
+		showBox(successMessage, <Icon24CheckCircleOn fill="#0a0" />)
+	}
+
+	async function onSubmit(e){
 		e.preventDefault()
-		// TODO добавить лоадер и обработку ошибок.
 
-		(async ()=>{
-			const teacherId = props.route.params.id ?? null
+		if(isSubmitEventRunning)
+			return;
+		setIsSubmitEventRunning(true)
 
-			if(teacherId == null || props.user == null)
-				return;
-			let success = await Server.AddComment({
-				teacherId: teacherId,
-				userId: props.user.id,
-				review: serializeFormData()
-			})
+		const teacherId = props.route.params.id ?? null
 
-			console.log(success)
-		})()
+		if(teacherId === null || props.user === undefined || props.user === null){
+			showErrorBox("Не удалось определить id пользователя.")
+			// Да, это повторяющийся код.
+			props.hide()
+			setIsSubmitEventRunning(false)
+			return;
+		}
+			
+		let success = await Server.AddComment({
+			teacherId: teacherId,
+			userId: props.user.id,
+			review: serializeFormData()
+		})
 		
+		if (success) {
+			showSuccessBox("Комментарий добавлен")
+		}
+		else {
+			showErrorBox("Не удалось соединиться с сервером")
+		}
+		props.hide()
+		setIsSubmitEventRunning(false)
 	}
 
 
@@ -128,7 +154,7 @@ function ReviewModal(props) {
 				display:'flex',
 				justifyContent:'center'
 			}}>
-				<Button >Оставить комментарий</Button>
+				{!isSubmitEventRunning ? (<Button>Оставить комментарий</Button>) : <Spinner size="medium"/>}
 			</div>
 		</FormLayout>
 		</ModalPage>
@@ -139,7 +165,8 @@ function ReviewModal(props) {
 ReviewModal.propTypes = {
 	id: PropTypes.string.isRequired,
 	hide: PropTypes.func,
-	review: PropTypes.object.isRequired
+	review: PropTypes.object.isRequired,
+	setSnackbar: PropTypes.func.isRequired
 }
 
 export default withRoute(ReviewModal);
