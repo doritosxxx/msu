@@ -9,15 +9,15 @@ function SubjectsList(props){
 	const defaultMessage = props.defaultMessage ?? 'Пустой список'
 
 	function getList(list){
+		
 		return list.length === 0 ? [{
 			id:0,
 			name: defaultMessage
 		}] : list;
 	}
 
-
 	return (<div className="subjects-list">
-		{getList(props.subjects).map(e=><span key={e.id} className="subjects-list__item">{e.name}</span>)}
+		{getList(props.subjects).map(e=><span key={+e.id} className="subjects-list__item">{e.name}</span>)}
 	</div>);
 }
 

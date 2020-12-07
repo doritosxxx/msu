@@ -52,7 +52,7 @@ class TeacherPanel extends React.Component{
 	
 
 	getWrappedReviewsList(){
-		return this.state.reviewsList.map((review,i)=><ReviewCell review={new Review(review)} key={i} />);
+		return this.state.reviewsList.map((review, i)=><ReviewCell review={review} key={review.id ?? i} />);
 	}
 
 	render(){

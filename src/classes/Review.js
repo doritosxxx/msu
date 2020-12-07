@@ -1,13 +1,14 @@
-class Review{
+class Review {
 
 	constructor(object = {}){
+		this.id = object.id
 		this.authorId = object.author_id ?? 0
 		this.isAnonymous = object.is_anonymous ?? true
 		this.creationTime_ts = object.create_ts ?? 0
 		this.rating = {
-            simplicity: object.simplicity_score ?? 3,
-            kindness: object.kindness_score ?? 3,
-            intelligibility: object.intelligibility_score ?? 3
+            simplicity: object.score_simplicity ?? 3,
+            kindness: object.score_kindness ?? 3,
+            intelligibility: object.score_intelligibility ?? 3
 		}
 		this.comment = {
 			positive: object.comment_good ?? '',
@@ -17,6 +18,8 @@ class Review{
 	}
 
 	get creationDate(){
+		if(this.creationTime_ts === 0)
+			return "Дата неизвестна"
 		const date = new Date(this.creationTime_ts)
 		const day = date.getUTCDate()
 		const month = [
