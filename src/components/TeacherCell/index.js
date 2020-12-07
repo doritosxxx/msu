@@ -1,10 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { Cell, Avatar } from '@vkontakte/vkui'
+import { Cell } from '@vkontakte/vkui'
 import { Link } from 'react-router5'
 
 import TeacherDetails from '../TeacherDetails'
+import AvatarStretched from '../AvatarStretched'
 
 class TeacherCell extends React.Component{
 
@@ -19,7 +20,7 @@ class TeacherCell extends React.Component{
 				style={{textDecoration:'none'}}>
 				<Cell
 					className='teacher-cell'
-					before={<Avatar size={80} src={teacher.image} />}
+					before={<AvatarStretched size={80} src={teacher.image} />}
 					multiline
 					expandable
 				>

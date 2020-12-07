@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Panel, PanelHeader, Div, Cell, Avatar, Group, List, PanelHeaderBack, Header, Text, Spinner, Placeholder, Button } from '@vkontakte/vkui'
+import { Panel, PanelHeader, Div, Cell, Group, List, PanelHeaderBack, Header, Text, Spinner, Placeholder, Button } from '@vkontakte/vkui'
 import Icon56ErrorOutline from '@vkontakte/icons/dist/56/error_outline'
 
 import CustomHeader  from '../../components/Header'
@@ -9,11 +9,11 @@ import ReviewCell from '../../components/ReviewCell'
 import SendReviewButton from '../../components/SendReviewButton'
 
 import Server from '../../modules/Server'
-import Review from '../../classes/Review'
 
 import { withAppState } from '../../contexts/appContext'
 import { withRoute } from 'react-router5'
 import SubjectsList from '../../components/SubjectsList'
+import AvatarStretched from '../../components/AvatarStretched'
 
 class TeacherPanel extends React.Component{
 
@@ -70,7 +70,7 @@ class TeacherPanel extends React.Component{
 			content = (<Div>
 				<Group>
 					<Cell
-					before={<Avatar size={100} src={teacher.image} />}
+					before={<AvatarStretched size={100} src={teacher.image} />}
 					multiline
 					>
 						<TeacherDetails 
