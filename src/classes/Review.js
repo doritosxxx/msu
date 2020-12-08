@@ -3,7 +3,7 @@ class Review {
 	constructor(object = {}){
 		this.id = object.id
 		this.authorId = object.author_id ?? 0
-		this.isAnonymous = object.is_anonymous ?? true
+		this.isAnonymous = !!(object.is_anonymous ?? true)
 		this.creationTime_ts = object.create_ts ?? 0
 		this.rating = {
             simplicity: object.score_simplicity ?? 3,

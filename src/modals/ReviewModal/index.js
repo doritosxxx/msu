@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 
-import { ModalPage, PanelHeaderButton, ModalPageHeader, FormLayout, FormLayoutGroup, Button, Spinner} from '@vkontakte/vkui';
+import { ModalPage, PanelHeaderButton, ModalPageHeader, FormLayout, FormLayoutGroup, Button, Spinner, Checkbox} from '@vkontakte/vkui';
 import { usePlatform , ANDROID, IOS } from '@vkontakte/vkui'
-import { Icon24Cancel, Icon24Done, Icon24ErrorCircle, Icon24CheckCircleOn } from '@vkontakte/icons'
+import { Icon24Cancel, Icon24ErrorCircle, Icon24CheckCircleOn } from '@vkontakte/icons'
 
 import ReviewFormStarsRange from '../../components/ReviewFormStarsRange'
 import ReviewFormTextarea from '../../components/ReviewFormTextarea'
@@ -14,9 +14,10 @@ import { withRoute } from 'react-router5';
 
 function ReviewModal(props) {
 
+	console.log(props.user)
+
 	const review = useRef(props.review)
 
-	// Можно объединить с константой выше.
 	const [isSubmitEventRunning, setIsSubmitEventRunning] = useState(false)
 
 	const serializeFormData = () => {
@@ -30,7 +31,8 @@ function ReviewModal(props) {
 				simplicity: +document.querySelector("[name=score_simplicity]").dataset.value,
 				kindness: +document.querySelector("[name=score_kindness]").dataset.value,
 				intelligibility: +document.querySelector("[name=score_intelligibility]").dataset.value
-			}
+			},
+			isAnonymous : document.querySelector("[name=is_anonymous]").checked
 		};
 	}
 
@@ -39,6 +41,7 @@ function ReviewModal(props) {
 			const serializedData = serializeFormData()
 			review.current.comment = serializedData.comment
 			review.current.rating = serializedData.rating
+			review.current.isAnonymous = serializedData.isAnonymous
 		}
 
 	})
@@ -64,7 +67,7 @@ function ReviewModal(props) {
 
 		const teacherId = props.route.params.id ?? null
 
-		if(teacherId === null || props.user === undefined || props.user === null){
+		if(!teacherId || !props.user){
 			showErrorBox("Не удалось определить id пользователя.")
 			// Да, это повторяющийся код.
 			props.hide()
@@ -150,6 +153,7 @@ function ReviewModal(props) {
 					defaultValue={review.current.comment.other}
 				/>
 			</FormLayoutGroup>
+			<Checkbox name="is_anonymous">Отправить анонимно</Checkbox>
 			<div style={{
 				display:'flex',
 				justifyContent:'center'
@@ -166,7 +170,8 @@ ReviewModal.propTypes = {
 	id: PropTypes.string.isRequired,
 	hide: PropTypes.func,
 	review: PropTypes.object.isRequired,
-	setSnackbar: PropTypes.func.isRequired
+	setSnackbar: PropTypes.func.isRequired,
+	user: PropTypes.object
 }
 
 export default withRoute(ReviewModal);

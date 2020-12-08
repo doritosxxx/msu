@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { ModalRoot, View, Snackbar, Avatar }   from '@vkontakte/vkui'
 
@@ -72,6 +72,7 @@ class HomeView extends React.Component{
 							hide={this.onClose}
 							review={this.state.reviewData}
 							setSnackbar={this.setSnackbar}
+							user={this.props.user}
 						/>
 					</ModalRoot>
 				}

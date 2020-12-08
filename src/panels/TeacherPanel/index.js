@@ -64,7 +64,7 @@ class TeacherPanel extends React.Component{
 				icon={<Icon56ErrorOutline/>}
 				stretched={true}
 				header={"Произошла ошибка во время запроса к серверу"}
-				action={<Button size="xl" onClick={()=>window.history.back()}>Перейти обратно</Button>}
+				action={<Button size="xl" onClick={()=>window.history.back()}>На главную</Button>}
 			/>)
 		else 
 			content = (<Div>

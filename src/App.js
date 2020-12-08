@@ -16,6 +16,8 @@ class App extends React.Component {
 
 		this.isMiddlewareSetUp = false
 
+		// Как мне больно на это смотреть.
+		// Хачю Redux.
 		this.state = {
 			activePanel: ROUTES[0].name,
 			setActivePanel: this.setActivePanel.bind(this),
@@ -59,17 +61,16 @@ class App extends React.Component {
 	}
 
 	// TODO: можно сделать плавное скрытие
+	// Нельзя.
 	setPopout(value){
 		this.setState({
 			hasPopout: value
 		})
 	}
 	
-	
 	componentDidMount(){
 		// Configure router
 		this.setupRouterMiddleware()
-
 
 		// Fetch user data
 		bridge.subscribe(({ detail: { type, data }}) => {
