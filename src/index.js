@@ -8,7 +8,6 @@ import App from "./App";
 // Роутинг
 import { RouterProvider } from 'react-router5'
 import createRouter from './routing/create-router'
-import { ConfigProvider } from "@vkontakte/vkui";
 const router = createRouter()
 
 bridge.send("VKWebAppInit")
@@ -16,9 +15,7 @@ bridge.send("VKWebAppInit")
 router.start(() => {
 	ReactDOM.render((
 		<RouterProvider router={router}>
-			<ConfigProvider appearance="light">
-				<App/>
-			</ConfigProvider>
+			<App/>
 		</RouterProvider>
 	), document.getElementById("root"))
 })

@@ -74,7 +74,7 @@ function ReviewModal(props) {
 			setIsSubmitEventRunning(false)
 			return;
 		}
-			
+
 		let success = await Server.AddComment({
 			teacherId: teacherId,
 			userId: props.user.id,

@@ -83,7 +83,7 @@ class App extends React.Component {
 
 		const fetchData = async () => {
 			// TODO: убрать коммент для продакшена
-			const user = {}//await bridge.send('VKWebAppGetUserInfo')
+			const user = await bridge.send('VKWebAppGetUserInfo')
 			this.setState({
 				user,
 				hasPopout: false
