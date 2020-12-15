@@ -17,12 +17,16 @@ function HTTPBuildQuery(params) {
 
 async function request(method, params, options={}) {
 	const url = `${APIUrl}/${APIVersion}/${method}${HTTPBuildQuery(params)}`
-    const response = await fetch(url, options)
+	const response = await fetch(url, options)
+	if(!response.ok)
+		throw new Error("Ошибка при соединении с сервером");
     const rawObject = await response.json()
     return rawObject;
 }
 
 class Server {
+
+	static userId = null
 	
     static async GetTeacherById(id) {
 		try {
@@ -58,10 +62,12 @@ class Server {
 		}
 	}
 
-	static async AddComment(data){
-		const { teacherId, userId, review } = data;
+	static async AddComment(review, teacher){
+		if(!teacher.id || !Server.userId)
+			return { success: false, message: "Не удалось определить id пользователя"};
+
 		const body = {
-			author_id     : userId,
+			author_id     : Server.userId,
 			comment_good  : review.comment.positive,
 			comment_bad   : review.comment.negative,
 			comment_other : review.comment.other,
@@ -69,20 +75,22 @@ class Server {
 			score_kindness   : review.rating.kindness,
 			score_intelligibility   : review.rating.intelligibility,
 			anonymous : review.isAnonymous,
-			subjects : []
+			subjects : teacher.subjects.map(subject => ({
+				id: subject.id,
+			}))
 		}
 		try {
-			await request(`teacher/${teacherId}/comment`, {}, {
+			await request(`teacher/${teacher.id}/comment`, {}, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json;charset=utf-8'
 				},
 				body: JSON.stringify(body)
 			});
-			return true;
+			return { success: true, message: "Комментарий отправлен"};
 		}
 		catch {
-			return false;
+			return { success: false, message: "Ошибка при соединении с сервером"};
 		}
 	}
 

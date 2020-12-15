@@ -1,62 +1,41 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Panel, PanelHeader, Div, Cell, Group, List, PanelHeaderBack, Header, Text, Spinner, Placeholder, Button } from '@vkontakte/vkui'
-import Icon56ErrorOutline from '@vkontakte/icons/dist/56/error_outline'
+import { CustomHeader, AvatarStretched, TeacherDetails, SubjectsList, SendReviewButton, ReviewCell } from '../../components'
 
-import CustomHeader  from '../../components/Header'
-import TeacherDetails from '../../components/TeacherDetails'
-import ReviewCell from '../../components/ReviewCell'
-import SendReviewButton from '../../components/SendReviewButton'
+import {Icon56ErrorOutline} from '@vkontakte/icons'
 
 import Server from '../../modules/Server'
 
-import { withAppState } from '../../contexts/appContext'
-import { withRoute } from 'react-router5'
-import SubjectsList from '../../components/SubjectsList'
-import AvatarStretched from '../../components/AvatarStretched'
-
-class TeacherPanel extends React.Component{
-
-	constructor(props){
+class TeacherPanel extends Component {
+	constructor(props) {
 		super(props)
-
+	
 		this.state = {
-			teacher: null,
-			isReviewModalOpened: false,
-			reviewsList: null,
+			comments: null,
 		}
-		this.teacherId = props.route.params.id ?? -1
-	}
-
-
-	openReviewModal(){
-		this.setState({
-			isReviewModalOpened: true
-		})
-		this.props.setActiveModal('review')
 	}
 
 	componentDidMount(){
-		this.props.resetReview()
-		this.props.setPopout(true)
 		const fetchData = async () => {
-			const teacher = await Server.GetTeacherById(this.teacherId)
-			this.setState({teacher})
-			this.props.setPopout(false)
-
-			const reviewsList = await Server.GetReviewsByTeacherId(this.teacherId)
-			this.setState({reviewsList})
+			try{
+				const comments = await Server.GetReviewsByTeacherId(this.props.teacher.id)
+				this.setState({comments})
+			}
+			catch(error){
+				console.log(error.message)
+			}
 		}
 		fetchData()
 	}
-	
 
-	getWrappedReviewsList(){
-		return this.state.reviewsList.map((review, i)=><ReviewCell review={review} key={review.id ?? i} />);
+	getWrappedCommentsList(){
+		return this.state.comments.map((review, i)=><ReviewCell review={review} key={review.id ?? i} />);
 	}
+	
+	render() {
 
-	render(){
-		const teacher = this.state.teacher
+		const teacher = this.props.teacher
 		let content;
 		
 		if(teacher === null || !teacher.exists())
@@ -65,7 +44,7 @@ class TeacherPanel extends React.Component{
 				stretched={true}
 				header={"Произошла ошибка во время запроса к серверу"}
 				action={<Button size="xl" onClick={()=>window.history.back()}>На главную</Button>}
-			/>)
+			/>);
 		else 
 			content = (<Div>
 				<Group>
@@ -96,35 +75,33 @@ class TeacherPanel extends React.Component{
 				</Group>
 				<Group  header={<Header mode="primary">Оценки</Header>}>
 					<List>
-						{ this.state.reviewsList === null ? <Spinner size="large"/> : this.getWrappedReviewsList() }
+						{ this.state.comments === null ? <Spinner size="large"/> : this.getWrappedCommentsList() }
 					</List>
 				</Group>
 				<SendReviewButton
-					onClick={this.openReviewModal.bind(this)}
+					onClick={()=>this.props.setModal('review')}
 				/>
 			</Div>);
-			
+
 		return (
-		<Panel id={this.props.id}>
-			<PanelHeader
-				left={<PanelHeaderBack onClick={()=>window.history.back()} />}
+			<Panel id={this.props.id}>
+				<PanelHeader
+					left={<PanelHeaderBack onClick={()=>window.history.back()} />}
 				>
-				<CustomHeader title='Преподаватель'/>
-			</PanelHeader>
-			{content}
-			{this.props.snackbar}
-		</Panel>
-		);
+					<CustomHeader title='Преподаватель'/>
+				</PanelHeader>
+				{content}
+				{this.props.snackbar}
+			</Panel>
+		)
 	}
-	
 }
 
 TeacherPanel.propTypes = {
 	id: PropTypes.string.isRequired,
-	setActiveModal: PropTypes.func.isRequired,
-	setPopout: PropTypes.func.isRequired,
-	resetReview: PropTypes.func.isRequired,
-	snackbar: PropTypes.element
+	teacher: PropTypes.object,
+	setModal: PropTypes.func,
+	snackbar: PropTypes.node,
 }
 
-export default withRoute(withAppState(TeacherPanel));
+export default TeacherPanel;

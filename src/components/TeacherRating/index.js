@@ -25,8 +25,7 @@ class TeacherRating extends React.Component{
 }
 
 TeacherRating.propTypes = {
-	teacher: PropTypes.object
+	teacher: PropTypes.object.isRequired,
 }
-
 
 export default TeacherRating;

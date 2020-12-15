@@ -1,10 +1,10 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import { ModalPage, PanelHeaderButton, ModalPageHeader, FormLayout, withPlatform} from '@vkontakte/vkui';
-import {  ANDROID, IOS } from '@vkontakte/vkui'
+import { ANDROID, IOS } from '@vkontakte/vkui'
 import { Icon24Cancel, Icon24Done } from '@vkontakte/icons'
 import FiltersCategoryGroup from '../../components/FiltersCategoryGroup'
-import { withAppState } from '../../contexts/appContext'
 
 import FILTERS from "../../enums/filters"
 
@@ -24,21 +24,20 @@ class FiltersModal extends React.Component {
 	}
 	
 	render(){
-		const props = this.props
 		return (
 			<ModalPage 
-				id={props.id}
+				id={this.props.id}
 				header={
 					<ModalPageHeader
 						left={
-							props.platform === ANDROID 
-							&& <PanelHeaderButton onClick={props.hide}>
+							this.props.platform === ANDROID 
+							&& <PanelHeaderButton onClick={this.props.hide}>
 								<Icon24Cancel/>
 							</PanelHeaderButton>
 						}
 						right={
-						<PanelHeaderButton onClick={props.hide}>
-							{props.platform === IOS ? 'Готово' : <Icon24Done />}
+						<PanelHeaderButton onClick={this.props.hide}>
+							{this.props.platform === IOS ? 'Применить' : <Icon24Done />}
 						</PanelHeaderButton>}
 					>
 						Фильтры
@@ -56,7 +55,7 @@ class FiltersModal extends React.Component {
 				/>
 				<FiltersCategoryGroup
 					onElementClick={(payload)=>{
-						this.props.setOrderBy(payload)
+						this.props.setOrder(payload)
 					}}
 					label="Сортировка по"
 					elements={this.filtersElements.order}
@@ -68,4 +67,11 @@ class FiltersModal extends React.Component {
 	}
 	
 }
-export default withAppState(withPlatform(FiltersModal));
+
+FiltersModal.propTypes = {
+	id: PropTypes.string.isRequired,
+	hide: PropTypes.func.isRequired,
+	setOrder: PropTypes.func.isRequired,
+}
+
+export default withPlatform(FiltersModal);
