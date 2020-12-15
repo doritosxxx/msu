@@ -5,10 +5,8 @@ import { ReactComponent as StarSVG } from '../../img/star.svg'
 
 import './style.css'
 
-// Возможно, стоит конеретизировать название.
 function Star(props){
 	
-
 	return (
 	<div 
 		className={'stars-range--star' + (props.isFilled ? ' filled' : '')}

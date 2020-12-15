@@ -2,18 +2,17 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { Search } from '@vkontakte/vkui'
-import {Icon24Filter} from '@vkontakte/icons'
+import { Icon24Filter } from '@vkontakte/icons'
 
-class CustomSearch extends React.Component{
+class CustomSearch extends React.Component {
 
-  
 	render(){
 		return(
 			<Search
               //value={this.state.search}
-              onChange={this.props.onSearchChange}
+              onChange={this.props.onChange}
               icon={<Icon24Filter />}
-              onIconClick={this.props.onFiltersClick}
+              onIconClick={this.props.onIconClick}
             />
 		)
 	}

@@ -9,17 +9,16 @@ function ReviewFormTextarea(props){
 			<Textarea 
 				grow={false}
 				rows={4}
-				name={props.name}
 				defaultValue={props.defaultValue}
-				required
+				onChange={(e)=>props.onChange(e)}
 			/>
 		</div>);
 }
 
 ReviewFormTextarea.propTypes = {
 	title: PropTypes.string,
-	name: PropTypes.string.isRequired,
-	defaultValue: PropTypes.string
+	defaultValue: PropTypes.string,
+	onChange: PropTypes.func,
 }
 
 export default ReviewFormTextarea;

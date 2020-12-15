@@ -1,118 +1,89 @@
 import React from 'react'
 import '@vkontakte/vkui/dist/vkui.css'
+import { ListView, TeacherView } from './views/'
+import bridge from '@vkontakte/vk-bridge'
+import { Root, ConfigProvider } from '@vkontakte/vkui'
+import HistoryContext from './contexts/HistoryContext'
 
-import MODALS from './enums/modals'
-import ROUTES from './routing/routes'
-import FILTERS from './enums/filters'
-import HomeView from './views/HomeView'
-import { withRouter } from 'react-router5'
-import { AppProvider } from './contexts/appContext'
-
-import bridge from "@vkontakte/vk-bridge"
+import Server from './modules/Server'
 
 class App extends React.Component {
 	constructor(props){
 		super(props)
 
-		this.isMiddlewareSetUp = false
-
-		// Как мне больно на это смотреть.
-		// Хачю Redux.
 		this.state = {
-			activePanel: ROUTES[0].name,
-			setActivePanel: this.setActivePanel.bind(this),
-			activeModal: MODALS.NONE,
-			setActiveModal: this.setActiveModal.bind(this),
-			hasPopout: true,
-			setPopout: this.setPopout.bind(this),
-			user: null,
-			teachersList: [],
-			setTeachersList: this.setTeachersList.bind(this),
-			orderBy: FILTERS[0],
-			setOrderBy: this.setOrderBy.bind(this),
+			// Начальный View.
+			activeView: 'list',
+			params: [{}],
+  			history: ['list'],
 		}
+		this.goBack = this.goBack.bind(this)
+		this.goToPage = this.goToPage.bind(this)
+	}	
+
+	goBack(){
+		const history = this.state.history
+		const params = this.state.params
 		
+		if( history.length <= 1 ) 
+			// Выход из приложения.
+			bridge.send("VKWebAppClose", {"status": "success"})
+		else {
+			params.pop()
+			history.pop()
+			this.setState({ 
+				activeView: history[history.length - 1]
+			})
+		}
 	}
 
-	setActivePanel(value){
-		this.setState({
-			activePanel: value
+	goToPage( name, params = {} ) {
+		// Зачем { view: name }, если можно просто {}?
+		window.history.pushState( { view: name }, name )
+		this.setState({ 
+			activeView: name, 
+			// Возможны проблемы с производительностью. Лучше использовать concat.
+			history: [...this.state.history, name],
+			params: [...this.state.params, params],
 		})
 	}
 
-	setActiveModal(value){
-		this.setState({
-			activeModal: value
-		})
-	}
-
-	setOrderBy(value){
-		if(value !== this.state.orderBy)
-		this.setState({
-			orderBy: value,
-			teachersList:[]
-		})
-	}
-
-	setTeachersList(value){
-		this.setState({
-			teachersList: value
-		})
-	}
-
-	// TODO: можно сделать плавное скрытие
-	// Нельзя.
-	setPopout(value){
-		this.setState({
-			hasPopout: value
-		})
-	}
-	
 	componentDidMount(){
-		// Configure router
-		this.setupRouterMiddleware()
 
-		// Fetch user data
-		bridge.subscribe(({ detail: { type, data }}) => {
-			if (type === 'VKWebAppUpdateConfig') {
-				const schemeAttribute = document.createAttribute('scheme')
-				schemeAttribute.value = data.scheme ? data.scheme : 'client_light'
-				document.body.attributes.setNamedItem(schemeAttribute)
-			}
-		})
+		window.addEventListener('popstate', () => this.goBack())
 
 		const fetchData = async () => {
-			// TODO: убрать коммент для продакшена
-			const user = await bridge.send('VKWebAppGetUserInfo')
+			let user;
+			if (process.env.NODE_ENV === "development")
+				user = {}
+			else 
+			 	user = await bridge.send('VKWebAppGetUserInfo')
 			this.setState({
 				user,
 				hasPopout: false
 			})
+			Server.userId = user.id ?? 0
 		}
 		fetchData()
 	}
-	
-
-	setupRouterMiddleware (){
-		if(this.isMiddlewareSetUp)
-			return;
-			
-		const middleware = () => (toState, fromState, done ) => {
-			const panelName = toState.name
-			this.state.setActivePanel(panelName)
-			done()
-		}
-			
-		this.props.router.useMiddleware(middleware)
-		this.isMiddlewareSetUp = true
-	}
 
 	render(){
+		const history = {
+			params: this.state.params[this.state.params.length-1],
+			goBack: this.goBack,
+			goToPage: this.goToPage,
+		}
 		
-		return (<AppProvider context={this.state}>
-			<HomeView/>
-		</AppProvider>);
+		return (
+		<ConfigProvider isWebView={true}>
+			<HistoryContext.Provider value={history}>
+				<Root activeView={this.state.activeView}>
+					<ListView id='list'/>
+					<TeacherView id='teacher'/>
+				</Root>
+			</HistoryContext.Provider>
+		</ConfigProvider>);
 	}
 }
 
-export default withRouter(App);
+export default App;

@@ -6,17 +6,12 @@ import TeacherRating from '../TeacherRating'
 import './style.css'
 
 function TeacherDetails(props) {
-
-	//props.highlightLastName ?? false;
-
-	const teacher = props.teacher;
-
 	return(
 		<div className='teacher__details'>
 			<div className='teacher__name'>
-				{teacher.fullName}
+				{props.teacher.fullName}
 			</div>
-			<TeacherRating teacher={teacher}/>
+			<TeacherRating teacher={props.teacher}/>
 		</div>
 	)
 
@@ -24,7 +19,6 @@ function TeacherDetails(props) {
 
 TeacherDetails.propTypes = {
 	teacher: PropTypes.object.isRequired,
-	highlightLastName: PropTypes.bool
 }
 
 
