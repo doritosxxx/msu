@@ -11,11 +11,13 @@ class App extends React.Component {
 	constructor(props){
 		super(props)
 
+		const startView = 'list'
+
 		this.state = {
 			// Начальный View.
-			activeView: 'list',
+			activeView: startView,
 			params: [{}],
-  			history: ['list'],
+  			history: [startView],
 		}
 		this.goBack = this.goBack.bind(this)
 		this.goToPage = this.goToPage.bind(this)
@@ -49,7 +51,6 @@ class App extends React.Component {
 	}
 
 	componentDidMount(){
-
 		window.addEventListener('popstate', () => this.goBack())
 
 		const fetchData = async () => {

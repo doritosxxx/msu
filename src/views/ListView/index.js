@@ -14,7 +14,7 @@ class ListView extends Component {
 			activePanel: 'blank',
 			activeModal: null,
 			teachers: [],
-			order: 'score_general',
+			order: 0,
 			isFullListFetched : false,
 		}
 
@@ -41,7 +41,7 @@ class ListView extends Component {
 		try {
 			(async () => {
 				const offset = this.state.teachers.length
-				const сhunk = await Server.GetTeachersRange( offset , 10 )
+				const сhunk = await Server.GetTeachersRange( offset , 10, this.orderString )
 
 				// Если загрузил все из базы
 				if(сhunk.length === 0){
@@ -63,6 +63,17 @@ class ListView extends Component {
 		}
 	}
 
+	// Это не круто. Нужен enum.
+	get orderString(){
+		return [
+			"score_general",
+			"score_simplicity",
+			"score_kindness",
+			"score_intelligibility",
+			"last_name",			
+		][this.state.order];
+	}
+
 	setModal(activeModal){
 		this.setState({activeModal})
 	}
@@ -77,6 +88,13 @@ class ListView extends Component {
 
 	componentDidMount(){
 		this.setState({activePanel: 'list'})
+	}
+
+	componentDidUpdate(_, prevState){
+		if(prevState.order !== this.state.order)
+			this.setState({
+				teachers:[]
+			})
 	}
 	
 	render() {

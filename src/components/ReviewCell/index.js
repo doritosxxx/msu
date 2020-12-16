@@ -37,7 +37,6 @@ class ReviewCell extends React.Component{
 						<Subhead weight='semibold'>Плюсы:</Subhead>
 						<Text>{review.comment.positive}</Text>
 					</div>}
-
 				{review.comment.negative.length > 0 && 
 					<div>
 						<Subhead weight='semibold'>Минусы:</Subhead>
