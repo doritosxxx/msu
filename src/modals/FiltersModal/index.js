@@ -6,7 +6,6 @@ import { ANDROID, IOS } from '@vkontakte/vkui'
 import { Icon24Cancel, Icon24Done } from '@vkontakte/icons'
 import FiltersCategoryGroup from '../../components/FiltersCategoryGroup'
 
-import FILTERS from "../../enums/filters"
 
 class FiltersModal extends React.Component {
 	// TODO: добавить кнопку "сброс"
@@ -45,6 +44,7 @@ class FiltersModal extends React.Component {
 				}
 			>
 			<FormLayout>
+				{/*
 				<FiltersCategoryGroup
 					label="Год"
 					elements={this.filtersElements.year}
@@ -52,14 +52,15 @@ class FiltersModal extends React.Component {
 				<FiltersCategoryGroup
 					label="Семестр"
 					elements={this.filtersElements.semester}
-				/>
+				/>*/}
 				<FiltersCategoryGroup
-					onElementClick={(payload)=>{
-						this.props.setOrder(payload)
+					onElementClick={payload=>{
+						const index = this.filtersElements.order.findIndex(entry=>entry.payload === payload)
+						this.props.setOrder(index)
 					}}
 					label="Сортировка по"
 					elements={this.filtersElements.order}
-					default={FILTERS[this.props.orderBy]}
+					default={this.props.order}
 				/>
 			</FormLayout>
 			</ModalPage>
